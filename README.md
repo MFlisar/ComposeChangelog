@@ -99,4 +99,4 @@ if (showChangelog) {
 
 ###  Demo
 
-A full demo is included inside the [demo module](tree/main/demo), it shows nearly every usage with working examples.
+A full demo is included inside the [demo module](../tree/main/demo), it shows nearly every usage with working examples.
