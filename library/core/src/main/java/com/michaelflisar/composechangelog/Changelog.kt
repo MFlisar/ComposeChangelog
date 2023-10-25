@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -74,16 +75,19 @@ object Changelog {
     ) {
         val context = LocalContext.current
         val scope = rememberCoroutineScope()
-        var showChangelog by remember(setup) { mutableStateOf<ShowChangelog?>(null) }
+        var showChangelog by rememberSaveable(setup) { mutableStateOf<ShowChangelog?>(null) }
         LaunchedEffect(setup) {
-            showChangelog = ChangelogUtil.shouldShowChangelogOnStart(context, storage)
+            if (showChangelog == null) {
+                showChangelog = ChangelogUtil.shouldShowChangelogOnStart(context, storage)
+            }
         }
+        println("showChangelog = $showChangelog")
         showChangelog
             ?.takeIf { it.shouldShow }
-            ?.let {
+            ?.let { data ->
                 val filter = object : IChangelogFilter {
                     override fun keep(release: DataItemRelease): Boolean {
-                        return release.versionCode >= it.lastShownVersion && (setup.filter?.keep(
+                        return release.versionCode >= data.lastShownVersion && (setup.filter?.keep(
                             release
                         ) ?: true)
                     }
@@ -97,7 +101,8 @@ object Changelog {
                 )
                 ShowChangelogDialog(setup) {
                     scope.launch(Dispatchers.IO) {
-                        storage.saveLastShownVersion(ChangelogUtil.getAppVersionCode(context))
+                        storage.saveLastShownVersion(data.currentVersion)
+                        showChangelog = ShowChangelog(data.currentVersion, data.currentVersion)
                     }
                 }
             }
