@@ -22,6 +22,7 @@ Made for **Compose M3**.
 
 | Modules | Dependency | Version |
 |:-|:-|-:|
+| `core` | no dependency |  |
 | `statesaver-preferences` | no dependency |  |
 | `statesaver-kotpreferences` | [KotPreferences](https://github.com/MFlisar/KotPreferences) | 0.3 |
 
@@ -95,8 +96,3 @@ if (showChangelog) {
 }
 
 ```
-
-### Screenshots
-
-| ![Demo](screenshots/overview.jpg?raw=true "Demo") |
-|-|
