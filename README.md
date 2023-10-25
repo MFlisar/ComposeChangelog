@@ -20,8 +20,6 @@ Made for **Compose M3**.
 * supports raw and xml resources, default resource name is `changelog.xml` in raw folder
 * supports summaries with a "show more" button
 
-### Overview
-
 ![Overview](screenshots/overview.jpg?raw=true "Overview")
 
 ### Dependencies
