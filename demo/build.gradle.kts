@@ -69,19 +69,9 @@ dependencies {
     // Libraries
     // ------------------------
 
-    val live = false
-    val composeChangelog = "0.1"
-
-    // release test
-    if (live) {
-        implementation("com.github.MFlisar.ComposeChangelog:core:$composeChangelog")
-        implementation("com.github.MFlisar.ComposeChangelog:statesaver-preferences:$composeChangelog")
-        implementation("com.github.MFlisar.ComposeChangelog:statesaver-kotpreferences:$composeChangelog")
-    } else {
-        implementation(project(":ComposeChangelog:Core"))
-        implementation(project(":ComposeChangelog:Modules:StateSaverPreferences"))
-        implementation(project(":ComposeChangelog:Modules:StateSaverKotPreferences"))
-    }
+    implementation(project(":ComposeChangelog:Core"))
+    implementation(project(":ComposeChangelog:Modules:StateSaverPreferences"))
+    implementation(project(":ComposeChangelog:Modules:StateSaverKotPreferences"))
 
     // KotPreferences
     implementation(deps.kotpreferences.core)

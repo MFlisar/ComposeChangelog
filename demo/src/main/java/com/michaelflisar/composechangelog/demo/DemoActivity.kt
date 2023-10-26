@@ -18,8 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.michaelflisar.composechangelog.Changelog
 import com.michaelflisar.composechangelog.ChangelogDefaults
@@ -33,7 +31,7 @@ import com.michaelflisar.composechangelog.statesaver.preferences.ChangelogStateS
 import com.michaelflisar.composepreferences.core.PreferenceScreen
 import com.michaelflisar.composepreferences.core.classes.PreferenceSettingsDefaults
 import com.michaelflisar.composepreferences.core.classes.PreferenceStyleDefaults
-import com.michaelflisar.composepreferences.demo.theme.AppTheme
+import com.michaelflisar.composechangelog.demo.theme.AppTheme
 import com.michaelflisar.composepreferences.kotpreferences.asPreferenceData
 import com.michaelflisar.composepreferences.screen.bool.PreferenceBool
 import com.michaelflisar.composepreferences.screen.list.PreferenceList

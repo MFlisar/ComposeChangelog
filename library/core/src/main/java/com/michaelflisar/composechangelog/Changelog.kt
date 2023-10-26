@@ -3,9 +3,9 @@ package com.michaelflisar.composechangelog
 import android.content.Context
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -137,7 +137,7 @@ object Changelog {
                         Changelog(data, setup)
                     },
                     confirmButton = {
-                        Button(
+                        TextButton(
                             onClick = {
                                 onDismiss()
                                 openDialog.value = false
@@ -220,9 +220,9 @@ object ChangelogDefaults {
 
     @Composable
     fun texts(
-        dialogTitle: String = "Changelog",
+        dialogTitle: String = stringResource(R.string.changelog_dialog_title),
         dialogButtonDismiss: String = stringResource(android.R.string.ok),
-        buttonShowMore: String = "Show More"
+        buttonShowMore: String = stringResource(R.string.changelog_button_show_more)
     ) = ChangelogSetup.Texts(
         dialogTitle = dialogTitle,
         dialogButtonDismiss = dialogButtonDismiss,

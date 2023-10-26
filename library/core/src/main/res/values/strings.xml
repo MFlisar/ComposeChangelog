@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="changelog_dialog_title">Changelog</string>
+    <string name="changelog_button_show_more">Show More</string>
+
+</resources>
