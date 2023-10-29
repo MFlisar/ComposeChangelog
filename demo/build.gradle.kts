@@ -78,9 +78,6 @@ dependencies {
     implementation(deps.kotpreferences.datastore)
     implementation(deps.kotpreferences.compose)
 
-    // ComposePreferences
-    implementation(deps.composepreferences.core)
-    implementation(deps.composepreferences.screen.bool)
-    implementation(deps.composepreferences.screen.list)
-    implementation(deps.composepreferences.extension.kotpreferences)
+    // a minimal library that provides some useful composables that I use inside demo activities
+    implementation(deps.composedemobaseactivity)
 }

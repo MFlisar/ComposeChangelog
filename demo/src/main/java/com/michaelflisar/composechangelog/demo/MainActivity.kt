@@ -1,109 +1,85 @@
 package com.michaelflisar.composechangelog.demo
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
-import androidx.compose.material.icons.filled.ColorLens
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.michaelflisar.composechangelog.Changelog
 import com.michaelflisar.composechangelog.ChangelogDefaults
 import com.michaelflisar.composechangelog.ChangelogUtil
-import com.michaelflisar.composechangelog.demo.classes.AppPrefs
-import com.michaelflisar.composechangelog.demo.classes.DemoTheme
-import com.michaelflisar.composechangelog.demo.composables.MyCollapsibleRegion
+import com.michaelflisar.composechangelog.demo.classes.DemoPrefs
 import com.michaelflisar.composechangelog.interfaces.IChangelogStateSaver
 import com.michaelflisar.composechangelog.statesaver.kotpreferences.ChangelogStateSaverKotPreferences
 import com.michaelflisar.composechangelog.statesaver.preferences.ChangelogStateSaverPreferences
-import com.michaelflisar.composepreferences.core.PreferenceScreen
-import com.michaelflisar.composepreferences.core.classes.PreferenceSettingsDefaults
-import com.michaelflisar.composepreferences.core.classes.PreferenceStyleDefaults
-import com.michaelflisar.composechangelog.demo.theme.AppTheme
-import com.michaelflisar.composepreferences.kotpreferences.asPreferenceData
-import com.michaelflisar.composepreferences.screen.bool.PreferenceBool
-import com.michaelflisar.composepreferences.screen.list.PreferenceList
-import com.michaelflisar.kotpreferences.compose.collectAsState
+import com.michaelflisar.composedemobaseactivity.DemoActivity
+import com.michaelflisar.composedemobaseactivity.classes.DemoTheme
+import com.michaelflisar.composedemobaseactivity.classes.listSaverKeepEntryStateList
+import com.michaelflisar.composedemobaseactivity.composables.DemoAppThemeRegion
+import com.michaelflisar.composedemobaseactivity.composables.DemoCollapsibleRegion
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DemoActivity : ComponentActivity() {
+class MainActivity : DemoActivity() {
 
-    @OptIn(ExperimentalMaterial3Api::class)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
+    @Composable
+    override fun Content(modifier: Modifier, theme: DemoTheme, dynamicTheme: Boolean) {
 
-            // we collect the theme settings (simply via KotPreferences, another library of mine)
-            val stateTheme = AppPrefs.theme.collectAsState()
-            val stateDynamicTheme = AppPrefs.dynamicTheme.collectAsState()
-            val theme = stateTheme.value
-            val dynamicTheme = stateDynamicTheme.value
-            if (theme == null || dynamicTheme == null)
-                return@setContent
-
-            val expandedRootRegions = rememberSaveable(saver = listSaver(
-                save = { it.toList() },
-                restore = { it.toMutableStateList() }
-            )) {
-                mutableStateListOf(1, 2)
-            }
-
-            AppTheme(
-                darkTheme = theme.isDark(),
-                dynamicColor = dynamicTheme
-            ) {
-                // needed - you can also provide your own implementation instead of this simple one
-                // (which simply saves the last shown version inside a preference file)
-                val changelogStateSaver = ChangelogStateSaverPreferences(LocalContext.current)
-
-                // ALTERNATIVE: if you use my kotpreference library like this demo you can do following:
-                val changelogStateSaverKotPrefs =
-                    ChangelogStateSaverKotPreferences(AppPrefs.lastShownVersionForChangelog)
-
-                // optional - here you can apply some customisations like changelog resource id, localized texts, styles, filter, sorter, ...
-                val setup = ChangelogDefaults.setup()
-
-                // Changelog - this will show the changelog once only if the changelog was not shown for the current app version yet
-                Changelog.CheckedShowChangelog(changelogStateSaver, setup)
-
-                // App Main Content
-                Surface(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Column {
-                        TopAppBar(
-                            title = { Text(stringResource(R.string.app_name)) },
-                            colors = TopAppBarDefaults.topAppBarColors(
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                titleContentColor = MaterialTheme.colorScheme.onPrimary
-                            )
-                        )
-                        Content(
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(16.dp),
-                            changelogStateSaver,
-                            expandedRootRegions
-                        )
-                    }
-                }
-            }
+        val expandedRootRegions = rememberSaveable(Unit, saver = listSaverKeepEntryStateList()) {
+            mutableStateListOf(1, 2)
         }
+
+        // needed - you can also provide your own implementation instead of this simple one
+        // (which simply saves the last shown version inside a preference file)
+        val changelogStateSaver = ChangelogStateSaverPreferences(LocalContext.current)
+
+        // ALTERNATIVE: if you use my kotpreference library like this demo you can do following:
+        val changelogStateSaverKotPrefs =
+            ChangelogStateSaverKotPreferences(DemoPrefs.lastShownVersionForChangelog)
+
+        // optional - here you can apply some customisations like changelog resource id, localized texts, styles, filter, sorter, ...
+        val setup = ChangelogDefaults.setup()
+
+        // Changelog - this will show the changelog once only if the changelog was not shown for the current app version yet
+        Changelog.CheckedShowChangelog(changelogStateSaver, setup)
+
+        Content(
+            modifier = modifier
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
+            theme,
+            dynamicTheme,
+            changelogStateSaver,
+            expandedRootRegions
+        )
     }
 
     // ----------------
@@ -113,6 +89,8 @@ class DemoActivity : ComponentActivity() {
     @Composable
     private fun Content(
         modifier: Modifier,
+        theme: DemoTheme,
+        dynamicTheme: Boolean,
         changelogStateSaver: IChangelogStateSaver,
         expandedRootRegions: SnapshotStateList<Int>
     ) {
@@ -126,40 +104,13 @@ class DemoActivity : ComponentActivity() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
-            MyCollapsibleRegion("App Theme", expandedId = 0, expanded = expandedRootRegions) {
-                val itemStyle = PreferenceStyleDefaults.item(shape = MaterialTheme.shapes.small)
-                val settings = PreferenceSettingsDefaults.settings(
-                    itemStyle = itemStyle,
-                    animationSpec = null,
-                    toggleBooleanOnItemClick = true
-                )
-                PreferenceScreen(
-                    scrollable = false,
-                    settings = settings
-                ) {
-                    PreferenceBool(
-                        style = PreferenceBool.Style.Switch,
-                        data = AppPrefs.dynamicTheme.asPreferenceData(),
-                        title = { Text("Dynamic Theme") },
-                        subtitle = { Text("Enable dynamic theme?") },
-                        icon = { Icon(Icons.Default.Settings, null) }
-                    )
-                    PreferenceList(
-                        style = PreferenceList.Style.Spinner,
-                        data = AppPrefs.theme.asPreferenceData(),
-                        items = DemoTheme.values().toList(),
-                        itemTextProvider = { it.name },
-                        title = { Text("Theme") },
-                        icon = { Icon(Icons.Default.ColorLens, null) }
-                    )
-                }
-            }
+            DemoAppThemeRegion(theme, dynamicTheme, id = 0, expandedIds = expandedRootRegions)
 
             val filterDogs = remember { mutableStateOf(false) }
             val useShowMoreButtons = remember { mutableStateOf(true) }
             val useCustomRenderer = remember { mutableStateOf(false) }
 
-            MyCollapsibleRegion("Demo", expandedId = 1, expanded = expandedRootRegions) {
+            DemoCollapsibleRegion("Demo", id = 1, expandedIds = expandedRootRegions) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -219,21 +170,19 @@ class DemoActivity : ComponentActivity() {
                 }
             }
 
-            MyCollapsibleRegion("Infos", expandedId = 2, expanded = expandedRootRegions) {
-                LazyColumn {
+            DemoCollapsibleRegion("Infos", id = 2, expandedIds = expandedRootRegions) {
+                Column {
                     infos.forEach {
-                        item {
-                            Row {
-                                Box(
-                                    contentAlignment = Alignment.Center,
-                                    modifier = Modifier.padding(end = 8.dp)
-                                ) {
-                                    Icon(Icons.Default.Circle, null, modifier = Modifier.size(8.dp))
-                                    // simple hack to align circle with the first line of the text
-                                    Text(" ", style = MaterialTheme.typography.bodySmall)
-                                }
-                                Text(it, style = MaterialTheme.typography.bodySmall)
+                        Row {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier.padding(end = 8.dp)
+                            ) {
+                                Icon(Icons.Default.Circle, null, modifier = Modifier.size(8.dp))
+                                // simple hack to align circle with the first line of the text
+                                Text(" ", style = MaterialTheme.typography.bodySmall)
                             }
+                            Text(it, style = MaterialTheme.typography.bodySmall)
                         }
                     }
                 }
@@ -271,7 +220,10 @@ class DemoActivity : ComponentActivity() {
                                             style = MaterialTheme.typography.titleLarge
                                         )
                                         Spacer(modifier = Modifier.weight(1f))
-                                        Text(item.date, style = MaterialTheme.typography.labelMedium)
+                                        Text(
+                                            item.date,
+                                            style = MaterialTheme.typography.labelMedium
+                                        )
                                     }
                                 }
 
