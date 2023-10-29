@@ -40,7 +40,7 @@ import com.michaelflisar.composechangelog.demo.classes.DemoPrefs
 import com.michaelflisar.composechangelog.interfaces.IChangelogStateSaver
 import com.michaelflisar.composechangelog.statesaver.kotpreferences.ChangelogStateSaverKotPreferences
 import com.michaelflisar.composechangelog.statesaver.preferences.ChangelogStateSaverPreferences
-import com.michaelflisar.composedemobaseactivity.DemoActivity
+import com.michaelflisar.composedemobaseactivity.DemoBaseActivity
 import com.michaelflisar.composedemobaseactivity.classes.DemoTheme
 import com.michaelflisar.composedemobaseactivity.classes.listSaverKeepEntryStateList
 import com.michaelflisar.composedemobaseactivity.composables.DemoAppThemeRegion
@@ -48,7 +48,7 @@ import com.michaelflisar.composedemobaseactivity.composables.DemoCollapsibleRegi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainActivity : DemoActivity() {
+class MainActivity : DemoBaseActivity() {
 
     @Composable
     override fun Content(modifier: Modifier, theme: DemoTheme, dynamicTheme: Boolean) {
