@@ -7,7 +7,7 @@ This library offers you a a **changelog dialog** for compose including the abili
 
 ## :camera: Screenshots
 
-| [Overview](screenshots/overview.jpg "Overview") |
+| ![Overview](screenshots/overview.jpg "Overview") |
 | :-: |
 
 ## :book: Documentation
