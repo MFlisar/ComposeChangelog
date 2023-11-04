@@ -3,7 +3,7 @@
 [![Release](https://jitpack.io/v/MFlisar/ComposeChangelog.svg)](https://jitpack.io/#MFlisar/ComposeChangelog)
 ![License](https://img.shields.io/github/license/MFlisar/ComposeChangelog)
 
-This library offers you simple changelog dialog for compose.
+This library offers you a a **changelog dialog** for compose including the ability to show new logs on app start only as well as filtering and customisation.
 
 Made for **Compose M3**.
 
