@@ -29,7 +29,7 @@ fun ItemRelease(
     ) {
         Text(
             item.versionName ?: setup.versionCodeFormatter(item.versionCode),
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.weight(1f))

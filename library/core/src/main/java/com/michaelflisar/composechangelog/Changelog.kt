@@ -34,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.floor
+import kotlin.math.pow
 
 object Changelog {
 
@@ -151,6 +152,52 @@ object Changelog {
     }
 }
 
+enum class VersionFormat {
+
+    /**
+     * 10^2: Major Version
+     * 10^0: Minor Version
+     *
+     * Examples:
+     * - 1 => 0.1
+     * - 10 => 0.10
+     * - 100 => 1.0
+     */
+    MajorMinor,
+
+    /**
+     * 10^4: Major Version
+     * 10^2: Minor Version
+     * 10^0: Patch Version
+     *
+     * Examples:
+     * - 1 => 0.0.1
+     * - 10 => 0.0.10
+     * - 100 => 0.1.0
+     * - 1000 => 0.10.0
+     * - 10000 => 1.0.0
+     */
+    MajorMinorPatch,
+
+    /**
+     * 10^6: Major Version
+     * 10^4: Minor Version
+     * 10^2: Patch Version
+     * 10^0: Candidate Version (only displayed if != 0)
+     *
+     * Examples:
+     * - 1 => 0.0.0-01
+     * - 10 => 0.0.0-10
+     * - 100 => 0.0.1
+     * - 101 => 0.0.1-01
+     * - 1000 => 0.0.10
+     * - 10000 => 0.1.0
+     * - 10000  => 0.10.0
+     * - 100000  => 1.0.0
+     */
+    MajorMinorPatchCandidate
+}
+
 object ChangelogDefaults {
 
     @Composable
@@ -174,13 +221,43 @@ object ChangelogDefaults {
     }
 
     @Composable
-    fun versionFormatter() = @Composable { versionCode: Int ->
-        if (versionCode >= 0) {
-            val major = floor((versionCode.toFloat() / 100f)).toInt()
-            val minor = versionCode - major * 100
-            "v" + major + "." + String.format("%02d", minor)
-        } else "v$versionCode"
-    }
+    fun versionFormatter(format: VersionFormat = VersionFormat.MajorMinor, prefix: String = "") =
+        @Composable { versionCode: Int ->
+            if (versionCode >= 0) {
+                when (format) {
+                    VersionFormat.MajorMinor -> {
+                        val major = floor((versionCode.toFloat() / 100f)).toInt()
+                        val minor = versionCode - major * 100
+                        "$prefix$major.$minor"
+                    }
+
+                    VersionFormat.MajorMinorPatch -> {
+                        var tmp = versionCode.toFloat()
+                        val major = floor((tmp / 10f.pow(4))).toInt()
+                        tmp -= major * 10f.pow(6)
+                        val minor = floor((tmp / 10f.pow(2))).toInt()
+                        tmp -= major * 10f.pow(4)
+                        val patch = tmp.toInt()
+                        "$prefix$major.$minor.$patch"
+                    }
+
+                    VersionFormat.MajorMinorPatchCandidate -> {
+                        var tmp = versionCode.toFloat()
+                        val major = floor((tmp / 10f.pow(6))).toInt()
+                        tmp -= major * 10f.pow(6)
+                        val minor = floor((tmp / 10f.pow(4))).toInt()
+                        tmp -= major * 10f.pow(4)
+                        val patch = floor((tmp / 10f.pow(2))).toInt()
+                        tmp -= patch * 10f.pow(2)
+                        val candidate = tmp.toInt()
+                        val version = "$prefix$major.$minor.$patch"
+                        if (candidate == 0) {
+                            version
+                        } else String.format("%s-%02d", version, candidate)
+                    }
+                }
+            } else "$prefix$versionCode"
+        }
 
     @Composable
     fun sorter() = { items: List<DataItem> ->
