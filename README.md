@@ -14,6 +14,6 @@ This library offers you a a **changelog dialog** for compose including the abili
 
 The readme for this library with **code samples**, **screenshots** and more can be found on following *github page*:
 
-[![Static Badge](https://img.shields.io/badge/Open%20Documentation-lightgreen?style=for-the-badge&logo=github&logoColor=black)](https://mflisar.github.io/github-docs/libraries/composechangelog/)
+[![Static Badge](https://img.shields.io/badge/Open%20Documentation-lightgreen?style=for-the-badge&logo=github&logoColor=black)](https://mflisar.github.io/github-docs/pages/compose/composechangelog/)
 
 Additionally there is also a full working [demo app](demo) inside the *demo module*.
