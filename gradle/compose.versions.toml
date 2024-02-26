@@ -1,5 +1,5 @@
 [versions]
-composeBom =            "2024.022.01"
+composeBom =            "2024.02.01"
 compiler =              "1.5.10"
 
 lifecycle = 			"2.7.0"
