@@ -10,12 +10,9 @@ dependencyResolutionManagement {
         val kotlin = "1.9.22"
         val ksp = "1.9.22-1.0.17"
         val coroutines = "1.7.3"
-        val gradle = "8.2.2"
+        val gradle = "8.3.1"
 
         // TOML Files
-        create("androidx") {
-            from(files("gradle/androidx.versions.toml"))
-        }
         create("deps") {
             from(files("gradle/dependencies.versions.toml"))
         }
