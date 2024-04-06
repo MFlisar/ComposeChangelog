@@ -54,7 +54,12 @@ dependencies {
     // ------------------------
 
     // KotPreferences
-    implementation(deps.kotpreferences.core)
+    val useLiveDependencies = providers.gradleProperty("useLiveDependencies").get().toBoolean()
+    if (useLiveDependencies) {
+        api(deps.kotpreferences.core)
+    } else {
+        api(project(":KotPreferences:Core"))
+    }
 
     implementation(project(":ComposeChangelog:Core"))
 }

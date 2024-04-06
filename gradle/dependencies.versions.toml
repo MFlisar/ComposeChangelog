@@ -1,8 +1,8 @@
 [versions]
 
 # mflisar
-kotpreferences = 		    "0.4"
-composedemobaseactivity =   "0.6"
+kotpreferences = 		    "0.5"
+composedemobaseactivity =   "0.7"
 
 # ---------
 # libraries
