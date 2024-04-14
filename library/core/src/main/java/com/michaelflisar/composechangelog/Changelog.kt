@@ -236,7 +236,7 @@ object ChangelogDefaults {
                         val major = floor((tmp / 10f.pow(4))).toInt()
                         tmp -= major * 10f.pow(6)
                         val minor = floor((tmp / 10f.pow(2))).toInt()
-                        tmp -= major * 10f.pow(4)
+                        tmp -= minor * 10f.pow(4)
                         val patch = tmp.toInt()
                         "$prefix$major.$minor.$patch"
                     }
@@ -246,7 +246,7 @@ object ChangelogDefaults {
                         val major = floor((tmp / 10f.pow(6))).toInt()
                         tmp -= major * 10f.pow(6)
                         val minor = floor((tmp / 10f.pow(4))).toInt()
-                        tmp -= major * 10f.pow(4)
+                        tmp -= minor * 10f.pow(4)
                         val patch = floor((tmp / 10f.pow(2))).toInt()
                         tmp -= patch * 10f.pow(2)
                         val candidate = tmp.toInt()
