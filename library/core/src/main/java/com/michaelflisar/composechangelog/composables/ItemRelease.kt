@@ -28,7 +28,7 @@ fun ItemRelease(
             .padding(vertical = 8.dp)
     ) {
         Text(
-            item.versionName ?: setup.versionCodeFormatter(item.versionCode),
+            text = item.versionInfo,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )

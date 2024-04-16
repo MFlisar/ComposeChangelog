@@ -3,6 +3,7 @@ package com.michaelflisar.composechangelog.internal
 import android.content.Context
 import android.util.Log
 import android.util.Xml
+import com.michaelflisar.composechangelog.ChangelogVersionFormatter
 import com.michaelflisar.composechangelog.classes.ChangelogData
 import com.michaelflisar.composechangelog.classes.DataItemRelease
 import com.michaelflisar.composechangelog.classes.DataItem
@@ -18,6 +19,7 @@ internal object ChangelogParserUtil {
     suspend fun parse(
         context: Context,
         resourceFile: Int,
+        versionFormatter: ChangelogVersionFormatter,
         sorter: Comparator<DataItemRelease>? = null
     ): ChangelogData {
         return withContext(Dispatchers.IO) {
@@ -41,7 +43,7 @@ internal object ChangelogParserUtil {
                 val items = ArrayList<DataItemRelease>()
 
                 // 2) Parse file into Changelog object
-                items.addAll(parseMainNode(parser, idProvider))
+                items.addAll(parseMainNode(parser, versionFormatter, idProvider))
 
                 // 3) sort changelogs
                 if (sorter != null) {
@@ -67,6 +69,7 @@ internal object ChangelogParserUtil {
     @Throws(Exception::class)
     private fun parseMainNode(
         parser: XmlPullParser,
+        versionFormatter: ChangelogVersionFormatter,
         idProvider: () -> Int
     ): List<DataItemRelease> {
 
@@ -77,7 +80,7 @@ internal object ChangelogParserUtil {
             if (parser.eventType == XmlPullParser.START_TAG) {
                 val tag = parser.name
                 if (tag == Constants.XML_RELEASE_TAG) {
-                    items.addAll(readReleaseNode(parser, idProvider))
+                    items.addAll(readReleaseNode(parser, versionFormatter, idProvider))
                 }
             }
             parser.next()
@@ -89,6 +92,7 @@ internal object ChangelogParserUtil {
     @Throws(Exception::class)
     private fun readReleaseNode(
         parser: XmlPullParser,
+        versionFormatter: ChangelogVersionFormatter,
         idProvider: () -> Int
     ): List<DataItemRelease> {
 
@@ -98,9 +102,20 @@ internal object ChangelogParserUtil {
         parser.require(XmlPullParser.START_TAG, null, Constants.XML_RELEASE_TAG)
 
         // 2) real all attributes of release tag
-        val versionName = parser.getAttributeValue(null, Constants.XML_ATTR_VERSION_NAME)
-        val versionCodeAsString = parser.getAttributeValue(null, Constants.XML_ATTR_VERSION_CODE)
-        val versionCode = versionCodeAsString.toInt()
+        val versionNameXMLAttr = parser.getAttributeValue(null, Constants.XML_ATTR_VERSION_NAME)
+        val versionCodeXMLAttr = parser.getAttributeValue(null, Constants.XML_ATTR_VERSION_CODE)
+        val versionCode: Int
+        val versionName: String
+        if (versionNameXMLAttr != null && versionCodeXMLAttr != null) {
+            throw RuntimeException("Please only provide ${Constants.XML_ATTR_VERSION_NAME} OR ${Constants.XML_ATTR_VERSION_CODE}!")
+        } else if (versionNameXMLAttr != null) {
+            versionCode = versionFormatter.parseVersion(versionNameXMLAttr)
+            versionName = versionNameXMLAttr
+        } else {
+            versionCode = versionCodeXMLAttr.toInt()
+            versionName = versionFormatter.formatVersion(versionCode)
+        }
+
         val date = parser.getAttributeValue(null, Constants.XML_ATTR_DATE)
         val filter = parser.getAttributeValue(null, Constants.XML_ATTR_FILTER)
 

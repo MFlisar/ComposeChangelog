@@ -60,6 +60,12 @@ dependencies {
     implementation(compose.activity)
 	implementation(compose.ui.tooling)
     implementation(compose.ui.tooling.preview)
+
+    // ------------------------
+    // Libraries
+    // ------------------------
+
+    api(":gradle-shared")
 }
 
 project.afterEvaluate {

@@ -32,6 +32,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.michaelflisar.composechangelog.Changelog
 import com.michaelflisar.composechangelog.ChangelogDefaults
@@ -104,12 +105,21 @@ class MainActivity : DemoBaseActivity() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
+            // Infos about demo app
+            Column {
+                Text("App Version", fontWeight = FontWeight.Bold)
+                Text("Code: ${ChangelogUtil.getAppVersionCode(context)}", style = MaterialTheme.typography.bodySmall)
+                Text("Name: ${ChangelogUtil.getAppVersionName(context)}", style = MaterialTheme.typography.bodySmall)
+            }
+
+            // App Theme
             DemoAppThemeRegion(theme, dynamicTheme, id = 0, expandedIds = expandedRootRegions)
 
             val filterDogs = remember { mutableStateOf(false) }
             val useShowMoreButtons = remember { mutableStateOf(true) }
             val useCustomRenderer = remember { mutableStateOf(false) }
 
+            // Demo
             DemoCollapsibleRegion("Demo", id = 1, expandedIds = expandedRootRegions) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -170,6 +180,7 @@ class MainActivity : DemoBaseActivity() {
                 }
             }
 
+            // Infos
             DemoCollapsibleRegion("Infos", id = 2, expandedIds = expandedRootRegions) {
                 Column {
                     infos.forEach {
@@ -216,7 +227,7 @@ class MainActivity : DemoBaseActivity() {
                                             .padding(8.dp)
                                     ) {
                                         Text(
-                                            setup.versionCodeFormatter(item.versionCode),
+                                            item.versionInfo,
                                             style = MaterialTheme.typography.titleLarge
                                         )
                                         Spacer(modifier = Modifier.weight(1f))

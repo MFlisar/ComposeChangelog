@@ -15,7 +15,7 @@ data class ChangelogSetup internal constructor(
     val tagWidth: Dp?,
     val tagColorProvider: @Composable (tag: String) -> Color,
     val tagNameFormatter: @Composable (tag: String) -> String,
-    val versionCodeFormatter: @Composable (versionCode: Int) -> String,
+    val versionFormatter: ChangelogVersionFormatter,
     val filter: IChangelogFilter? = null,
     val sorter: ((items: List<DataItem>) -> List<DataItem>)?,
     val renderer: Renderer

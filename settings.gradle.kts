@@ -7,10 +7,10 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
 
-        val kotlin = "1.9.23"
-        val ksp = "1.9.23-1.0.20"
+        val kotlin = "1.9.22"
+        val ksp = "1.9.22-1.0.20"
         val coroutines = "1.7.3"
-        val gradle = "8.3.1"
+        val gradle = "8.3.2"
 
         // TOML Files
         create("deps") {
@@ -44,12 +44,20 @@ dependencyResolutionManagement {
 // App
 // --------------
 
+includeBuild("gradle-shared")
+includeBuild("gradle-plugin")
+
 include(":ComposeChangelog:Core")
 project(":ComposeChangelog:Core").projectDir = file("library/core")
 include(":ComposeChangelog:Modules:StateSaverPreferences")
 project(":ComposeChangelog:Modules:StateSaverPreferences").projectDir = file("library/modules/statesaver-preferences")
 include(":ComposeChangelog:Modules:StateSaverKotPreferences")
 project(":ComposeChangelog:Modules:StateSaverKotPreferences").projectDir = file("library/modules/statesaver-kotpreferences")
+
+//include(":ComposeChangelog:Plugin:Shared")
+//project(":ComposeChangelog:Plugin:Shared").projectDir = file("library/plugin/shared")
+//include(":ComposeChangelog:Plugin:Gradle")
+//project(":ComposeChangelog:Plugin:Gradle").projectDir = file("library/plugin/gradle")
 
 include(":demo")
 project(":demo").projectDir = file("demo")

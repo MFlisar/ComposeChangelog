@@ -1,7 +1,10 @@
 <changelog>
 
+    <release versionName="1.0.6" date="2018-03-04">
+        <new type="summary">This version has a summary item only - no show more button will be shown even if show more buttons are enabled</new>
+    </release>
 
-    <release versionCode="120" date="2018-03-04">
+    <release versionCode="10005" date="2018-03-04">
         <info>Some info 1 - apostrophe test: it's weird, but apostrophes do not work in precompiled xml files placed in xml resources!</info>
         <new type="summary">Some improvement 1</new>
         <bugfix>Some bugfix 1</bugfix>
@@ -13,26 +16,26 @@
         <bugfix>Some bugfix 3</bugfix>
         <customTag>My custom tag text...</customTag>
     </release>
-    <release versionCode="118" date="2018-03-04">
+    <release versionCode="10004" date="2018-03-04">
         <new type="summary">This version has a summary item only - no show more button will be shown even if show more buttons are enabled</new>
     </release>
-    <release versionCode="115" date="2018-03-04">
+    <release versionCode="10003" date="2018-03-04">
         <info>Some info</info>
         <new type="summary">Some improvement</new>
         <bugfix>Some bugfix</bugfix>
     </release>
-    <release versionCode="110" versionName="Version 1.10" date="2018-03-03" filter="dogs">
+    <release versionCode="10002" date="2018-03-03" filter="dogs">
         <info>Some dogs info - filter only set in release tag</info>
         <new type="summary">Some dogs improvement - filter only set in release tag</new>
         <bugfix>Some dogs bugfix - filter only set in release tag</bugfix>
     </release>
-    <release versionCode="105" versionName="Version 1.05" date="2018-03-02" filter="cats">
+    <release versionCode="10001" date="2018-03-02" filter="cats">
         <info type="summary">single summary of version 1.05</info>
         <info>Some cats info - filter only set in release tag</info>
         <new>Some cats improvement - filter only set in release tag</new>
         <bugfix>Some cats bugfix - filter only set in release tag</bugfix>
     </release>
-    <release versionCode="100" versionName="First release" date="2018-03-01">
+    <release versionCode="10000" date="2018-03-01">
         <info filter="cats" type="summary">single cats summary of version 1.00</info>
         <info filter="dogs" type="summary">single dogs summary of version 1.00</info>
         <info filter="cats">New cats added - this info has filter text 'cats'</info>
@@ -42,7 +45,8 @@
         <bugfix filter="cats">Some cats bugfix - this info has filter text 'cats'</bugfix>
         <bugfix filter="dogs">Some dogs bugfix - this info has filter text 'dogs'</bugfix>
     </release>
-    <release versionCode="90" versionName="First beta" date="2018-02-01">
+    <release versionCode="900" date="2018-02-01">
         <info>this release does not have any summary item and will be shown expanded even if summary is enabled - this behaviour can be adjusted by the second parameter in the builder with which you enable summaries</info>
     </release>
+
 </changelog>

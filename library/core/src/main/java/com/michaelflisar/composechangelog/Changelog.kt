@@ -33,17 +33,16 @@ import com.michaelflisar.composechangelog.internal.ChangelogParserUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.math.floor
-import kotlin.math.pow
 
 object Changelog {
 
     suspend fun read(
         context: Context,
         changelogResourceId: Int,
+        versionFormatter: ChangelogVersionFormatter,
         sorter: Comparator<DataItemRelease>? = null
     ): ChangelogData {
-        return ChangelogParserUtil.parse(context, changelogResourceId, sorter)
+        return ChangelogParserUtil.parse(context, changelogResourceId, versionFormatter, sorter)
     }
 
     fun filterAndSort(
@@ -118,10 +117,11 @@ object Changelog {
         val changelog = remember { mutableStateOf<ChangelogData?>(null) }
         LaunchedEffect(Unit) {
             withContext(Dispatchers.IO) {
-                val data = read(context, setup.changelogResourceId)
+                val data = read(context, setup.changelogResourceId, setup.versionFormatter)
                 changelog.value = filterAndSort(data, setup)
             }
         }
+
         val data = changelog.value
         if (data != null && !data.isEmpty()) {
             val openDialog = remember { mutableStateOf(true) }
@@ -152,52 +152,6 @@ object Changelog {
     }
 }
 
-enum class VersionFormat {
-
-    /**
-     * 10^2: Major Version
-     * 10^0: Minor Version
-     *
-     * Examples:
-     * - 1 => 0.1
-     * - 10 => 0.10
-     * - 100 => 1.0
-     */
-    MajorMinor,
-
-    /**
-     * 10^4: Major Version
-     * 10^2: Minor Version
-     * 10^0: Patch Version
-     *
-     * Examples:
-     * - 1 => 0.0.1
-     * - 10 => 0.0.10
-     * - 100 => 0.1.0
-     * - 1000 => 0.10.0
-     * - 10000 => 1.0.0
-     */
-    MajorMinorPatch,
-
-    /**
-     * 10^6: Major Version
-     * 10^4: Minor Version
-     * 10^2: Patch Version
-     * 10^0: Candidate Version (only displayed if != 0)
-     *
-     * Examples:
-     * - 1 => 0.0.0-01
-     * - 10 => 0.0.0-10
-     * - 100 => 0.0.1
-     * - 101 => 0.0.1-01
-     * - 1000 => 0.0.10
-     * - 10000 => 0.1.0
-     * - 10000  => 0.10.0
-     * - 100000  => 1.0.0
-     */
-    MajorMinorPatchCandidate
-}
-
 object ChangelogDefaults {
 
     @Composable
@@ -219,45 +173,6 @@ object ChangelogDefaults {
             else -> Color.Unspecified
         }
     }
-
-    @Composable
-    fun versionFormatter(format: VersionFormat = VersionFormat.MajorMinor, prefix: String = "") =
-        @Composable { versionCode: Int ->
-            if (versionCode >= 0) {
-                when (format) {
-                    VersionFormat.MajorMinor -> {
-                        val major = floor((versionCode.toFloat() / 100f)).toInt()
-                        val minor = versionCode - major * 100
-                        "$prefix$major.$minor"
-                    }
-
-                    VersionFormat.MajorMinorPatch -> {
-                        var tmp = versionCode.toFloat()
-                        val major = floor((tmp / 10f.pow(4))).toInt()
-                        tmp -= major * 10f.pow(6)
-                        val minor = floor((tmp / 10f.pow(2))).toInt()
-                        tmp -= minor * 10f.pow(4)
-                        val patch = tmp.toInt()
-                        "$prefix$major.$minor.$patch"
-                    }
-
-                    VersionFormat.MajorMinorPatchCandidate -> {
-                        var tmp = versionCode.toFloat()
-                        val major = floor((tmp / 10f.pow(6))).toInt()
-                        tmp -= major * 10f.pow(6)
-                        val minor = floor((tmp / 10f.pow(4))).toInt()
-                        tmp -= minor * 10f.pow(4)
-                        val patch = floor((tmp / 10f.pow(2))).toInt()
-                        tmp -= patch * 10f.pow(2)
-                        val candidate = tmp.toInt()
-                        val version = "$prefix$major.$minor.$patch"
-                        if (candidate == 0) {
-                            version
-                        } else String.format("%s-%02d", version, candidate)
-                    }
-                }
-            } else "$prefix$versionCode"
-        }
 
     @Composable
     fun sorter() = { items: List<DataItem> ->
@@ -326,7 +241,7 @@ object ChangelogDefaults {
         tagWidth: Dp? = 48.dp,
         tagColorProvider: @Composable (tag: String) -> Color = tagColorProvider(),
         tagNameFormatter: @Composable (tag: String) -> String = tagNameFormatter(),
-        versionCodeFormatter: @Composable (versionCode: Int) -> String = versionFormatter(),
+        versionFormatter: ChangelogVersionFormatter = DefaultVersionFormatters(DefaultVersionFormatters.Format.MajorMinorPatch),
         sorter: ((items: List<DataItem>) -> List<DataItem>)? = sorter(),
         filter: IChangelogFilter? = null,
         renderer: ChangelogSetup.Renderer = DEFAULT_RENDERER
@@ -337,7 +252,7 @@ object ChangelogDefaults {
         tagWidth = tagWidth,
         tagColorProvider = tagColorProvider,
         tagNameFormatter = tagNameFormatter,
-        versionCodeFormatter = versionCodeFormatter,
+        versionFormatter = versionFormatter,
         filter = filter,
         sorter = sorter,
         renderer = renderer

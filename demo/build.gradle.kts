@@ -1,8 +1,14 @@
+import com.michaelflisar.composechangelog.DefaultVersionFormatters
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-parcelize")
+    id("changelog-utils")
 }
+
+val appVersionName = "1.0.6"
+val appVersionCode = ChangelogUtils.buildVersionCode(appVersionName, DefaultVersionFormatters(DefaultVersionFormatters.Format.MajorMinorPatch))
 
 android {
 
@@ -17,8 +23,8 @@ android {
     defaultConfig {
         minSdk = app.versions.minSdk.get().toInt()
         targetSdk = app.versions.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = appVersionCode
+        versionName = appVersionName
     }
 
     buildTypes {
