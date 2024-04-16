@@ -59,5 +59,7 @@ project(":ComposeChangelog:Modules:StateSaverKotPreferences").projectDir = file(
 //include(":ComposeChangelog:Plugin:Gradle")
 //project(":ComposeChangelog:Plugin:Gradle").projectDir = file("library/plugin/gradle")
 
-include(":demo")
-project(":demo").projectDir = file("demo")
+if (!System.getenv().containsKey("JITPACK")) {
+    include(":demo")
+    project(":demo").projectDir = file("demo")
+}
