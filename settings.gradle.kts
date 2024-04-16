@@ -44,8 +44,8 @@ dependencyResolutionManagement {
 // App
 // --------------
 
-includeBuild("gradle-shared")
-includeBuild("gradle-plugin")
+//includeBuild("gradle-shared")
+//includeBuild("gradle-plugin")
 
 include(":ComposeChangelog:Core")
 project(":ComposeChangelog:Core").projectDir = file("library/core")
@@ -56,8 +56,8 @@ project(":ComposeChangelog:Modules:StateSaverKotPreferences").projectDir = file(
 
 include(":ComposeChangelog:Plugin:Shared")
 project(":ComposeChangelog:Plugin:Shared").projectDir = file("gradle-shared")
-include(":ComposeChangelog:Plugin:Gradle")
-project(":ComposeChangelog:Plugin:Gradle").projectDir = file("gradle-plugin")
+//include(":ComposeChangelog:Plugin:Gradle")
+//project(":ComposeChangelog:Plugin:Gradle").projectDir = file("gradle-plugin")
 
 if (!System.getenv().containsKey("JITPACK")) {
     include(":demo")

@@ -10,6 +10,7 @@ plugins {
 
 dependencies {
     implementation(":gradle-shared")
+    //implementation(project(":ComposeChangelog:Plugin:Shared"))
 }
 
 gradlePlugin {
