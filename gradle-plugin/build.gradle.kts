@@ -2,12 +2,6 @@ repositories {
     mavenCentral()
 }
 
-buildscript {
-    dependencies {
-        classpath(":gradle-shared")
-    }
-}
-
 plugins {
     `kotlin-dsl-base`
     `java-gradle-plugin`
@@ -22,7 +16,7 @@ gradlePlugin {
     plugins {
         create("changelog-utils") {
             id = "changelog-utils"
-            implementationClass = "ClassLoaderPlugin"
+            implementationClass = "com.michaelflisar.composechangelog.gradle.plugin.ClassLoaderPlugin"
         }
     }
 }

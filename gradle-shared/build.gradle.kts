@@ -4,8 +4,17 @@ repositories {
 
 plugins {
     `kotlin-dsl-base`
-    `java-library`
+    `java-gradle-plugin`
     `maven-publish`
+}
+
+gradlePlugin {
+    plugins {
+        create("changelog-utils-shared") {
+            id = "changelog-utils-shared"
+            implementationClass = "com.michaelflisar.composechangelog.gradle.plugin.ClassLoaderPluginShared"
+        }
+    }
 }
 
 project.afterEvaluate {

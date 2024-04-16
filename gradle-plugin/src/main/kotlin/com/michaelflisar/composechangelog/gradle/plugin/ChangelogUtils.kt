@@ -1,14 +1,8 @@
-import org.gradle.api.Plugin
-import org.gradle.api.Project
+package com.michaelflisar.composechangelog.gradle.plugin
+
+import com.michaelflisar.composechangelog.ChangelogVersionFormatter
 import kotlin.math.ceil
 import kotlin.math.floor
-import com.michaelflisar.composechangelog.ChangelogVersionFormatter
-
-class ClassLoaderPlugin: Plugin<Project> {
-    override fun apply(target: Project) {
-        // no-op
-    }
-}
 
 object ChangelogUtils {
 
