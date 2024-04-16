@@ -238,7 +238,7 @@ object ChangelogDefaults {
         changelogResourceId: Int = R.raw.changelog,
         texts: ChangelogSetup.Texts = texts(),
         useShowMoreButtons: Boolean = true,
-        tagWidth: Dp? = 48.dp,
+        tagWidth: Dp? = 64.dp,
         tagColorProvider: @Composable (tag: String) -> Color = tagColorProvider(),
         tagNameFormatter: @Composable (tag: String) -> String = tagNameFormatter(),
         versionFormatter: ChangelogVersionFormatter = DefaultVersionFormatters(DefaultVersionFormatters.Format.MajorMinorPatch),
