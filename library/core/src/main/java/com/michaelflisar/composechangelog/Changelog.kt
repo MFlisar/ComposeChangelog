@@ -241,7 +241,7 @@ object ChangelogDefaults {
         tagWidth: Dp? = 64.dp,
         tagColorProvider: @Composable (tag: String) -> Color = tagColorProvider(),
         tagNameFormatter: @Composable (tag: String) -> String = tagNameFormatter(),
-        versionFormatter: ChangelogVersionFormatter = DefaultVersionFormatters(DefaultVersionFormatters.Format.MajorMinorPatch),
+        versionFormatter: ChangelogVersionFormatter = DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatch),
         sorter: ((items: List<DataItem>) -> List<DataItem>)? = sorter(),
         filter: IChangelogFilter? = null,
         renderer: ChangelogSetup.Renderer = DEFAULT_RENDERER

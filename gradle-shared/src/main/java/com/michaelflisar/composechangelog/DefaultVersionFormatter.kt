@@ -1,12 +1,12 @@
 package com.michaelflisar.composechangelog
 
-import com.michaelflisar.composechangelog.DefaultVersionFormatters.Format.MajorMinor
-import com.michaelflisar.composechangelog.DefaultVersionFormatters.Format.MajorMinorPatch
-import com.michaelflisar.composechangelog.DefaultVersionFormatters.Format.MajorMinorPatchCandidate
+import com.michaelflisar.composechangelog.DefaultVersionFormatter.Format.MajorMinor
+import com.michaelflisar.composechangelog.DefaultVersionFormatter.Format.MajorMinorPatch
+import com.michaelflisar.composechangelog.DefaultVersionFormatter.Format.MajorMinorPatchCandidate
 import kotlin.math.floor
 import kotlin.math.pow
 
-class DefaultVersionFormatters(
+class DefaultVersionFormatter(
     private val format: Format,
     private val prefix: String = "",
     private val suffix: String = ""
