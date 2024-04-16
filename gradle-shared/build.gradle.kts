@@ -18,6 +18,7 @@ gradlePlugin {
     }
 }*/
 
+
 project.afterEvaluate {
     publishing {
         publications {

@@ -20,14 +20,14 @@ gradlePlugin {
         }
     }
 }
-
+/*
 project.afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("maven") {
                 artifactId = "gradle-plugin"
-                from(components["java"])
+                from(components["kotlin"])
             }
         }
     }
-}
+}*/

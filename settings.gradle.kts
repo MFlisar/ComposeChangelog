@@ -54,10 +54,10 @@ project(":ComposeChangelog:Modules:StateSaverPreferences").projectDir = file("li
 include(":ComposeChangelog:Modules:StateSaverKotPreferences")
 project(":ComposeChangelog:Modules:StateSaverKotPreferences").projectDir = file("library/modules/statesaver-kotpreferences")
 
-//include(":ComposeChangelog:Plugin:Shared")
-//project(":ComposeChangelog:Plugin:Shared").projectDir = file("library/plugin/shared")
-//include(":ComposeChangelog:Plugin:Gradle")
-//project(":ComposeChangelog:Plugin:Gradle").projectDir = file("library/plugin/gradle")
+include(":ComposeChangelog:Plugin:Shared")
+project(":ComposeChangelog:Plugin:Shared").projectDir = file("gradle-shared")
+include(":ComposeChangelog:Plugin:Gradle")
+project(":ComposeChangelog:Plugin:Gradle").projectDir = file("gradle-plugin")
 
 if (!System.getenv().containsKey("JITPACK")) {
     include(":demo")

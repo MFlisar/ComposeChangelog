@@ -65,7 +65,8 @@ dependencies {
     // Libraries
     // ------------------------
 
-    api(":gradle-shared")
+    //api(":gradle-shared")
+    implementation(project(":ComposeChangelog:Plugin:Shared"))
 }
 
 project.afterEvaluate {
