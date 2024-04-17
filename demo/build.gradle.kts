@@ -1,15 +1,15 @@
-//import com.michaelflisar.composechangelog.gradle.plugin.ChangelogUtils
-//import com.michaelflisar.composechangelog.DefaultVersionFormatters
+import com.michaelflisar.composechangelog.gradle.plugin.ComposeChangelog
+import com.michaelflisar.composechangelog.DefaultVersionFormatter
 
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-parcelize")
-    //id("changelog-utils")
+    id("compose-changelog")
 }
 
 val appVersionName = "1.0.6"
-val appVersionCode = 10006//ChangelogUtils.buildVersionCode(appVersionName, DefaultVersionFormatters(DefaultVersionFormatters.Format.MajorMinorPatch))
+val appVersionCode = ComposeChangelog.buildVersionCode(appVersionName, DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatch))
 
 android {
 

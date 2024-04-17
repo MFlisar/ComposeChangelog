@@ -41,11 +41,14 @@ dependencyResolutionManagement {
 }
 
 // --------------
-// App
+// Gradle Plugin
 // --------------
 
-//includeBuild("gradle-shared")
-//includeBuild("gradle-plugin")
+includeBuild("gradle-plugin")
+
+// --------------
+// Library
+// --------------
 
 include(":ComposeChangelog:Core")
 project(":ComposeChangelog:Core").projectDir = file("library/core")
@@ -54,12 +57,9 @@ project(":ComposeChangelog:Modules:StateSaverPreferences").projectDir = file("li
 include(":ComposeChangelog:Modules:StateSaverKotPreferences")
 project(":ComposeChangelog:Modules:StateSaverKotPreferences").projectDir = file("library/modules/statesaver-kotpreferences")
 
-include(":ComposeChangelog:Plugin:Shared")
-project(":ComposeChangelog:Plugin:Shared").projectDir = file("gradle-shared")
-//include(":ComposeChangelog:Plugin:Gradle")
-//project(":ComposeChangelog:Plugin:Gradle").projectDir = file("gradle-plugin")
+// --------------
+// Demo
+// --------------
 
-if (!System.getenv().containsKey("JITPACK")) {
-    include(":demo")
-    project(":demo").projectDir = file("demo")
-}
+include(":demo")
+project(":demo").projectDir = file("demo")

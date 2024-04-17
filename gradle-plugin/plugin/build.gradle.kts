@@ -9,14 +9,13 @@ plugins {
 }
 
 dependencies {
-    implementation(":gradle-shared")
-    //implementation(project(":ComposeChangelog:Plugin:Shared"))
+    api(project(":shared"))
 }
 
 gradlePlugin {
     plugins {
-        create("changelog-utils") {
-            id = "changelog-utils"
+        create("compose-changelog") {
+            id = "compose-changelog"
             implementationClass = "com.michaelflisar.composechangelog.gradle.plugin.ClassLoaderPlugin"
         }
     }

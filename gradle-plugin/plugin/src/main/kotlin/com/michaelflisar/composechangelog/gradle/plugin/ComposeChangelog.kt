@@ -4,7 +4,7 @@ import com.michaelflisar.composechangelog.ChangelogVersionFormatter
 import kotlin.math.ceil
 import kotlin.math.floor
 
-object ChangelogUtils {
+object ComposeChangelog {
 
     /**
      * uses the formatter to parse the versionInfo to a valid version code and logs the result
@@ -12,7 +12,11 @@ object ChangelogUtils {
      *
      * @return version code
      */
-   fun buildVersionCode(versionInfo: String, formatter: ChangelogVersionFormatter): Int {
+    fun buildVersionCode(
+        versionInfo: String,
+        formatter: ChangelogVersionFormatter,
+        logInfo: Boolean = true
+    ): Int {
 
         val code = formatter.parseVersion(versionInfo)
 
@@ -21,13 +25,15 @@ object ChangelogUtils {
         val t2 = (ceil((28.0 - info1.length) / 2.0)).toInt().coerceAtLeast(0)
         val info2 = " ".repeat(t1) + info1 + " ".repeat(t2)
 
-        println("")
-        println("##############################")
-        println("#     BUILD VERSION CODE     #")
-        println("# -------------------------- #")
-        println("#$info2#")
-        println("##############################")
-        println("")
+        if (logInfo) {
+            println("")
+            println("##############################")
+            println("#     BUILD VERSION CODE     #")
+            println("# -------------------------- #")
+            println("#$info2#")
+            println("##############################")
+            println("")
+        }
 
         return code
     }
