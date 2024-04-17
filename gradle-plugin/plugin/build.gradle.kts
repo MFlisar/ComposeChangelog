@@ -20,7 +20,7 @@ gradlePlugin {
         }
     }
 }
-/*
+
 project.afterEvaluate {
     publishing {
         publications {
@@ -30,4 +30,4 @@ project.afterEvaluate {
             }
         }
     }
-}*/
+}

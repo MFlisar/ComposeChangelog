@@ -4,7 +4,7 @@ import com.michaelflisar.composechangelog.ChangelogVersionFormatter
 import kotlin.math.ceil
 import kotlin.math.floor
 
-object ComposeChangelog {
+object Changelog {
 
     /**
      * uses the formatter to parse the versionInfo to a valid version code and logs the result

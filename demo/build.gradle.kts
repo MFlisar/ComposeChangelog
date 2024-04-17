@@ -1,4 +1,4 @@
-import com.michaelflisar.composechangelog.gradle.plugin.ComposeChangelog
+import com.michaelflisar.composechangelog.gradle.plugin.Changelog
 import com.michaelflisar.composechangelog.DefaultVersionFormatter
 
 plugins {
@@ -9,7 +9,7 @@ plugins {
 }
 
 val appVersionName = "1.0.6"
-val appVersionCode = ComposeChangelog.buildVersionCode(appVersionName, DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatch))
+val appVersionCode = Changelog.buildVersionCode(appVersionName, DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatch))
 
 android {
 
