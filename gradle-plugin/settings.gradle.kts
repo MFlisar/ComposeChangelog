@@ -1,1 +1,10 @@
-include("plugin", "shared")
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+    }
+}
+
+include("plugin")
+include("shared")

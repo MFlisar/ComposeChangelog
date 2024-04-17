@@ -1,9 +1,6 @@
-repositories {
-    mavenCentral()
-}
-
 plugins {
     `kotlin-dsl-base`
+    `java-library`
     `java-gradle-plugin`
     `maven-publish`
 }
@@ -26,7 +23,7 @@ project.afterEvaluate {
         publications {
             create<MavenPublication>("maven") {
                 artifactId = "gradle-plugin"
-                from(components["kotlin"])
+                from(components["java"])
             }
         }
     }
