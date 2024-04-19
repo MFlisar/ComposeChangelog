@@ -66,7 +66,7 @@ dependencies {
     // ------------------------
 
     if (System.getenv().containsKey("JITPACK")) {
-        api(project(":gradle-plugin-shared"))
+        api(project(":shared"))
     } else {
         api("gradle-plugin:shared")
     }
