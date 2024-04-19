@@ -15,6 +15,6 @@ buildscript {
 }
 
 tasks.register("publishToMavenLocal") {
-    dependsOn(gradle.includedBuild("gradle-plugin").task(":plugin:publishToMavenLocal"))
-    dependsOn(gradle.includedBuild("gradle-plugin").task(":shared:publishToMavenLocal"))
+    dependsOn(gradle.includedBuild("gradle-plugin").task(":gradle-plugin:publishToMavenLocal"))
+    dependsOn(gradle.includedBuild("gradle-plugin").task(":gradle-plugin-shared:publishToMavenLocal"))
 }

@@ -4,7 +4,7 @@ plugins {
     `maven-publish`
 }
 
-group = "gradle-plugin"
+group = "ComposeChangelog"
 
 project.afterEvaluate {
     publishing {

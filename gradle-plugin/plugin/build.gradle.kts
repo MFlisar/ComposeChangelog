@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":shared"))
+    api(project(":gradle-plugin-shared"))
 }
 
 gradlePlugin {
@@ -20,7 +20,7 @@ gradlePlugin {
 }
 
 // should be published automatically
-group = "gradle-plugin"
+group = "ComposeChangelog"
 
 project.afterEvaluate {
     publishing {
