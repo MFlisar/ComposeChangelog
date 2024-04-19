@@ -12,14 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.michaelflisar.composechangelog.ChangelogSetup
 import com.michaelflisar.composechangelog.classes.DataItemRelease
 
 @Composable
-fun ItemRelease(
+internal fun ChangelogItemRelease(
     modifier: Modifier = Modifier,
-    item: DataItemRelease,
-    setup: ChangelogSetup
+    item: DataItemRelease
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

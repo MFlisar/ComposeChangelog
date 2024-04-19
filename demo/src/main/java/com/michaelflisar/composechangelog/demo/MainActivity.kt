@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import com.michaelflisar.composechangelog.Changelog
 import com.michaelflisar.composechangelog.ChangelogDefaults
 import com.michaelflisar.composechangelog.ChangelogUtil
-import com.michaelflisar.composechangelog.DefaultVersionFormatter
 import com.michaelflisar.composechangelog.demo.classes.DemoPrefs
 import com.michaelflisar.composechangelog.interfaces.IChangelogStateSaver
 import com.michaelflisar.composechangelog.statesaver.kotpreferences.ChangelogStateSaverKotPreferences
@@ -111,8 +110,14 @@ class MainActivity : DemoBaseActivity() {
             // Infos about demo app
             Column {
                 Text("App Version", fontWeight = FontWeight.Bold)
-                Text("Code: ${ChangelogUtil.getAppVersionCode(context)}", style = MaterialTheme.typography.bodySmall)
-                Text("Name: ${ChangelogUtil.getAppVersionName(context)}", style = MaterialTheme.typography.bodySmall)
+                Text(
+                    "Code: ${ChangelogUtil.getAppVersionCode(context)}",
+                    style = MaterialTheme.typography.bodySmall
+                )
+                Text(
+                    "Name: ${ChangelogUtil.getAppVersionName(context)}",
+                    style = MaterialTheme.typography.bodySmall
+                )
             }
 
             // App Theme
@@ -212,7 +217,7 @@ class MainActivity : DemoBaseActivity() {
                     useShowMoreButtons = useShowMoreButtons.value,
                     renderer = if (useCustomRenderer.value) {
                         // we only adjuut the release item renderer, but of course you can do whatever you want here
-                        ChangelogDefaults.DEFAULT_RENDERER.copy(
+                        ChangelogDefaults.renderer(
                             itemRelease = { modifier, item, setup ->
                                 Card(
                                     modifier = modifier
@@ -241,9 +246,12 @@ class MainActivity : DemoBaseActivity() {
                                     }
                                 }
 
+                            },
+                            item = { modifier, item, setup ->
+                                ChangelogDefaults.defaultItem(item, tagAlignment = Alignment.Start)
                             }
                         )
-                    } else ChangelogDefaults.DEFAULT_RENDERER,
+                    } else ChangelogDefaults.renderer(),
                     versionFormatter = Constants.CHANGELOG_FORMATTER
                 )
                 Changelog.ShowChangelogDialog(setup) {

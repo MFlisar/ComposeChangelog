@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.michaelflisar.composechangelog.ChangelogSetup
 
 @Composable
-fun ItemShowMore(
+internal fun ChangelogItemMore(
     modifier: Modifier = Modifier,
     setup: ChangelogSetup,
     onClick: () -> Unit

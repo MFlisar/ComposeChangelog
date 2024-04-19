@@ -6,22 +6,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.michaelflisar.composechangelog.classes.DataItem
 import com.michaelflisar.composechangelog.classes.DataItemRelease
-import com.michaelflisar.composechangelog.composables.ItemReleaseRow
 import com.michaelflisar.composechangelog.interfaces.IChangelogFilter
 
 data class ChangelogSetup internal constructor(
     val changelogResourceId: Int,
     val texts: Texts,
     val useShowMoreButtons: Boolean,
-    //val row: @Composable (item: DataItem, setup: ChangelogSetup) -> Unit = { item, setup ->
-    //    ItemReleaseRow(
-    //        item = item,
-    //        setup = setup
-    //    )
-    //},
-    val tagWidth: Dp?,
-    val tagColorProvider: @Composable (tag: String) -> Color,
-    val tagNameFormatter: @Composable (tag: String) -> String,
     val versionFormatter: ChangelogVersionFormatter,
     val filter: IChangelogFilter? = null,
     val sorter: ((items: List<DataItem>) -> List<DataItem>)?,
@@ -33,7 +23,7 @@ data class ChangelogSetup internal constructor(
         val buttonShowMore: String
     )
 
-    data class Renderer(
+    data class Renderer internal constructor(
         val itemRelease: @Composable (modifier: Modifier, item: DataItemRelease, setup: ChangelogSetup) -> Unit,
         val item: @Composable (modifier: Modifier, item: DataItem, setup: ChangelogSetup) -> Unit,
         val itemShowMore: @Composable (modifier: Modifier, setup: ChangelogSetup, onClick: () -> Unit) -> Unit

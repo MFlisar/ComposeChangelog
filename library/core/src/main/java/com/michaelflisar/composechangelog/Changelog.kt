@@ -14,6 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -24,9 +26,10 @@ import com.michaelflisar.composechangelog.classes.DataItem
 import com.michaelflisar.composechangelog.classes.DataItemRelease
 import com.michaelflisar.composechangelog.classes.ShowChangelog
 import com.michaelflisar.composechangelog.composables.Changelog
-import com.michaelflisar.composechangelog.composables.ItemRelease
-import com.michaelflisar.composechangelog.composables.ItemReleaseRow
-import com.michaelflisar.composechangelog.composables.ItemShowMore
+import com.michaelflisar.composechangelog.composables.ChangelogItem
+import com.michaelflisar.composechangelog.composables.ChangelogItemMore
+import com.michaelflisar.composechangelog.composables.ChangelogItemRelease
+import com.michaelflisar.composechangelog.composables.ChangelogTag
 import com.michaelflisar.composechangelog.interfaces.IChangelogFilter
 import com.michaelflisar.composechangelog.interfaces.IChangelogStateSaver
 import com.michaelflisar.composechangelog.internal.ChangelogParserUtil
@@ -221,16 +224,44 @@ object ChangelogDefaults {
         buttonShowMore = buttonShowMore
     )
 
-    val DEFAULT_RENDERER = ChangelogSetup.Renderer(
-        itemRelease = { modifier, item, setup ->
-            ItemRelease(modifier, item, setup)
-        },
-        item = { modifier, item, setup ->
-            ItemReleaseRow(modifier, item, setup)
-        },
-        itemShowMore = { modifier, setup, onClick ->
-            ItemShowMore(modifier, setup, onClick)
+    @Composable
+    fun defaultItemRelease(modifier: Modifier, item: DataItemRelease) {
+        ChangelogItemRelease(modifier, item)
+    }
+
+    @Composable
+    fun defaultItem(
+        item: DataItem,
+        width: Dp? = 64.dp,
+        tagAlignment: Alignment.Horizontal = Alignment.Start,
+        tagColorProvider: @Composable (String) -> Color = tagColorProvider(),
+        tagNameFormatter: @Composable (String) -> String = tagNameFormatter()
+    ) {
+        ChangelogItem(item = item, tagAlignment = tagAlignment) {
+            ChangelogTag(item, width, tagColorProvider, tagNameFormatter)
         }
+    }
+
+    @Composable
+    fun defaultItemMore(modifier: Modifier, setup: ChangelogSetup, onClick: () -> Unit) {
+        ChangelogItemMore(modifier, setup, onClick)
+    }
+
+    @Composable
+    fun renderer(
+        itemRelease: @Composable (modifier: Modifier, item: DataItemRelease, setup: ChangelogSetup) -> Unit = { modifier, item, setup ->
+            defaultItemRelease(modifier, item)
+        },
+        item: @Composable (modifier: Modifier, item: DataItem, setup: ChangelogSetup) -> Unit = { modifier, item, setup ->
+            defaultItem(item)
+        },
+        itemShowMore: @Composable (modifier: Modifier, setup: ChangelogSetup, onClick: () -> Unit) -> Unit = { modifier, setup, onClick ->
+            defaultItemMore(modifier, setup, onClick)
+        }
+    ) = ChangelogSetup.Renderer(
+        itemRelease,
+        item,
+        itemShowMore
     )
 
     @Composable
@@ -238,20 +269,14 @@ object ChangelogDefaults {
         changelogResourceId: Int = R.raw.changelog,
         texts: ChangelogSetup.Texts = texts(),
         useShowMoreButtons: Boolean = true,
-        tagWidth: Dp? = 64.dp,
-        tagColorProvider: @Composable (tag: String) -> Color = tagColorProvider(),
-        tagNameFormatter: @Composable (tag: String) -> String = tagNameFormatter(),
         versionFormatter: ChangelogVersionFormatter = DefaultVersionFormatter(),
         sorter: ((items: List<DataItem>) -> List<DataItem>)? = sorter(),
         filter: IChangelogFilter? = null,
-        renderer: ChangelogSetup.Renderer = DEFAULT_RENDERER
+        renderer: ChangelogSetup.Renderer = renderer()
     ) = ChangelogSetup(
         changelogResourceId = changelogResourceId,
         texts = texts,
         useShowMoreButtons = useShowMoreButtons,
-        tagWidth = tagWidth,
-        tagColorProvider = tagColorProvider,
-        tagNameFormatter = tagNameFormatter,
         versionFormatter = versionFormatter,
         filter = filter,
         sorter = sorter,
