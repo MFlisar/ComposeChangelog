@@ -15,18 +15,20 @@ gradlePlugin {
             id = "compose-changelog"
             implementationClass = "com.michaelflisar.composechangelog.gradle.plugin.ClassLoaderPlugin"
         }
+        isAutomatedPublishing = false
     }
 }
 
 // should be published automatically
-/*
+group = "gradle-plugin"
+
 project.afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("maven") {
-                artifactId = "gradle-plugin"
+                artifactId = "plugin"
                 from(components["java"])
             }
         }
     }
-}*/
+}
