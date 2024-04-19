@@ -18,6 +18,8 @@ gradlePlugin {
     }
 }
 
+// should be published automatically
+/*
 project.afterEvaluate {
     publishing {
         publications {
@@ -27,4 +29,4 @@ project.afterEvaluate {
             }
         }
     }
-}
+}*/

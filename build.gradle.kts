@@ -13,3 +13,11 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-serialization:" + tools.versions.kotlin.get())
     }
 }
+
+
+tasks.register("publishToMavenLocal") {
+    dependsOn(gradle.includedBuild("gradle-plugin").task(":plugin:publishToMavenLocal"))
+    //dependsOn(task(":gradle-plugin:plugin:publishToMavenLocal"))
+    //dependsOn(gradle.includedBuilds.map { it.task(":publishToMavenLocal") })
+}
+
