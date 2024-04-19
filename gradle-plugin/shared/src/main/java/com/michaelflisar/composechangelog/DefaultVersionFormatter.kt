@@ -7,7 +7,7 @@ import kotlin.math.floor
 import kotlin.math.pow
 
 class DefaultVersionFormatter(
-    private val format: Format,
+    private val format: Format = MajorMinorPatch,
     private val prefix: String = "",
     private val suffix: String = ""
 ) : ChangelogVersionFormatter {

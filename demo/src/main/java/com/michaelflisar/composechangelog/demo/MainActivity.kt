@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.michaelflisar.composechangelog.Changelog
 import com.michaelflisar.composechangelog.ChangelogDefaults
 import com.michaelflisar.composechangelog.ChangelogUtil
+import com.michaelflisar.composechangelog.DefaultVersionFormatter
 import com.michaelflisar.composechangelog.demo.classes.DemoPrefs
 import com.michaelflisar.composechangelog.interfaces.IChangelogStateSaver
 import com.michaelflisar.composechangelog.statesaver.kotpreferences.ChangelogStateSaverKotPreferences
@@ -240,7 +241,8 @@ class MainActivity : DemoBaseActivity() {
 
                             }
                         )
-                    } else ChangelogDefaults.DEFAULT_RENDERER
+                    } else ChangelogDefaults.DEFAULT_RENDERER,
+                    versionFormatter = DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatchCandidate)
                 )
                 Changelog.ShowChangelogDialog(setup) {
                     showChangelog = false

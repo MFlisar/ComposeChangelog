@@ -2,6 +2,7 @@ package com.michaelflisar.composechangelog.classes
 
 import android.os.Parcelable
 import androidx.compose.runtime.saveable.Saver
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -15,5 +16,6 @@ data class ShowChangelog(
     val lastShownVersion: Long,
     val currentVersion: Long
 ) : Parcelable {
+    @IgnoredOnParcel
     val shouldShow = lastShownVersion != -1L && lastShownVersion < currentVersion
 }

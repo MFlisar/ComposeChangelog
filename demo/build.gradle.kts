@@ -8,8 +8,8 @@ plugins {
     id("compose-changelog")
 }
 
-val appVersionName = "1.0.6"
-val appVersionCode = Changelog.buildVersionCode(appVersionName, DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatch))
+val version = "1.0.6"
+val code = Changelog.buildVersionCode(version, DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatchCandidate))
 
 android {
 
@@ -24,8 +24,8 @@ android {
     defaultConfig {
         minSdk = app.versions.minSdk.get().toInt()
         targetSdk = app.versions.targetSdk.get().toInt()
-        versionCode = appVersionCode
-        versionName = appVersionName
+        versionCode = code
+        versionName = version
     }
 
     buildTypes {
