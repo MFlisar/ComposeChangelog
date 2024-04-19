@@ -36,7 +36,7 @@ include(":ComposeChangelog:Modules:StateSaverKotPreferences")
 project(":ComposeChangelog:Modules:StateSaverKotPreferences").projectDir = file("library/modules/statesaver-kotpreferences")
 
 include(":ComposeChangelog:Shared")
-project(":ComposeChangelog:Shared").projectDir = file("shared")
+project(":ComposeChangelog:Shared").projectDir = file("library/shared")
 
 // --------------
 // Demo
