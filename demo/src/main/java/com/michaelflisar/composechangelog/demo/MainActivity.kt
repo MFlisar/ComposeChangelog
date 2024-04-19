@@ -68,7 +68,9 @@ class MainActivity : DemoBaseActivity() {
             ChangelogStateSaverKotPreferences(DemoPrefs.lastShownVersionForChangelog)
 
         // optional - here you can apply some customisations like changelog resource id, localized texts, styles, filter, sorter, ...
-        val setup = ChangelogDefaults.setup()
+        val setup = ChangelogDefaults.setup(
+            versionFormatter = Constants.CHANGELOG_FORMATTER
+        )
 
         // Changelog - this will show the changelog once only if the changelog was not shown for the current app version yet
         Changelog.CheckedShowChangelog(changelogStateSaver, setup)
@@ -242,7 +244,7 @@ class MainActivity : DemoBaseActivity() {
                             }
                         )
                     } else ChangelogDefaults.DEFAULT_RENDERER,
-                    versionFormatter = DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatchCandidate)
+                    versionFormatter = Constants.CHANGELOG_FORMATTER
                 )
                 Changelog.ShowChangelogDialog(setup) {
                     showChangelog = false

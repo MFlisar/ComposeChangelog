@@ -26,7 +26,7 @@ project.afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("maven") {
-                artifactId = "gradle-plugin"
+                //artifactId = "gradle-plugin"
                 from(components["java"])
             }
         }
