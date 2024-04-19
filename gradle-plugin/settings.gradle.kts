@@ -6,7 +6,5 @@ dependencyResolutionManagement {
     }
 }
 
-include(":gradle-plugin")
-project(":gradle-plugin").projectDir = file("plugin")
-include(":gradle-plugin-shared")
-project(":gradle-plugin-shared").projectDir = file("shared")
+include("plugin")
+include("shared")

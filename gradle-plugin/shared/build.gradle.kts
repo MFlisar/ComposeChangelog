@@ -10,7 +10,6 @@ project.afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("maven") {
-                groupId = "gradle-plugin"
                 artifactId = "gradle-plugin-shared"
                 from(components["java"])
             }
