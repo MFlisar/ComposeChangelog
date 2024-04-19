@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":shared"))
+    api(project(":gradle-plugin-shared"))
 }
 
 gradlePlugin {
@@ -26,7 +26,7 @@ project.afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("maven") {
-                //artifactId = "gradle-plugin"
+                artifactId = "gradle-plugin"
                 from(components["java"])
             }
         }
