@@ -1,7 +1,7 @@
 [versions]
 
 # mflisar
-kotpreferences = 		    "0.5"
+kotpreferences = 		    "0.5.1"
 composedemobaseactivity =   "0.7"
 
 # ---------
