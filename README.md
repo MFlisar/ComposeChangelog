@@ -253,7 +253,7 @@ This is a **KMP (kotlin multiplatform)** library and the provided modules do sup
 | statesaver-kotpreferences | √       | √   | √   |             |
 | statesaver-preferences    | √       | √   | √   |             |
 
-* (1) the XML parser I currently use is from the android package - it would be quite easily possible to rewrite it, then the whole library would support all targets, but currently I do not need it and do not have time - if you want to do this task, just let me know.
+* (1) the XML parser I currently use is from the android package - it would be quite easily possible to provide implementations for other platforms (using ksoup e.g.), then the whole library would support all targets, but currently I do not need it and do not have time - if you want to do this task, just let me know.
 
 ## :tada: Demo
 
