@@ -86,7 +86,6 @@ object Changelog {
                 showChangelog = ChangelogUtil.shouldShowChangelogOnStart(context, storage)
             }
         }
-        println("showChangelog = $showChangelog")
         showChangelog
             ?.takeIf { it.shouldShow }
             ?.let { data ->
@@ -187,7 +186,6 @@ object ChangelogDefaults {
                     "new" -> 0
                     "bug",
                     "bugfix" -> 2
-
                     else -> 1
                 }
             }
