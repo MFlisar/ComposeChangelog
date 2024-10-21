@@ -36,7 +36,7 @@ val licenseUrl = "$github/blob/main/LICENSE"
 kotlin {
 
     // Java
-    jvm()
+    //jvm()
 
     // Android
     androidTarget {
@@ -48,11 +48,11 @@ kotlin {
     }
 
     // iOS
-    macosX64()
-    macosArm64()
-    iosArm64()
-    iosX64()
-    iosSimulatorArm64()
+    //macosX64()
+    //macosArm64()
+    //iosArm64()
+    //iosX64()
+    //iosSimulatorArm64()
 
     // -------
     // Sources

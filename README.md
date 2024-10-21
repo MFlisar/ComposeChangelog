@@ -247,16 +247,13 @@ Additionally you can easily use the `versionName` tag inside your `changelog.xml
 
 This is a **KMP (kotlin multiplatform)** library and the provided modules do support following platforms:
 
-> [!NOTE]  
-> iOS would be supported theoretically, but currently I don't know iOS and don't own an apple device - the problem is only that I can't replace `ThreadLocal` and `StackTraceElement` in a non jvm environment.
-> Additionally the console logging would need an iOS implementation as well.
-> If you know how this can be done and want to contribute, that would be much appreciated.
-
 | Modules                   | Android | iOS | jvm | Information |
 |:--------------------------|---------|-----|-----|-------------|
-| core                      | √       | √   | √   |             |
-| statesaver-kotpreferences | √       |  √  | √   |             |
-| statesaver-preferences    | √       |  √  | √   |             |
+| core                      | √       |     |     | (1)         |
+| statesaver-kotpreferences | √       | √   | √   |             |
+| statesaver-preferences    | √       | √   | √   |             |
+
+* (1) the XML parser I currently use is from the android package - it would be quite easily possible to rewrite it, then the whole library would support all targets, but currently I do not need it and do not have time - if you want to do this task, just let me know.
 
 ## :tada: Demo
 
