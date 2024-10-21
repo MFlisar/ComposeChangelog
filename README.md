@@ -236,8 +236,7 @@ You now only must change `val version = "0.3.0"` to whatever new version you wan
 
 Additionally you can easily use the `versionName` tag inside your `changelog.xml` file, the formatter will correctly parse it to it's number for you.
 
-> [!NOTE]  
-> Always make sure to use the same formatter in your `build.gradle.kts` as well as inside your code.
+**Always make sure to use the same formatter in your `build.gradle.kts` as well as inside your code.**
 
 </details>
 
