@@ -1,8 +1,25 @@
+pluginManagement {
+
+    // repositories for build
+    repositories {
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+    }
+}
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
         google()
         gradlePluginPortal()
+    }
+    versionCatalogs {
+        create("app") {
+            from(files("../gradle/app.versions.toml"))
+        }
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
     }
 }
 

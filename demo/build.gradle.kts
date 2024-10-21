@@ -2,9 +2,10 @@ import com.michaelflisar.composechangelog.gradle.plugin.Changelog
 import com.michaelflisar.composechangelog.DefaultVersionFormatter
 
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-parcelize")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.parcelize)
     id("compose-changelog")
 }
 
@@ -56,10 +57,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = compose.versions.compiler.get()
-    }
 }
 
 dependencies {
@@ -74,16 +71,15 @@ dependencies {
     // AndroidX
     // ------------------------
 
-    // Compose BOM
-    implementation(platform(compose.bom))
+    // Compose
+    implementation(libs.compose.material3)
+    implementation(libs.compose.material.icons.core)
+    implementation(libs.compose.material.icons.extended)
 
-    // Dependent on Compose BOM
-    implementation(compose.material3)
-    implementation(compose.activity)
-    implementation(compose.material.extendedicons)
-    implementation(compose.drawablepainter)
-    implementation(compose.ui.tooling)
-    implementation(compose.ui.tooling.preview)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.drawablepainter)
+    //implementation(libs.ui.tooling)
+    //implementation(libs.ui.tooling.preview)
 
     // ------------------------
     // Libraries
@@ -94,10 +90,10 @@ dependencies {
     implementation(project(":ComposeChangelog:Modules:StateSaverKotPreferences"))
 
     // KotPreferences
-    implementation(deps.kotpreferences.core)
-    implementation(deps.kotpreferences.datastore)
-    implementation(deps.kotpreferences.compose)
+    implementation(libs.kotpreferences.core)
+    implementation(libs.kotpreferences.datastore)
+    implementation(libs.kotpreferences.compose)
 
     // a minimal library that provides some useful composables that I use inside demo activities
-    implementation(deps.composedemobaseactivity)
+    implementation(libs.toolbox.demo.app)
 }

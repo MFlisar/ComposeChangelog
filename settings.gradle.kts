@@ -1,20 +1,26 @@
 dependencyResolutionManagement {
+
     repositories {
         mavenCentral()
         google()
         gradlePluginPortal()
         maven("https://jitpack.io")
     }
+
     versionCatalogs {
-        create("deps") {
-            from(files("gradle/dependencies.versions.toml"))
-        }
-        create("compose") {
-            from(files("gradle/compose.versions.toml"))
-        }
         create("app") {
             from(files("gradle/app.versions.toml"))
         }
+    }
+}
+
+pluginManagement {
+
+    repositories {
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+        maven("https://jitpack.io")
     }
 }
 
@@ -35,6 +41,8 @@ project(":ComposeChangelog:Modules:StateSaverPreferences").projectDir = file("li
 include(":ComposeChangelog:Modules:StateSaverKotPreferences")
 project(":ComposeChangelog:Modules:StateSaverKotPreferences").projectDir = file("library/modules/statesaver-kotpreferences")
 
+//include(":gradle-plugin-shared")
+//project(":gradle-plugin-shared").projectDir = file("library/shared")
 include(":ComposeChangelog:Shared")
 project(":ComposeChangelog:Shared").projectDir = file("library/shared")
 
