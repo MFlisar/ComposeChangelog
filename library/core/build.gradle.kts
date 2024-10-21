@@ -36,7 +36,7 @@ val licenseUrl = "$github/blob/main/LICENSE"
 kotlin {
 
     // Java
-    jvm()
+    //jvm()
 
     // Android
     androidTarget {
