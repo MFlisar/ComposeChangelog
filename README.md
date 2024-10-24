@@ -2,7 +2,7 @@
 
 [![Maven](https://img.shields.io/maven-central/v/io.github.mflisar.composechangelog/core?style=for-the-badge&color=blue)](https://central.sonatype.com/namespace/io.github.mflisar.composechangelog)
 [![API](https://img.shields.io/badge/api-21%2B-brightgreen.svg?style=for-the-badge)](https://android-arsenal.com/api?level=21)
-[![Kotlin](https://img.shields.io/github/languages/top/mflisar/kotpreferences.svg?style=for-the-badge&color=blueviolet)](https://kotlinlang.org/)
+[![Kotlin](https://img.shields.io/github/languages/top/mflisar/composechangelog.svg?style=for-the-badge&color=blueviolet)](https://kotlinlang.org/)
 [![KMP](https://img.shields.io/badge/Kotlin_Multiplatform-blue?style=for-the-badge&label=Kotlin)](https://kotlinlang.org/docs/multiplatform.html)
 [![License](https://img.shields.io/github/license/MFlisar/ComposeChangelog?style=for-the-badge)](LICENSE)
 
@@ -40,6 +40,16 @@ This library offers you a a **changelog dialog** for compose including the abili
 
 > [!NOTE]  
 > This library does not use any experimental compose APIs and therefore should be forward compatible with newer compose versions!
+
+
+| Module                      | Dependency                                                  | Version |
+|:----------------------------|:------------------------------------------------------------|:--------|
+| core                        | -                                                           |         |
+| **Modules**                 |                                                             |
+| `statesaver-kotpreferences` | [KotPreferences](https://github.com/MFlisar/KotPreferences) | `0.7.0` |
+| `statesaver-preferences`    | -                                                           |         |
+| **Plugins**                 |                                                             |         |
+| `gradle-plugin`             | -                                                           |         |
 
 ## :elephant: Gradle
 

@@ -19,6 +19,7 @@ plugins {
 
 // Module
 val artifactId = "core"
+val androidNamespace = "com.michaelflisar.composechangelog"
 
 // Library
 val libraryName = "ComposeChangelog"
@@ -75,7 +76,7 @@ kotlin {
 
 android {
 
-    namespace = "com.michaelflisar.composechangelog"
+    namespace = androidNamespace
 
     compileSdk = app.versions.compileSdk.get().toInt()
 

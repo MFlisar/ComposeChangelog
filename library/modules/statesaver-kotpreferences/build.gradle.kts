@@ -18,6 +18,7 @@ plugins {
 
 // Module
 val artifactId = "statesaver-kotpreferences"
+val androidNamespace = "com.michaelflisar.composechangelog.statesaver.kotpreferences"
 
 // Library
 val libraryName = "ComposeChangelog"
@@ -81,7 +82,7 @@ kotlin {
 
 android {
 
-    namespace = "com.michaelflisar.composechangelog.statesaver.kotpreferences"
+    namespace = androidNamespace
 
     compileSdk = app.versions.compileSdk.get().toInt()
 
