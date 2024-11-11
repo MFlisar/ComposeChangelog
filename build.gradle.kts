@@ -13,8 +13,12 @@ plugins {
 }
 
 
-/*
 tasks.register("publishToMavenLocal") {
     dependsOn(gradle.includedBuild("gradle-plugin").task(":gradle-plugin:publishToMavenLocal"))
     //dependsOn(gradle.includedBuild("gradle-plugin").task(":gradle-plugin-shared:publishToMavenLocal"))
-}*/
+}
+
+tasks.register("publishToMaven") {
+    dependsOn(gradle.includedBuild("gradle-plugin").task(":gradle-plugin:publishToMaven"))
+    //dependsOn(gradle.includedBuild("gradle-plugin").task(":gradle-plugin-shared:publishToMavenLocal"))
+}

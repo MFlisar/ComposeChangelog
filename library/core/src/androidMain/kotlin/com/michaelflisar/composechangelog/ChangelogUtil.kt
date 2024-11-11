@@ -18,11 +18,11 @@ object ChangelogUtil {
     fun getAppVersionName(context: Context): String {
         try {
             val info = context.packageManager.getPackageInfo(context.packageName, 0)
-            return info.versionName
+            return info.versionName ?: "<NULL>"
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
-        return "<UNKNOWN"
+        return "<UNKNOWN>"
     }
 
     /**
