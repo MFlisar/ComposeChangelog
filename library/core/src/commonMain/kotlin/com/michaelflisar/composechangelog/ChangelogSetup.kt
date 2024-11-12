@@ -7,7 +7,7 @@ import com.michaelflisar.composechangelog.classes.DataItemRelease
 import com.michaelflisar.composechangelog.interfaces.IChangelogFilter
 
 data class ChangelogSetup internal constructor(
-    val changelogId: ChangelogID,
+    val logFileReader: suspend () -> ByteArray,
     val texts: Texts,
     val useShowMoreButtons: Boolean,
     val versionFormatter: ChangelogVersionFormatter,

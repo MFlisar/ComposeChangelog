@@ -1,5 +1,6 @@
 package com.michaelflisar.composechangelog
 
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.compose.runtime.Composable
@@ -8,6 +9,7 @@ import com.michaelflisar.composechangelog.interfaces.IChangelogFilter
 
 @Composable
 fun ChangelogDefaults.setup(
+    context: Context,
     changelogResourceId: Int = R.raw.changelog,
     texts: ChangelogSetup.Texts = texts(),
     useShowMoreButtons: Boolean = true,
@@ -16,7 +18,15 @@ fun ChangelogDefaults.setup(
     filter: IChangelogFilter? = null,
     renderer: ChangelogSetup.Renderer = renderer()
 ) = ChangelogSetup(
-    changelogId = changelogResourceId,
+    logFileReader = {
+        val resourceType: String = context.resources.getResourceTypeName(changelogResourceId)
+        if (resourceType == "raw") {
+            val inputStream = context.resources.openRawResource(changelogResourceId)
+            val bytes = inputStream.readBytes()
+            inputStream.close()
+            bytes
+        } else throw RuntimeException("Wrong changelog resource type, provide a raw resource!")
+    },
     texts = texts,
     useShowMoreButtons = useShowMoreButtons,
     versionFormatter = versionFormatter,
@@ -49,7 +59,7 @@ fun ChangelogUtil.getAppVersionName(context: Context): String {
  * @return the app version code
  */
 @Suppress("DEPRECATION")
-fun ChangelogUtil.getAppVersionCode(context: Context, versionFormatter: ChangelogVersionFormatter): Long {
+fun ChangelogUtil.getAppVersionCode(context: Context): Long {
     try {
         val info = context.packageManager.getPackageInfo(context.packageName, 0)
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

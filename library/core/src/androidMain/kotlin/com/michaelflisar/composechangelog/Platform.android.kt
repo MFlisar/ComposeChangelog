@@ -14,16 +14,8 @@ import com.michaelflisar.composechangelog.classes.DataItemRelease
 import com.michaelflisar.composechangelog.composables.Changelog
 import com.michaelflisar.composechangelog.internal.ChangelogParserUtil
 
-actual typealias Context = android.content.Context
-actual typealias ChangelogID = Int
-
 @Composable
 actual fun stringOk() = stringResource(android.R.string.ok)
-
-@Composable
-internal actual fun LocalContext(): Context {
-    return androidx.compose.ui.platform.LocalContext.current
-}
 
 @Composable
 internal actual fun ShowChangelogDialog(
@@ -62,11 +54,10 @@ internal actual fun LazyScrollContainer(state: LazyListState, content: LazyListS
     }
 }
 
-internal actual suspend fun ChangelogUtil.read(
-    context: Context,
-    changelogID: ChangelogID,
+internal actual suspend fun ChangelogUtil.readFile(
+    logFileReader: suspend () -> ByteArray,
     versionFormatter: ChangelogVersionFormatter,
     sorter: Comparator<DataItemRelease>?
 ): ChangelogData {
-    return ChangelogParserUtil.parse(context, changelogID, versionFormatter, sorter)
+    return ChangelogParserUtil.parse(logFileReader, versionFormatter, sorter)
 }

@@ -7,14 +7,8 @@ import androidx.compose.runtime.MutableState
 import com.michaelflisar.composechangelog.classes.ChangelogData
 import com.michaelflisar.composechangelog.classes.DataItemRelease
 
-expect abstract class Context
-expect class ChangelogID
-
 @Composable
 expect fun stringOk() : String
-
-@Composable
-internal expect fun LocalContext(): Context
 
 @Composable
 internal expect fun ShowChangelogDialog(
@@ -27,9 +21,8 @@ internal expect fun ShowChangelogDialog(
 @Composable
 internal expect fun LazyScrollContainer(state: LazyListState, content: LazyListScope.() -> Unit)
 
-internal expect suspend fun ChangelogUtil.read(
-    context: Context,
-    changelogID: ChangelogID,
+internal expect suspend fun ChangelogUtil.readFile(
+    logFileReader: suspend () -> ByteArray,
     versionFormatter: ChangelogVersionFormatter,
     sorter: Comparator<DataItemRelease>? = null
 ): ChangelogData

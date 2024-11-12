@@ -17,7 +17,7 @@ fun ChangelogDefaults.setup(
     filter: IChangelogFilter? = null,
     renderer: ChangelogSetup.Renderer = ChangelogDefaults.renderer()
 ) = ChangelogSetup(
-    changelogId = file,
+    logFileReader = { file.readBytes() },
     texts = texts,
     useShowMoreButtons = useShowMoreButtons,
     versionFormatter = versionFormatter,

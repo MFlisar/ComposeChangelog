@@ -8,7 +8,7 @@ plugins {
     id("io.github.mflisar.composechangelog.gradle-plugin")
 }
 
-val version = "1.0.6"
+val version = "1.0.4"
 val code = Changelog.buildVersionCode(version, DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatchCandidate))
 
 kotlin {

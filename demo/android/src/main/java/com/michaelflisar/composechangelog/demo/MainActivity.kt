@@ -72,6 +72,8 @@ class MainActivity : DemoActivity() {
 
         // optional - here you can apply some customisations like changelog resource id, localized texts, styles, filter, sorter, ...
         val setup = ChangelogDefaults.setup(
+            context = context,
+            //changelogResourceId = R.raw.changelog, // this is the default
             versionFormatter = Constants.CHANGELOG_FORMATTER
         )
 
@@ -99,6 +101,7 @@ class MainActivity : DemoActivity() {
         // eventually show a full changelog dialog
         if (showChangelog.value) {
             val setup = ChangelogDefaults.setup(
+                context = context,
                 filter = if (filterDogs.value) ChangelogDefaults.filter(
                     "dogs",
                     false
@@ -170,7 +173,7 @@ class MainActivity : DemoActivity() {
         Column {
             Text("App Version", fontWeight = FontWeight.Bold)
             Text(
-                "Code: ${ChangelogUtil.getAppVersionCode(context, Constants.CHANGELOG_FORMATTER)}",
+                "Code: ${ChangelogUtil.getAppVersionCode(context)}",
                 style = MaterialTheme.typography.bodySmall
             )
             Text(

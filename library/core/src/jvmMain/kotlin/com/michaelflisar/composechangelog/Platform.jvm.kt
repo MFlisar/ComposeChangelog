@@ -24,18 +24,8 @@ import com.michaelflisar.composechangelog.composables.Changelog
 import com.michaelflisar.composechangelog.internal.ChangelogParserUtil
 import java.io.File
 
-actual abstract class Context
-actual typealias ChangelogID = File
-
 @Composable
 actual fun stringOk() = "OK"
-
-object NoContext: Context()
-
-@Composable
-internal actual fun LocalContext(): Context {
-    return NoContext
-}
 
 @Composable
 internal actual fun ShowChangelogDialog(
@@ -80,11 +70,10 @@ internal actual fun LazyScrollContainer(state: LazyListState, content: LazyListS
     }
 }
 
-internal actual suspend fun ChangelogUtil.read(
-    context: Context,
-    changelogID: ChangelogID,
+internal actual suspend fun ChangelogUtil.readFile(
+    logFileReader: suspend () -> ByteArray,
     versionFormatter: ChangelogVersionFormatter,
     sorter: Comparator<DataItemRelease>?
 ): ChangelogData {
-    return ChangelogParserUtil.parse(changelogID, versionFormatter, sorter)
+    return ChangelogParserUtil.parse(logFileReader, versionFormatter, sorter)
 }

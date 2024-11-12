@@ -23,11 +23,10 @@ fun ShowChangelogDialog(
     setup: ChangelogSetup,
     onDismiss: () -> Unit = {}
 ) {
-    val context = LocalContext()
     val changelog = remember { mutableStateOf<ChangelogData?>(null) }
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
-            val data = ChangelogUtil.read(context, setup.changelogId, setup.versionFormatter)
+            val data = ChangelogUtil.readFile(setup.logFileReader, setup.versionFormatter)
             changelog.value = filterAndSort(data, setup)
         }
     }

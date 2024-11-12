@@ -23,6 +23,25 @@ import org.jetbrains.compose.resources.stringResource
 object ChangelogDefaults {
 
     @Composable
+    fun setup(
+        logFileReader: suspend () -> ByteArray,
+        texts: ChangelogSetup.Texts = ChangelogDefaults.texts(),
+        useShowMoreButtons: Boolean = true,
+        versionFormatter: ChangelogVersionFormatter = DefaultVersionFormatter(),
+        sorter: ((items: List<DataItem>) -> List<DataItem>)? = ChangelogDefaults.sorter(),
+        filter: IChangelogFilter? = null,
+        renderer: ChangelogSetup.Renderer = ChangelogDefaults.renderer()
+    ) = ChangelogSetup(
+        logFileReader = logFileReader,
+        texts = texts,
+        useShowMoreButtons = useShowMoreButtons,
+        versionFormatter = versionFormatter,
+        filter = filter,
+        sorter = sorter,
+        renderer = renderer
+    )
+
+    @Composable
     fun tagNameFormatter() = @Composable { tag: String ->
         tag.uppercase()
     }

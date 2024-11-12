@@ -18,7 +18,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 internal object ChangelogParserUtil {
 
     suspend fun parse(
-        file: File,
+        logFileReader: suspend () -> ByteArray,
         versionFormatter: ChangelogVersionFormatter,
         sorter: Comparator<DataItemRelease>? = null
     ): ChangelogData {
@@ -27,7 +27,9 @@ internal object ChangelogParserUtil {
                 val dbf = DocumentBuilderFactory.newInstance()
                 dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
                 val db = dbf.newDocumentBuilder()
-                val doc = db.parse(file)
+                val bytes = logFileReader()
+                val inputStream = bytes.inputStream()
+                val doc = db.parse(inputStream)
 
                 var id: Int = 1
                 val idProvider = {

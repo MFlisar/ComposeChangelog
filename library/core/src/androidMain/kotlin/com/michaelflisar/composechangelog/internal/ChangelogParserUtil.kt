@@ -1,38 +1,30 @@
 package com.michaelflisar.composechangelog.internal
 
-import android.content.Context
 import android.util.Log
 import android.util.Xml
 import com.michaelflisar.composechangelog.ChangelogVersionFormatter
 import com.michaelflisar.composechangelog.classes.ChangelogData
-import com.michaelflisar.composechangelog.classes.DataItemRelease
 import com.michaelflisar.composechangelog.classes.DataItem
+import com.michaelflisar.composechangelog.classes.DataItemRelease
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import java.io.IOException
-import java.io.InputStream
 
 internal object ChangelogParserUtil {
 
     suspend fun parse(
-        context: Context,
-        resourceFile: Int,
+        logFileReader: suspend () -> ByteArray,
         versionFormatter: ChangelogVersionFormatter,
         sorter: Comparator<DataItemRelease>? = null
     ): ChangelogData {
         return withContext(Dispatchers.IO) {
             try {
-                val parser: XmlPullParser
-                val resourceType: String = context.resources.getResourceTypeName(resourceFile)
-                if (resourceType == "raw") {
-                    val `in`: InputStream = context.resources.openRawResource(resourceFile)
-                    parser = Xml.newPullParser()
-                    parser.setInput(`in`, null)
-                } else if (resourceType == "xml") {
-                    parser = context.resources.getXml(resourceFile)
-                } else throw RuntimeException("Wrong changelog resource type, provide xml or raw resource!")
+                val bytes = logFileReader()
+                val inputStream = bytes.inputStream()
+                val parser = Xml.newPullParser()
+                parser.setInput(inputStream, null)
 
                 var id: Int = 1
                 val idProvider = {
