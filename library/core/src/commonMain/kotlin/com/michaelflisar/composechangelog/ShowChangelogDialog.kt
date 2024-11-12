@@ -1,8 +1,5 @@
 package com.michaelflisar.composechangelog
 
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -15,7 +12,6 @@ import com.michaelflisar.composechangelog.classes.ChangelogData
 import com.michaelflisar.composechangelog.classes.DataItem
 import com.michaelflisar.composechangelog.classes.DataItemRelease
 import com.michaelflisar.composechangelog.classes.ShowChangelog
-import com.michaelflisar.composechangelog.composables.Changelog
 import com.michaelflisar.composechangelog.interfaces.IChangelogFilter
 import com.michaelflisar.composechangelog.interfaces.IChangelogStateSaver
 import kotlinx.coroutines.Dispatchers
@@ -40,25 +36,13 @@ fun ShowChangelogDialog(
     if (data != null && !data.isEmpty()) {
         val openDialog = remember { mutableStateOf(true) }
         if (openDialog.value) {
-            AlertDialog(
-                onDismissRequest = {
+            ShowChangelogDialog(
+                visible = openDialog,
+                data = data,
+                setup = setup,
+                onDismiss = {
                     onDismiss()
                     openDialog.value = false
-                },
-                title = {
-                    Text(text = setup.texts.dialogTitle)
-                },
-                text = {
-                    Changelog(data, setup)
-                },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            onDismiss()
-                            openDialog.value = false
-                        }) {
-                        Text(setup.texts.dialogButtonDismiss)
-                    }
                 }
             )
         }

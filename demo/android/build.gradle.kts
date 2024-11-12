@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.parcelize)
-    id("compose-changelog")
+    id("io.github.mflisar.composechangelog.gradle-plugin")
 }
 
 val version = "1.0.4"

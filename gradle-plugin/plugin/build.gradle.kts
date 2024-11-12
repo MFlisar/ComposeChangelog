@@ -36,8 +36,8 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        create("com.michaelflisar.composechangelog.gradle.plugin") {
-            id = "compose-changelog"
+        create("$groupID.gradle-plugin") {
+            id = "$groupID.gradle-plugin"
             implementationClass = "com.michaelflisar.composechangelog.gradle.plugin.ClassLoaderPlugin"
         }
         //isAutomatedPublishing = false

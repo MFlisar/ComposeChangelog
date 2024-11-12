@@ -1,12 +1,12 @@
 package com.michaelflisar.composechangelog.composables
 
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.michaelflisar.composechangelog.ChangelogSetup
+import com.michaelflisar.composechangelog.LazyScrollContainer
 import com.michaelflisar.composechangelog.classes.ChangelogData
 
 @Composable
@@ -18,7 +18,7 @@ fun Changelog(
     val releases = changelog.releases
 
     var idMore = -1
-    LazyColumn(
+    LazyScrollContainer(
         state = rememberLazyListState()
     ) {
         releases.forEachIndexed { index, item ->
