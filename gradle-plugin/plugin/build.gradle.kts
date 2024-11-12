@@ -40,7 +40,7 @@ gradlePlugin {
             id = "$groupID.gradle-plugin"
             implementationClass = "com.michaelflisar.composechangelog.gradle.plugin.ClassLoaderPlugin"
         }
-        isAutomatedPublishing = false
+        isAutomatedPublishing = true
     }
 }
 
