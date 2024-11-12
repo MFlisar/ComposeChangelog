@@ -2,10 +2,13 @@ package com.michaelflisar.composechangelog.demo
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Surface
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -52,52 +55,59 @@ fun main() {
             lastChangelog = changelogStateSaver.lastShownVersion()
         }
 
-        Window(
-            title = "Changelog Demo ($versionName)",
-            onCloseRequest = ::exitApplication,
-            state = rememberWindowState(
-                position = WindowPosition(Alignment.Center),
-                width = 800.dp,
-                height = 600.dp
-            )
+        MaterialTheme(
+            colorScheme = darkColorScheme()
         ) {
-            val showChangelog = remember { mutableStateOf(false) }
-
-            Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+            Window(
+                title = "Changelog Demo ($versionName)",
+                onCloseRequest = ::exitApplication,
+                state = rememberWindowState(
+                    position = WindowPosition(Alignment.Center),
+                    width = 800.dp,
+                    height = 600.dp
+                )
             ) {
-                Column {
-                    Text("App Version", fontWeight = FontWeight.Bold)
-                    Text(
-                        "Code: ${Constants.CHANGELOG_FORMATTER.parseVersion(versionName)}",
-                        style = MaterialTheme.typography.body1
-                    )
-                    Text(
-                        "Name: $versionName",
-                        style = MaterialTheme.typography.body1
-                    )
-                    Text(
-                        "Last Changelog: $lastChangelog",
-                        style = MaterialTheme.typography.body1
-                    )
+                val showChangelog = remember { mutableStateOf(false) }
+                Surface(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Column {
+                            Text("App Version", fontWeight = FontWeight.Bold)
+                            Text(
+                                "Code: ${Constants.CHANGELOG_FORMATTER.parseVersion(versionName)}",
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                            Text(
+                                "Name: $versionName",
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                            Text(
+                                "Last Changelog: $lastChangelog",
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+                        Button(onClick = {
+                            showChangelog.value = true
+                        }) {
+                            Text("Show Changelog")
+                        }
+                    }
                 }
-                Button(onClick = {
-                    showChangelog.value = true
-                }) {
-                    Text("Show Changelog")
-                }
-            }
 
-            // manual changelog dialog
-            if (showChangelog.value) {
-                ShowChangelogDialog(setup) {
-                    showChangelog.value = false
+                // manual changelog dialog
+                if (showChangelog.value) {
+                    ShowChangelogDialog(setup) {
+                        showChangelog.value = false
+                    }
                 }
-            }
 
-            // automatic changelog dialog
-            ShowChangelogDialogIfNecessary(changelogStateSaver, versionName, setup)
+                // automatic changelog dialog
+                ShowChangelogDialogIfNecessary(changelogStateSaver, versionName, setup)
+            }
         }
     }
 }

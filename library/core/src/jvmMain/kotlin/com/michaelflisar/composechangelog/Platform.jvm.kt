@@ -10,8 +10,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -44,10 +44,12 @@ internal actual fun ShowChangelogDialog(
             height = 400.dp
         )
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Changelog(data, setup)
+        Surface {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Changelog(data, setup)
+            }
         }
     }
 }

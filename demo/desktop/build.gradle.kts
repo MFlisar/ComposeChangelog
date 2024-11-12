@@ -23,6 +23,8 @@ kotlin {
 
                 implementation(compose.desktop.currentOs)
 
+                implementation(libs.compose.material3)
+
                 implementation(project(":ComposeChangelog:Core"))
                 implementation(project(":ComposeChangelog:Modules:StateSaverPreferences"))
                 implementation(project(":ComposeChangelog:Modules:StateSaverKotPreferences"))
