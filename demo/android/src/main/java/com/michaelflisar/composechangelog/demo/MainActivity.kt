@@ -34,8 +34,12 @@ import com.michaelflisar.composechangelog.Changelog
 import com.michaelflisar.composechangelog.ChangelogDefaults
 import com.michaelflisar.composechangelog.ChangelogUtil
 import com.michaelflisar.composechangelog.demo.classes.DemoPrefs
+import com.michaelflisar.composechangelog.getAppVersionCode
+import com.michaelflisar.composechangelog.getAppVersionName
+import com.michaelflisar.composechangelog.setup
 import com.michaelflisar.composechangelog.statesaver.kotpreferences.ChangelogStateSaverKotPreferences
 import com.michaelflisar.composechangelog.statesaver.preferences.ChangelogStateSaverPreferences
+import com.michaelflisar.composechangelog.statesaver.preferences.create
 import com.michaelflisar.composethemer.ComposeTheme
 import com.michaelflisar.toolbox.androiddemoapp.DemoActivity
 import com.michaelflisar.toolbox.androiddemoapp.composables.DemoAppThemeRegion
@@ -50,12 +54,13 @@ class MainActivity : DemoActivity() {
     override fun ColumnScope.Content(
         themeState: ComposeTheme.State
     ) {
+        val context = LocalContext.current
 
         val regionState = rememberDemoExpandedRegions(listOf(1, 2))
 
         // needed - you can also provide your own implementation instead of this simple one
         // (which simply saves the last shown version inside a preference file)
-        val changelogStateSaver = ChangelogStateSaverPreferences(LocalContext.current)
+        val changelogStateSaver = ChangelogStateSaverPreferences.create(LocalContext.current)
 
         // ALTERNATIVE: if you use my kotpreference library like this demo you can do following:
         val changelogStateSaverKotPrefs =
@@ -67,7 +72,8 @@ class MainActivity : DemoActivity() {
         )
 
         // Changelog - this will show the changelog once only if the changelog was not shown for the current app version yet
-        Changelog.CheckedShowChangelog(changelogStateSaver, setup)
+        val versionName = ChangelogUtil.getAppVersionName(context)
+        Changelog.CheckedShowChangelog(changelogStateSaver, versionName, setup)
 
 
         val showChangelog = remember { mutableStateOf(false) }
@@ -161,7 +167,7 @@ class MainActivity : DemoActivity() {
         Column {
             Text("App Version", fontWeight = FontWeight.Bold)
             Text(
-                "Code: ${ChangelogUtil.getAppVersionCode(context)}",
+                "Code: ${ChangelogUtil.getAppVersionCode(context, Constants.CHANGELOG_FORMATTER)}",
                 style = MaterialTheme.typography.bodySmall
             )
             Text(
@@ -220,10 +226,12 @@ class MainActivity : DemoActivity() {
             OutlinedButton(
                 onClick = {
                     scope.launch(Dispatchers.IO) {
+                        val versionName = ChangelogUtil.getAppVersionName(context)
                         val showChangelog =
                             ChangelogUtil.shouldShowChangelogOnStart(
-                                context,
-                                changelogStateSaver
+                                changelogStateSaver,
+                                versionName,
+                                Constants.CHANGELOG_FORMATTER
                             )
                         infos.add("shouldShow = ${showChangelog.shouldShow} ($showChangelog)")
                     }

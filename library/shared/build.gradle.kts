@@ -30,8 +30,6 @@ val licenseUrl = "$github/blob/main/LICENSE"
 // Setup
 // -------------------
 
-group = "ComposeChangelog"
-
 mavenPublishing {
 
     configure(

@@ -1,4 +1,4 @@
-import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.GradlePlugin
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SonatypeHost
 
@@ -40,17 +40,14 @@ gradlePlugin {
             id = "compose-changelog"
             implementationClass = "com.michaelflisar.composechangelog.gradle.plugin.ClassLoaderPlugin"
         }
-        isAutomatedPublishing = false
+        //isAutomatedPublishing = false
     }
 }
-
-// should be published automatically
-group = "ComposeChangelog"
 
 mavenPublishing {
 
     configure(
-        JavaLibrary(
+        GradlePlugin(
             javadocJar = JavadocJar.Dokka("dokkaHtml"),
             sourcesJar = true
         )

@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.compose)
     alias(libs.plugins.dokka)
     alias(libs.plugins.gradle.maven.publish.plugin)
 }
@@ -37,7 +38,7 @@ val licenseUrl = "$github/blob/main/LICENSE"
 kotlin {
 
     // Java
-    //jvm()
+    jvm()
 
     // Android
     androidTarget {
@@ -63,14 +64,19 @@ kotlin {
 
         commonMain.dependencies {
 
+            implementation(compose.components.resources)
+
             // Kotlin
             implementation(libs.kotlin)
             implementation(libs.kotlinx.coroutines)
 
             implementation(libs.compose.material3)
 
+            api(libs.moko.parcelize)
+
             api(project(":ComposeChangelog:Shared"))
         }
+
     }
 }
 

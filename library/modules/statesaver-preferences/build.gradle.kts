@@ -36,7 +36,7 @@ val licenseUrl = "$github/blob/main/LICENSE"
 kotlin {
 
     // Java
-    //jvm()
+    jvm()
 
     // Android
     androidTarget {
@@ -65,6 +65,8 @@ kotlin {
             // Kotlin
             implementation(libs.kotlin)
             implementation(libs.kotlinx.coroutines)
+
+            implementation(libs.datastore.preferences)
 
             implementation(project(":ComposeChangelog:Core"))
 

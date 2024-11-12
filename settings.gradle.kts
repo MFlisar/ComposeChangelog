@@ -51,3 +51,4 @@ project(":ComposeChangelog:Shared").projectDir = file("library/shared")
 // --------------
 
 include(":demo:android")
+include(":demo:desktop")
