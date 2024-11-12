@@ -1,4 +1,4 @@
-import com.michaelflisar.composechangelog.gradle.plugin.Changelog
+import com.michaelflisar.composechangelog.Changelog
 import com.michaelflisar.composechangelog.DefaultVersionFormatter
 
 plugins {

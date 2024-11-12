@@ -1,4 +1,4 @@
-package com.michaelflisar.composechangelog.gradle.plugin
+package com.michaelflisar.composechangelog
 
 import com.michaelflisar.composechangelog.ChangelogVersionFormatter
 import kotlin.math.ceil
