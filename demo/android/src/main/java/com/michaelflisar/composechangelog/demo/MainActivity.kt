@@ -30,9 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.michaelflisar.composechangelog.Changelog
 import com.michaelflisar.composechangelog.ChangelogDefaults
 import com.michaelflisar.composechangelog.ChangelogUtil
+import com.michaelflisar.composechangelog.ShowChangelogDialog
+import com.michaelflisar.composechangelog.ShowChangelogDialogIfNecessary
 import com.michaelflisar.composechangelog.demo.classes.DemoPrefs
 import com.michaelflisar.composechangelog.getAppVersionCode
 import com.michaelflisar.composechangelog.getAppVersionName
@@ -60,11 +61,14 @@ class MainActivity : DemoActivity() {
 
         // needed - you can also provide your own implementation instead of this simple one
         // (which simply saves the last shown version inside a preference file)
-        val changelogStateSaver = ChangelogStateSaverPreferences.create(LocalContext.current)
+        val changelogStateSaver = remember {
+            ChangelogStateSaverPreferences.create(context)
+        }
 
         // ALTERNATIVE: if you use my kotpreference library like this demo you can do following:
-        val changelogStateSaverKotPrefs =
+        val changelogStateSaverKotPrefs = remember {
             ChangelogStateSaverKotPreferences(DemoPrefs.lastShownVersionForChangelog)
+        }
 
         // optional - here you can apply some customisations like changelog resource id, localized texts, styles, filter, sorter, ...
         val setup = ChangelogDefaults.setup(
@@ -73,8 +77,7 @@ class MainActivity : DemoActivity() {
 
         // Changelog - this will show the changelog once only if the changelog was not shown for the current app version yet
         val versionName = ChangelogUtil.getAppVersionName(context)
-        Changelog.CheckedShowChangelog(changelogStateSaver, versionName, setup)
-
+        ShowChangelogDialogIfNecessary(changelogStateSaver, versionName, setup)
 
         val showChangelog = remember { mutableStateOf(false) }
         val infos = remember { mutableStateListOf<String>() }
@@ -140,7 +143,7 @@ class MainActivity : DemoActivity() {
                 } else ChangelogDefaults.renderer(),
                 versionFormatter = Constants.CHANGELOG_FORMATTER
             )
-            Changelog.ShowChangelogDialog(setup) {
+            ShowChangelogDialog(setup) {
                 showChangelog.value = false
             }
         }

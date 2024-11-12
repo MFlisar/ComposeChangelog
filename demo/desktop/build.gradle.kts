@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import com.michaelflisar.composechangelog.gradle.plugin.Changelog
 import com.michaelflisar.composechangelog.DefaultVersionFormatter
 
@@ -42,9 +41,12 @@ compose.desktop {
         mainClass = "com.michaelflisar.composechangelog.demo.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Exe)
-            packageName = "Changelog JVM Demo"
+            //targetFormats(TargetFormat.Exe)
+
+            packageName = "com.michaelflisar.composechangelog"
             packageVersion = version
+
+            modules("java.instrument", "jdk.unsupported")
         }
     }
 }

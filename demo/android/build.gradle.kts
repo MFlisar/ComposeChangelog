@@ -9,7 +9,7 @@ plugins {
     id("compose-changelog")
 }
 
-val version = "1.0.6"
+val version = "1.0.4"
 val code = Changelog.buildVersionCode(version, DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatchCandidate))
 
 android {

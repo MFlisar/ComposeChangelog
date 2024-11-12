@@ -6,7 +6,7 @@ import okio.Path.Companion.toPath
 
 fun ChangelogStateSaverPreferences.Companion.create(
     context: Context,
-    name: String = "settings",
+    name: String = "changelog",
     preferenceKey: String = PREF_KEY
 ): ChangelogStateSaverPreferences {
     return ChangelogStateSaverPreferences(

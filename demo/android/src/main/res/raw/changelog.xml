@@ -4,7 +4,7 @@
         <new type="summary">This version has a summary item only - no show more button will be shown even if show more buttons are enabled</new>
     </release>
 
-    <release versionCode="10005" date="2018-03-04">
+    <release versionCode="1000500" date="2018-03-04">
         <info>Some info 1 - apostrophe test: it's weird, but apostrophes do not work in precompiled xml files placed in xml resources!</info>
         <new type="summary">Some improvement 1</new>
         <bugfix>Some bugfix 1</bugfix>
@@ -16,20 +16,20 @@
         <bugfix>Some bugfix 3</bugfix>
         <customTag>My custom tag text...</customTag>
     </release>
-    <release versionCode="10004" date="2018-03-04">
+    <release versionCode="1000400" date="2018-03-04">
         <new type="summary">This version has a summary item only - no show more button will be shown even if show more buttons are enabled</new>
     </release>
-    <release versionCode="10003" date="2018-03-04">
+    <release versionCode="1000300" date="2018-03-04">
         <info>Some info</info>
         <new type="summary">Some improvement</new>
         <bugfix>Some bugfix</bugfix>
     </release>
-    <release versionCode="10002" date="2018-03-03" filter="dogs">
+    <release versionCode="1000200" date="2018-03-03" filter="dogs">
         <info>Some dogs info - filter only set in release tag</info>
         <new type="summary">Some dogs improvement - filter only set in release tag</new>
         <bugfix>Some dogs bugfix - filter only set in release tag</bugfix>
     </release>
-    <release versionCode="10001" date="2018-03-02" filter="cats">
+    <release versionCode="1000100" date="2018-03-02" filter="cats">
         <info type="summary">single summary of version 1.05</info>
         <info>Some cats info - filter only set in release tag</info>
         <new>Some cats improvement - filter only set in release tag</new>
