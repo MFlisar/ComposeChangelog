@@ -36,7 +36,7 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        create("compose-changelog") {
+        create("com.michaelflisar.composechangelog.gradle.plugin") {
             id = "compose-changelog"
             implementationClass = "com.michaelflisar.composechangelog.gradle.plugin.ClassLoaderPlugin"
         }
