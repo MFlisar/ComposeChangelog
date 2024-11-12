@@ -19,7 +19,6 @@ actual fun stringOk() = stringResource(android.R.string.ok)
 
 @Composable
 internal actual fun ShowChangelogDialog(
-    visible: MutableState<Boolean>,
     data: ChangelogData,
     setup: ChangelogSetup,
     onDismiss: () -> Unit
@@ -27,7 +26,6 @@ internal actual fun ShowChangelogDialog(
     AlertDialog(
         onDismissRequest = {
             onDismiss()
-            visible.value = false
         },
         title = {
             Text(text = setup.texts.dialogTitle)
@@ -39,7 +37,6 @@ internal actual fun ShowChangelogDialog(
             TextButton(
                 onClick = {
                     onDismiss()
-                    visible.value = false
                 }) {
                 Text(setup.texts.dialogButtonDismiss)
             }

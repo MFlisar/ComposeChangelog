@@ -97,7 +97,6 @@ fun main() {
             }
 
             // automatic changelog dialog
-
             ShowChangelogDialogIfNecessary(changelogStateSaver, versionName, setup)
         }
     }

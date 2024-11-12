@@ -108,7 +108,8 @@ internal object ChangelogParserUtil {
         for (i in 0..<node.childNodes.length) {
             val n = node.childNodes.item(i)
             if (n.nodeType == Node.ELEMENT_NODE) {
-                val tag = node.tagName
+                val element2 = n as Element
+                val tag = element2.tagName
                 items.add(readReleaseRowNode(tag, n, idProvider))
             }
         }

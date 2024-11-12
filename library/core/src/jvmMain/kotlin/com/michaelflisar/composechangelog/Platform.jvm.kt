@@ -22,22 +22,22 @@ import com.michaelflisar.composechangelog.classes.ChangelogData
 import com.michaelflisar.composechangelog.classes.DataItemRelease
 import com.michaelflisar.composechangelog.composables.Changelog
 import com.michaelflisar.composechangelog.internal.ChangelogParserUtil
-import java.io.File
 
 @Composable
 actual fun stringOk() = "OK"
 
 @Composable
 internal actual fun ShowChangelogDialog(
-    visible: MutableState<Boolean>,
     data: ChangelogData,
     setup: ChangelogSetup,
     onDismiss: () -> Unit
 ) {
     DialogWindow(
-        visible = visible.value,
+        visible = true,
         title = setup.texts.dialogTitle,
-        onCloseRequest = { visible.value = false },
+        onCloseRequest = {
+            onDismiss()
+        },
         state = rememberDialogState(
             position = WindowPosition(Alignment.Center),
             width = 600.dp,

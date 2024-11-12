@@ -3,7 +3,6 @@ package com.michaelflisar.composechangelog
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import com.michaelflisar.composechangelog.classes.ChangelogData
 import com.michaelflisar.composechangelog.classes.DataItemRelease
 
@@ -12,7 +11,6 @@ expect fun stringOk() : String
 
 @Composable
 internal expect fun ShowChangelogDialog(
-    visible: MutableState<Boolean>,
     data: ChangelogData,
     setup: ChangelogSetup,
     onDismiss: () -> Unit

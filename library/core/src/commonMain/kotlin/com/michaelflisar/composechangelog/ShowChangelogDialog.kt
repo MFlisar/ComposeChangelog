@@ -33,18 +33,13 @@ fun ShowChangelogDialog(
 
     val data = changelog.value
     if (data != null && !data.isEmpty()) {
-        val openDialog = remember { mutableStateOf(true) }
-        if (openDialog.value) {
-            ShowChangelogDialog(
-                visible = openDialog,
-                data = data,
-                setup = setup,
-                onDismiss = {
-                    onDismiss()
-                    openDialog.value = false
-                }
-            )
-        }
+        ShowChangelogDialog(
+            data = data,
+            setup = setup,
+            onDismiss = {
+                onDismiss()
+            }
+        )
     }
 }
 
