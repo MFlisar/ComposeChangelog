@@ -15,9 +15,9 @@ import com.michaelflisar.composechangelog.composables.ChangelogItemMore
 import com.michaelflisar.composechangelog.composables.ChangelogItemRelease
 import com.michaelflisar.composechangelog.composables.ChangelogTag
 import com.michaelflisar.composechangelog.interfaces.IChangelogFilter
-import composechangelog.composechangelog.core.generated.resources.Res
-import composechangelog.composechangelog.core.generated.resources.changelog_button_show_more
-import composechangelog.composechangelog.core.generated.resources.changelog_dialog_title
+import com.michaelflisar.composechangelog.core.resources.Res
+import com.michaelflisar.composechangelog.core.resources.changelog_button_show_more
+import com.michaelflisar.composechangelog.core.resources.changelog_dialog_title
 import org.jetbrains.compose.resources.stringResource
 
 object ChangelogDefaults {
@@ -84,7 +84,7 @@ object ChangelogDefaults {
                 return release.filter.contains(
                     filter,
                     true
-                ) //&& release.items.count { keep(release, it) } > 0
+                )
             }
 
             override fun keep(release: DataItemRelease, item: DataItem): Boolean {

@@ -20,7 +20,7 @@ plugins {
 
 // Module
 val artifactId = "core"
-val androidNamespace = "com.michaelflisar.composechangelog"
+val androidNamespace = "com.michaelflisar.composechangelog.core"
 
 // Library
 val libraryName = "ComposeChangelog"
@@ -67,17 +67,20 @@ kotlin {
             implementation(compose.components.resources)
 
             // Kotlin
-            implementation(libs.kotlin)
-            implementation(libs.kotlinx.coroutines)
+            implementation(kotlinx.coroutines.core)
 
             implementation(libs.compose.material3)
 
-            api(libs.moko.parcelize)
+            api(deps.moko.parcelize)
 
-            api(project(":ComposeChangelog:Shared"))
+            api(project(":composechangelog:shared"))
         }
 
     }
+}
+
+compose.resources {
+    packageOfResClass = "$androidNamespace.resources"
 }
 
 android {

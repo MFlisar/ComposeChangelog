@@ -25,9 +25,9 @@ kotlin {
 
                 implementation(libs.compose.material3)
 
-                implementation(project(":ComposeChangelog:Core"))
-                implementation(project(":ComposeChangelog:Modules:StateSaverPreferences"))
-                implementation(project(":ComposeChangelog:Modules:StateSaverKotPreferences"))
+                implementation(project(":composechangelog:core"))
+                implementation(project(":composechangelog:modules:statesaver:preferences"))
+                implementation(project(":composechangelog:modules:statesaver:kotpreferences"))
 
                 // KotPreferences
                 //implementation(libs.kotpreferences.core)

@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.compose.runtime.Composable
 import com.michaelflisar.composechangelog.classes.DataItem
 import com.michaelflisar.composechangelog.interfaces.IChangelogFilter
+import com.michaelflisar.composechangelog.core.R
 
 @Composable
 fun ChangelogDefaults.setup(

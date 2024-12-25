@@ -18,11 +18,11 @@ object ChangelogUtil {
      * @return [ShowChangelog]
      */
     suspend fun shouldShowChangelogOnStart(
-        storage: IChangelogStateSaver,
+        stateSaver: IChangelogStateSaver,
         versionName: String,
         versionFormatter: ChangelogVersionFormatter
     ): ShowChangelog {
-        val lastChangelog = storage.lastShownVersion()
+        val lastChangelog = stateSaver.lastShownVersion()
         val currentVersion = versionFormatter.parseVersion(versionName)
         return ShowChangelog(lastChangelog, currentVersion.toLong())
     }

@@ -45,7 +45,7 @@ fun ShowChangelogDialog(
 
 @Composable
 fun ShowChangelogDialogIfNecessary(
-    storage: IChangelogStateSaver,
+    stateSaver: IChangelogStateSaver,
     versionName: String,
     setup: ChangelogSetup
 ) {
@@ -54,14 +54,14 @@ fun ShowChangelogDialogIfNecessary(
     LaunchedEffect(setup) {
         if (showChangelog == null) {
             showChangelog = ChangelogUtil.shouldShowChangelogOnStart(
-                storage,
+                stateSaver,
                 versionName,
                 setup.versionFormatter
             )
             if (showChangelog?.isInitialVersion == true) {
                 //println("Updating last shown: ${showChangelog!!.currentVersion}")
                 scope.launch(Dispatchers.IO) {
-                    storage.saveLastShownVersion(showChangelog!!.currentVersion)
+                    stateSaver.saveLastShownVersion(showChangelog!!.currentVersion)
                 }
             }
         }
@@ -86,7 +86,7 @@ fun ShowChangelogDialogIfNecessary(
             )
             ShowChangelogDialog(setup) {
                 scope.launch(Dispatchers.IO) {
-                    storage.saveLastShownVersion(data.currentVersion)
+                    stateSaver.saveLastShownVersion(data.currentVersion)
                     showChangelog = ShowChangelog(data.currentVersion, data.currentVersion)
                 }
             }

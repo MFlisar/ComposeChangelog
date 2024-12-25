@@ -63,18 +63,17 @@ kotlin {
         commonMain.dependencies {
 
             // Kotlin
-            implementation(libs.kotlin)
-            implementation(libs.kotlinx.coroutines)
+            implementation(kotlinx.coroutines.core)
 
             // KotPreferences
             val useLiveDependencies = providers.gradleProperty("useLiveDependencies").get().toBoolean()
             if (useLiveDependencies) {
-                api(libs.kotpreferences.core)
+                api(deps.kotpreferences.core)
             } else {
-                api(project(":KotPreferences:Core"))
+                api(project(":kotpreferences:core"))
             }
 
-            implementation(project(":ComposeChangelog:Core"))
+            implementation(project(":composechangelog:core"))
 
         }
     }

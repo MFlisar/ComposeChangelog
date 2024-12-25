@@ -63,12 +63,11 @@ kotlin {
         commonMain.dependencies {
 
             // Kotlin
-            implementation(libs.kotlin)
-            implementation(libs.kotlinx.coroutines)
+            implementation(kotlinx.coroutines.core)
 
-            implementation(libs.datastore.preferences)
+            implementation(androidx.datastore.preferences)
 
-            implementation(project(":ComposeChangelog:Core"))
+            implementation(project(":composechangelog:core"))
 
         }
     }

@@ -62,12 +62,6 @@ android {
 dependencies {
 
     // ------------------------
-    // Kotlin
-    // ------------------------
-
-    implementation(libs.kotlin)
-
-    // ------------------------
     // AndroidX
     // ------------------------
 
@@ -76,8 +70,8 @@ dependencies {
     implementation(libs.compose.material.icons.core)
     implementation(libs.compose.material.icons.extended)
 
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.drawablepainter)
+    implementation(androidx.activity.compose)
+    implementation(deps.drawablepainter)
     //implementation(libs.ui.tooling)
     //implementation(libs.ui.tooling.preview)
 
@@ -85,15 +79,15 @@ dependencies {
     // Libraries
     // ------------------------
 
-    implementation(project(":ComposeChangelog:Core"))
-    implementation(project(":ComposeChangelog:Modules:StateSaverPreferences"))
-    implementation(project(":ComposeChangelog:Modules:StateSaverKotPreferences"))
+    implementation(project(":composechangelog:core"))
+    implementation(project(":composechangelog:modules:statesaver:preferences"))
+    implementation(project(":composechangelog:modules:statesaver:kotpreferences"))
 
     // KotPreferences
-    implementation(libs.kotpreferences.core)
-    implementation(libs.kotpreferences.datastore)
-    implementation(libs.kotpreferences.compose)
+    implementation(deps.kotpreferences.core)
+    implementation(deps.kotpreferences.storage.datastore)
+    implementation(deps.kotpreferences.extension.compose)
 
     // a minimal library that provides some useful composables that I use inside demo activities
-    implementation(libs.toolbox.demo.app)
+    implementation(deps.toolbox.demo.app)
 }

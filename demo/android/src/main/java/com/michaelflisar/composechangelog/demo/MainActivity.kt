@@ -46,6 +46,7 @@ import com.michaelflisar.toolbox.androiddemoapp.DemoActivity
 import com.michaelflisar.toolbox.androiddemoapp.composables.DemoAppThemeRegion
 import com.michaelflisar.toolbox.androiddemoapp.composables.DemoCollapsibleRegion
 import com.michaelflisar.toolbox.androiddemoapp.composables.rememberDemoExpandedRegions
+import com.michaelflisar.toolbox.composables.MyColumn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -57,7 +58,7 @@ class MainActivity : DemoActivity() {
     ) {
         val context = LocalContext.current
 
-        val regionState = rememberDemoExpandedRegions(listOf(1, 2))
+        val regionState = rememberDemoExpandedRegions(ids = listOf(1, 2))
 
         // needed - you can also provide your own implementation instead of this simple one
         // (which simply saves the last shown version inside a preference file)
@@ -100,7 +101,7 @@ class MainActivity : DemoActivity() {
 
         // eventually show a full changelog dialog
         if (showChangelog.value) {
-            val setup = ChangelogDefaults.setup(
+            val userSetup = ChangelogDefaults.setup(
                 context = context,
                 filter = if (filterDogs.value) ChangelogDefaults.filter(
                     "dogs",
@@ -146,7 +147,7 @@ class MainActivity : DemoActivity() {
                 } else ChangelogDefaults.renderer(),
                 versionFormatter = Constants.CHANGELOG_FORMATTER
             )
-            ShowChangelogDialog(setup) {
+            ShowChangelogDialog(userSetup) {
                 showChangelog.value = false
             }
         }
@@ -187,70 +188,72 @@ class MainActivity : DemoActivity() {
 
         // Demo
         DemoCollapsibleRegion("Demo", regionId = 1, state = regionState) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text("Show dog changelogs only?", modifier = Modifier.weight(1f))
-                Checkbox(checked = filterDogs.value, onCheckedChange = {
-                    filterDogs.value = it
-                })
-            }
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text("Use show more buttons?", modifier = Modifier.weight(1f))
-                Checkbox(checked = useShowMoreButtons.value, onCheckedChange = {
-                    useShowMoreButtons.value = it
-                })
-            }
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text("Custom renderer?", modifier = Modifier.weight(1f))
-                Checkbox(checked = useCustomRenderer.value, onCheckedChange = {
-                    useCustomRenderer.value = it
-                })
-            }
+            Column {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Show dog changelogs only?", modifier = Modifier.weight(1f))
+                    Checkbox(checked = filterDogs.value, onCheckedChange = {
+                        filterDogs.value = it
+                    })
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Use show more buttons?", modifier = Modifier.weight(1f))
+                    Checkbox(checked = useShowMoreButtons.value, onCheckedChange = {
+                        useShowMoreButtons.value = it
+                    })
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Custom renderer?", modifier = Modifier.weight(1f))
+                    Checkbox(checked = useCustomRenderer.value, onCheckedChange = {
+                        useCustomRenderer.value = it
+                    })
+                }
 
-            OutlinedButton(
-                onClick = { showChangelog.value = true },
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            ) {
-                Text("Open Changelog")
-            }
-            OutlinedButton(
-                onClick = {
-                    scope.launch(Dispatchers.IO) {
-                        changelogStateSaver.saveLastShownVersion(0L)
-                    }
-                    infos.add("changelog - last shown version resettet to 0")
-                },
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            ) {
-                Text("Reset Last Shown Version")
-            }
-            OutlinedButton(
-                onClick = {
-                    scope.launch(Dispatchers.IO) {
-                        val versionName = ChangelogUtil.getAppVersionName(context)
-                        val showChangelog =
-                            ChangelogUtil.shouldShowChangelogOnStart(
-                                changelogStateSaver,
-                                versionName,
-                                Constants.CHANGELOG_FORMATTER
-                            )
-                        infos.add("shouldShow = ${showChangelog.shouldShow} ($showChangelog)")
-                    }
-                },
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            ) {
-                Text("Check if changelog should be shown")
+                OutlinedButton(
+                    onClick = { showChangelog.value = true },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Text("Open Changelog")
+                }
+                OutlinedButton(
+                    onClick = {
+                        scope.launch(Dispatchers.IO) {
+                            changelogStateSaver.saveLastShownVersion(0L)
+                        }
+                        infos.add("changelog - last shown version resettet to 0")
+                    },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Text("Reset Last Shown Version")
+                }
+                OutlinedButton(
+                    onClick = {
+                        scope.launch(Dispatchers.IO) {
+                            val versionName = ChangelogUtil.getAppVersionName(context)
+                            val showChangelog =
+                                ChangelogUtil.shouldShowChangelogOnStart(
+                                    changelogStateSaver,
+                                    versionName,
+                                    Constants.CHANGELOG_FORMATTER
+                                )
+                            infos.add("shouldShow = ${showChangelog.shouldShow} ($showChangelog)")
+                        }
+                    },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Text("Check if changelog should be shown")
+                }
             }
         }
 
         // Infos
         DemoCollapsibleRegion("Infos", regionId = 2, state = regionState) {
-            Column {
+            MyColumn {
                 infos.forEach {
                     Row {
                         Box(

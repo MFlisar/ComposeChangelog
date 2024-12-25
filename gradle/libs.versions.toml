@@ -1,65 +1,37 @@
 [versions]
 
-gradle = 				        "8.5.2"
-kotlin = 				        "2.0.21"
-compose =                       "1.7.0"
+gradle = 				        "8.7.3"
+kotlin = 				        "2.1.0"
 dokka =                         "1.9.20"
 gradle-maven-publish-plugin =   "0.30.0"
-
-# KotlinX / AndroidX / Google
-kotlinx-coroutines = 	    "1.9.0"
-kotlinx-io-core =           "0.5.3"
-androidx-activity = 		"1.9.3"
-
-accompanist = 			"0.36.0"
-moko-parcelize =            "0.9.0"
-
-datastoreprefs =    "1.1.1"
-
-# mflisar
-kotpreferences =        	"0.7.0"
-toolbox =                   "2.2.2"
+compose =                       "1.7.1"
 
 [plugins]
 
+# android
 android-application = 			    { id = "com.android.application", 	                version.ref = "gradle" }
 android-library = 			        { id = "com.android.library", 	                    version.ref = "gradle" }
 
+# kotlin
+kotlin-android = 				    { id = "org.jetbrains.kotlin.android", 			    version.ref = "kotlin" }
+kotlin-parcelize =                  { id = "org.jetbrains.kotlin.plugin.parcelize",     version.ref = "kotlin"  }
+kotlin-multiplatform = 			    { id = "org.jetbrains.kotlin.multiplatform", 	    version.ref = "kotlin" }
+kotlin-compose = 				    { id = "org.jetbrains.kotlin.plugin.compose", 	    version.ref = "kotlin" }
+kotlin-serialization = 			    { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-jvm = 				        { id = "org.jetbrains.kotlin.jvm", 			        version.ref = "kotlin" }
 
-kotlin-android = 				    { id = "org.jetbrains.kotlin.android", 			    version.ref = "kotlin" }
-kotlin-multiplatform = 			    { id = "org.jetbrains.kotlin.multiplatform", 	    version.ref = "kotlin" }
-kotlin-parcelize =                  { id = "org.jetbrains.kotlin.plugin.parcelize",     version.ref = "kotlin"  }
-kotlin-compose = 				    { id = "org.jetbrains.kotlin.plugin.compose", 	    version.ref = "kotlin" }
-
-compose =                           { id = "org.jetbrains.compose",                     version.ref = "compose" }
+# github release (dokka + maven)
 dokka =                             { id = "org.jetbrains.dokka",                       version.ref = "dokka" }
-
 gradle-maven-publish-plugin =       { id = "com.vanniktech.maven.publish.base",         version.ref = "gradle-maven-publish-plugin" }
+
+# compose
+compose =                           { id = "org.jetbrains.compose",                     version.ref = "compose" }
 
 [libraries]
 
-kotlin =						    { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", 			        version.ref = "kotlin" }
-kotlin-gradle-plugin =			    { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", 		        version.ref = "kotlin" }
-kotlin-serialization =			    { module = "org.jetbrains.kotlin:kotlin-serialization", 				version.ref = "kotlin" }
-
-kotlinx-coroutines =			    { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", 			version.ref = "kotlinx-coroutines" }
-kotlinx-io-core =			        { module = "org.jetbrains.kotlinx:kotlinx-io-core", 		            version.ref = "kotlinx-io-core" }
+kotlin-test = 			            { module = "org.jetbrains.kotlin:kotlin-test",                          version.ref = "kotlin" }
 
 compose-runtime =                   { module = "org.jetbrains.compose.runtime:runtime",                     version.ref = "compose" }
 compose-material-icons-core = 	    { module = "org.jetbrains.compose.material:material-icons-core",        version.ref = "compose" }
 compose-material-icons-extended = 	{ module = "org.jetbrains.compose.material:material-icons-extended",    version.ref = "compose" }
 compose-material3 =                 { module = "org.jetbrains.compose.material3:material3",                 version.ref = "compose" }
-
-androidx-activity-compose =         { module = "androidx.activity:activity-compose", 			            version.ref = "androidx-activity" }
-datastore-preferences = 	{ module = "androidx.datastore:datastore-preferences", 	    version.ref = "datastoreprefs" }
-
-drawablepainter = 		            { module = "com.google.accompanist:accompanist-drawablepainter", 		version.ref = "accompanist" }
-
-moko-parcelize =                    { module = "dev.icerock.moko:parcelize", 		                        version.ref = "moko-parcelize" }
-
-kotpreferences-core =               { module = "io.github.mflisar.kotpreferences:core", 					version.ref = "kotpreferences" }
-kotpreferences-datastore =     		{ module = "io.github.mflisar.kotpreferences:storage-datastore",      	version.ref = "kotpreferences" }
-kotpreferences-compose =     		{ module = "io.github.mflisar.kotpreferences:extension-compose",      	version.ref = "kotpreferences" }
-
-toolbox-demo-app =                  { module = "io.github.mflisar.toolbox:android-demo-app", 			    version.ref = "toolbox" }

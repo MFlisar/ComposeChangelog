@@ -11,6 +11,15 @@ dependencyResolutionManagement {
         create("app") {
             from(files("gradle/app.versions.toml"))
         }
+        create("androidx") {
+            from(files("gradle/androidx.versions.toml"))
+        }
+        create("kotlinx") {
+            from(files("gradle/kotlinx.versions.toml"))
+        }
+        create("deps") {
+            from(files("gradle/deps.versions.toml"))
+        }
     }
 }
 
@@ -34,17 +43,17 @@ includeBuild("gradle-plugin")
 // Library
 // --------------
 
-include(":ComposeChangelog:Core")
-project(":ComposeChangelog:Core").projectDir = file("library/core")
-include(":ComposeChangelog:Modules:StateSaverPreferences")
-project(":ComposeChangelog:Modules:StateSaverPreferences").projectDir = file("library/modules/statesaver-preferences")
-include(":ComposeChangelog:Modules:StateSaverKotPreferences")
-project(":ComposeChangelog:Modules:StateSaverKotPreferences").projectDir = file("library/modules/statesaver-kotpreferences")
+include(":composechangelog:core")
+project(":composechangelog:core").projectDir = file("library/core")
+include(":composechangelog:modules:statesaver:preferences")
+project(":composechangelog:modules:statesaver:preferences").projectDir = file("library/modules/statesaver/preferences")
+include(":composechangelog:modules:statesaver:kotpreferences")
+project(":composechangelog:modules:statesaver:kotpreferences").projectDir = file("library/modules/statesaver/kotpreferences")
 
 //include(":gradle-plugin-shared")
-//project(":gradle-plugin-shared").projectDir = file("library/shared")
-include(":ComposeChangelog:Shared")
-project(":ComposeChangelog:Shared").projectDir = file("library/shared")
+//project(":gradle-plugin-shared").projectdir = file("library/shared")
+include(":composechangelog:shared")
+project(":composechangelog:shared").projectDir = file("library/shared")
 
 // --------------
 // Demo
