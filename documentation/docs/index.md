@@ -10,7 +10,7 @@ icon: material/information-variant
 
 !!! info
 
-    This docs are not written yet - the old docs are still available [here](https://mflisar.github.io/github-docs/pages/compose/composechangelog/) for now.
+    This docs are not written yet - the docs are still placed in the github readme [here](https://github.com/MFlisar/ComposeChangelog) for now.
 
 Under Development
 
