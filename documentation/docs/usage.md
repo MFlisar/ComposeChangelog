@@ -7,7 +7,7 @@ icon: material/keyboard
 ```xml
   <changelog>
 
-    <!-- with version names -->
+    <!-- with version names (PREFFERED) -->
     <release versionName="1.2.1" date="2024-04-20">
         <new type="summary">-new gradle plugin added - you don't need to convert version names to version codes anymore!</new>
     </release>
