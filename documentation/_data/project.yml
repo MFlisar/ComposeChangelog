@@ -68,7 +68,7 @@ modules:
     optional: true
     platforms:
       android: true
-      ios: false
+      ios: true
       jvm: true
       info:
     dependencies:
