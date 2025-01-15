@@ -49,7 +49,7 @@ modules:
     platforms:
       android: true
       ios: true
-      jvm: false
+      jvm: true
       info:
     dependencies: []
   - name: statesaver-preferences
@@ -59,7 +59,7 @@ modules:
     platforms:
       android: true
       ios: true
-      jvm: false
+      jvm: true
       info:
     dependencies: [ ]
   - name: statesaver-kotpreferences
@@ -68,8 +68,8 @@ modules:
     optional: true
     platforms:
       android: true
-      ios: true
-      jvm: false
+      ios: false
+      jvm: true
       info:
     dependencies:
       - name: KotPreferences
