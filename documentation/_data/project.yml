@@ -39,7 +39,7 @@ groups:
     gradle-comment: core 
   - name: modules
     label: Modules
-    gradle-comment: dialog modules
+    gradle-comment: statesaver modules
   - name: plugins
     label: Plugins
     gradle-comment: gradle plugins
