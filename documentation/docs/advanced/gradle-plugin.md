@@ -1,5 +1,5 @@
 ---
-icon: material/button-pointer
+icon: simple/gradle
 ---
 
 This plugin allows you to transform a version string into a version code. This is useful if you want to use a version string in your gradle files and want to calculate the version code based on it.
