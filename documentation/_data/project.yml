@@ -23,10 +23,10 @@ library:
 # optional
 dependencies:
   compose:
-    cmp: 1.7.1
-    compose: 1.7.1
+    cmp: 1.7.3
+    compose: 1.7.5
     material3: 1.3.1
-    experimental: true
+    experimental: false
 
 # -------------
 # Module
@@ -40,9 +40,6 @@ groups:
   - name: modules
     label: Modules
     gradle-comment: statesaver modules
-  - name: plugins
-    label: Plugins
-    gradle-comment: gradle plugins
 
 modules:
   - name: core
@@ -55,9 +52,19 @@ modules:
       jvm: false
       info:
     dependencies: []
+  - name: statesaver-preferences
+    group: modules
+    description: saves the state of the last shown changelog inside a preference file
+    optional: true
+    platforms:
+      android: true
+      ios: true
+      jvm: false
+      info:
+    dependencies: [ ]
   - name: statesaver-kotpreferences
     group: modules
-    description: a statesaver implementation for kotpreferences
+    description: saves the state of the last shown changelog inside a preference file using my KotPreferences library
     optional: true
     platforms:
       android: true
@@ -68,13 +75,3 @@ modules:
       - name: KotPreferences
         link: https://github.com/MFlisar/KotPreferences
         version: 0.7.2
-  - name: statesaver-preferences
-    group: modules
-    description: a statesaver implementation for jetpack preferences
-    optional: true
-    platforms:
-      android: true
-      ios: true
-      jvm: false
-      info:
-    dependencies: []

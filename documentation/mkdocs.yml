@@ -124,26 +124,12 @@ nav:
     - Dependencies: dependencies.md
     - Setup: setup.md
     - Usage: usage.md
-  #- Modules:
-  #  - Core: modules/core.md
-  #  - Dialog Info: modules/dialog-info.md
-  #  - Dialog Input: modules/dialog-input.md
-  #  - Dialog Number: modules/dialog-number.md
-  #  - Dialog Date: modules/dialog-date.md
-  #  - Dialog Time: modules/dialog-time.md
-  #  - Dialog Color: modules/dialog-color.md
-  #  - Dialog List: modules/dialog-list.md
-  #  - Dialog Menu: modules/dialog-menu.md
-  #  - Dialog Progress: modules/dialog-progress.md
-  #  - Dialog Billing: modules/dialog-billing.md
-  #- Advanced:
-  #  - Dialog Styles: advanced/styles.md
-  #  - Events: advanced/events.md
-  #  - Buttons: advanced/buttons.md
-  #  - Options: advanced/options.md
-  #  - Custom Dialog: advanced/custom-dialog.md
-  #- Migration:
-  #  - Version 2: migration/v2.md
+  - Modules:
+    - Core: modules/core.md
+    - State Saver Preferences: modules/statesaver-preferences.md
+    - State Saver KotPreferences: modules/statesaver-kotpreferences.md
+  - Advanced:
+    - Gradle Plugin: advanced/gradle-plugin.md
   - More:
     - Other Libraries: other-libraries.md
     - About Me: me.md
