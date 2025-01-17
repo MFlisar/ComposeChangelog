@@ -1,10 +1,14 @@
-import com.vanniktech.maven.publish.KotlinJvm
 import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    `kotlin-dsl-base`
-    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.library)
+    //`kotlin-dsl-base`
+    //alias(libs.plugins.kotlin.jvm)
     //`java-library`
     alias(libs.plugins.dokka)
     alias(libs.plugins.gradle.maven.publish.plugin)
@@ -16,6 +20,7 @@ plugins {
 
 // Module
 val artifactId = "gradle-plugin-shared"
+val androidNamespace = "com.michaelflisar.composechangelog.shared"
 
 // Library
 val libraryName = "ComposeChangelog"
@@ -30,10 +35,75 @@ val licenseUrl = "$github/blob/main/LICENSE"
 // Setup
 // -------------------
 
+// -------------------
+// Setup
+// -------------------
+
+kotlin {
+
+    // Java
+    jvm()
+
+    // Android
+    androidTarget {
+        publishLibraryVariants("release")
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
+
+    // iOS
+    macosX64()
+    macosArm64()
+    iosArm64()
+    iosX64()
+    iosSimulatorArm64()
+
+    // -------
+    // Sources
+    // -------
+
+    sourceSets {
+
+        commonMain.dependencies {
+
+        }
+
+    }
+}
+
+android {
+
+    namespace = androidNamespace
+
+    compileSdk = app.versions.compileSdk.get().toInt()
+
+    buildFeatures {
+    }
+
+    defaultConfig {
+        minSdk = app.versions.minSdk.get().toInt()
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            consumerProguardFiles("proguard-rules.pro")
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+}
+
 mavenPublishing {
 
     configure(
-        KotlinJvm(
+        KotlinMultiplatform(
             javadocJar = JavadocJar.Dokka("dokkaHtml"),
             sourcesJar = true
         )

@@ -30,6 +30,10 @@ icon: material/information-variant
 
 {% include 'platforms.md' %}
 
+!!! info
+
+    `iOS` support is missing currently. If you want to help simply create a PR! If you need help, contact me by creating a new issue. You just need to write a simple xml parser (I've written one for android and jvm already - especially the one for jvm can probably be easily converted to an iOS version)
+
 {% include 'demo.md' %}
 
 

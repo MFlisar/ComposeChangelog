@@ -124,7 +124,10 @@ class DefaultVersionFormatter(
                     val version = "$major.$minor.$patch"
                     if (candidate == 0) {
                         version
-                    } else String.format("%s-%02d", version, candidate)
+                    } else {
+                        val candidateString = if (candidate < 10) "0$candidate" else candidate.toString()
+                        "%version-$candidateString"
+                    }
                 }
             }
         } else throw RuntimeException("Invalid version code!")
