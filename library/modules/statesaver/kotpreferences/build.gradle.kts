@@ -16,18 +16,31 @@ plugins {
 // Informations
 // -------------------
 
+val description = "provides a simple state saver based on KotPreferences"
+
 // Module
 val artifactId = "statesaver-kotpreferences"
 val androidNamespace = "com.michaelflisar.composechangelog.statesaver.kotpreferences"
 
 // Library
 val libraryName = "ComposeChangelog"
-val libraryDescription = "ComposeChangelog - $artifactId module"
+val libraryDescription = "ComposeChangelog - $artifactId module - $description"
 val groupID = "io.github.mflisar.composechangelog"
 val release = 2023
 val github = "https://github.com/MFlisar/ComposeChangelog"
 val license = "Apache License 2.0"
 val licenseUrl = "$github/blob/main/LICENSE"
+
+// -------------------
+// Variables for Documentation Generator
+// -------------------
+
+// # DEP is an optional arrays!
+
+// OPTIONAL = "true"                // defines if this module is optional or not
+// GROUP_ID = "modules"             // defines the "grouping" in the documentation this module belongs to
+// #DEP = "deps.kotbilling|KotBilling|https://github.com/MFlisar/Kotbilling"
+// PLATFORM_INFO = ""               // defines a comment that will be shown in the documentation for this modules platform support
 
 // -------------------
 // Setup

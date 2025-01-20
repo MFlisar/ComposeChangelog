@@ -1,13 +1,7 @@
 site_name: ComposeChangelog
 site_url: https://mflisar.github.io/ComposeChangelog/
 repo_url: https://github.com/MFlisar/ComposeChangelog
-repo_name: mflisar/ComposeDialogs
-
-# TODO
-# - variablen oben anpassen + nav unten
-# - _data/project.yml anpassen
-# - md files in docs anpassen
-# FERTIG
+repo_name: mflisar/ComposeChangelog
 
 copyright: Copyright &copy; 2024 Michael Flisar
 
@@ -99,7 +93,7 @@ plugins:
   #- privacy
   #- typeset
   - macros:
-      include_dir: _include
+      include_dir: _includes
       include_yaml:
         - project: _data/project.yml
         - other_projects: _data/other-projects.yml
