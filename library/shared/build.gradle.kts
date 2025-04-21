@@ -7,9 +7,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
-    //`kotlin-dsl-base`
-    //alias(libs.plugins.kotlin.jvm)
-    //`java-library`
     alias(libs.plugins.dokka)
     alias(libs.plugins.gradle.maven.publish.plugin)
 }

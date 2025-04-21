@@ -1,7 +1,7 @@
 <changelog>
 
     <release versionName="1.0.6" date="2018-03-04">
-        <new type="summary">This version has a summary item only - no show more button will be shown even if show more buttons are enabled</new>
+        <new type="summary">This version has a <b>summary</b> <i>item</i> only - no <i>show more</i> button will be shown even if show more buttons are enabled</new>
     </release>
 
     <release versionCode="1000500" date="2018-03-04">

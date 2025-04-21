@@ -3,6 +3,7 @@ package com.michaelflisar.composechangelog
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.AnnotatedString
 import com.michaelflisar.composechangelog.classes.ChangelogData
 import com.michaelflisar.composechangelog.classes.DataItemRelease
 
@@ -15,6 +16,9 @@ internal expect fun ShowChangelogDialog(
     setup: ChangelogSetup,
     onDismiss: () -> Unit
 )
+
+@Composable
+internal expect fun String.toAnnotatedString(): AnnotatedString
 
 @Composable
 internal expect fun LazyScrollContainer(state: LazyListState, content: LazyListScope.() -> Unit)

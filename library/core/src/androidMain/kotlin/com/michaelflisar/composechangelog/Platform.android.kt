@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.fromHtml
 import com.michaelflisar.composechangelog.classes.ChangelogData
 import com.michaelflisar.composechangelog.classes.DataItemRelease
 import com.michaelflisar.composechangelog.composables.Changelog
@@ -42,6 +44,9 @@ internal actual fun ShowChangelogDialog(
         }
     )
 }
+
+@Composable
+internal actual fun String.toAnnotatedString(): AnnotatedString = AnnotatedString.fromHtml(this)
 
 @Composable
 internal actual fun LazyScrollContainer(state: LazyListState, content: LazyListScope.() -> Unit) {

@@ -10,13 +10,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.unit.dp
+import com.michaelflisar.composechangelog.ChangelogSetup
 import com.michaelflisar.composechangelog.classes.DataItem
 
 @Composable
 internal fun ChangelogItem(
     modifier: Modifier = Modifier,
     item: DataItem,
+    itemTextToAnnotatedString: @Composable (text: String) -> AnnotatedString,
     tagAlignment: Alignment.Horizontal,
     tag: @Composable () -> Unit
 ) {
@@ -31,7 +35,7 @@ internal fun ChangelogItem(
         }
         Text(
             modifier = Modifier.weight(1f),
-            text = item.text,
+            text = itemTextToAnnotatedString(item.text),
             style = MaterialTheme.typography.bodyMedium
         )
         if (tagAlignment == Alignment.End) {

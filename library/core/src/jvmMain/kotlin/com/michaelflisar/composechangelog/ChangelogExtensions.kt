@@ -1,6 +1,7 @@
 package com.michaelflisar.composechangelog
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.AnnotatedString
 import com.michaelflisar.composechangelog.classes.DataItem
 import com.michaelflisar.composechangelog.interfaces.IChangelogFilter
 import java.io.BufferedReader

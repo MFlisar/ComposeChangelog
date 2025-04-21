@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.AnnotatedString
 import com.michaelflisar.composechangelog.classes.DataItem
 import com.michaelflisar.composechangelog.interfaces.IChangelogFilter
 import com.michaelflisar.composechangelog.core.R

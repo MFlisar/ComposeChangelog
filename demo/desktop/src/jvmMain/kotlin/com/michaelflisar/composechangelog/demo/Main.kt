@@ -5,10 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.Surface
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,12 +16,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import be.digitalia.compose.htmlconverter.htmlToAnnotatedString
 import com.michaelflisar.composechangelog.ChangelogDefaults
 import com.michaelflisar.composechangelog.ChangelogUtil
 import com.michaelflisar.composechangelog.ShowChangelogDialog
@@ -45,7 +46,22 @@ fun main() {
         }
 
         val setup = ChangelogDefaults.setup(
-            versionFormatter = Constants.CHANGELOG_FORMATTER
+            versionFormatter = Constants.CHANGELOG_FORMATTER,
+            // optional - to support html tags in the changelog
+            // by default the desktop implementation does remove html tags so that you still can use
+            // use them in a common project and do not need to care about it
+            // => AnnotatedString.fromHtml(this) does only work on android...
+            // => here I show you how to use it with a 3rd party library
+            renderer = ChangelogDefaults.renderer(
+                item = { modifier, item, setup ->
+                    ChangelogDefaults.defaultItem(
+                        item = item,
+                        itemTextToAnnotatedString = {
+                            remember(it) { htmlToAnnotatedString(it) }
+                        }
+                    )
+                }
+            )
         )
 
         // saver for the automatic changelog showing

@@ -33,6 +33,8 @@ kotlin {
                 //implementation(libs.kotpreferences.core)
                 //implementation(libs.kotpreferences.datastore)
                 //implementation(libs.kotpreferences.compose)
+
+                implementation(deps.htmlconverter)
             }
         }
     }

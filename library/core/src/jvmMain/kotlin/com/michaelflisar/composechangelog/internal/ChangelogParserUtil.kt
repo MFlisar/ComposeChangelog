@@ -9,18 +9,21 @@ import kotlinx.coroutines.withContext
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.Node
-import java.io.File
 import java.io.IOException
-import javax.script.ScriptEngine
+import java.io.StringWriter
 import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.transform.OutputKeys
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.dom.DOMSource
+import javax.xml.transform.stream.StreamResult
 
 internal object ChangelogParserUtil {
 
     suspend fun parse(
         logFileReader: suspend () -> ByteArray,
         versionFormatter: ChangelogVersionFormatter,
-        sorter: Comparator<DataItemRelease>? = null
+        sorter: Comparator<DataItemRelease>? = null,
     ): ChangelogData {
         return withContext(Dispatchers.IO) {
             try {
@@ -61,11 +64,11 @@ internal object ChangelogParserUtil {
     private fun parseMainNode(
         doc: Document,
         versionFormatter: ChangelogVersionFormatter,
-        idProvider: () -> Int
+        idProvider: () -> Int,
     ): List<DataItemRelease> {
         val items = ArrayList<DataItemRelease>()
         val nodesRelease = doc.getElementsByTagName(Constants.XML_RELEASE_TAG)
-        for (i in 0 ..<nodesRelease.length) {
+        for (i in 0..<nodesRelease.length) {
             val n = nodesRelease.item(i)
             if (n.nodeType == Node.ELEMENT_NODE) {
                 items.addAll(readReleaseNode(n, versionFormatter, idProvider))
@@ -78,7 +81,7 @@ internal object ChangelogParserUtil {
     private fun readReleaseNode(
         node: Node,
         versionFormatter: ChangelogVersionFormatter,
-        idProvider: () -> Int
+        idProvider: () -> Int,
     ): List<DataItemRelease> {
 
         val releases = ArrayList<DataItemRelease>()
@@ -86,8 +89,14 @@ internal object ChangelogParserUtil {
         val element = node as Element
 
         // 1) real all attributes of release tag
-        val versionNameXMLAttr = if (element.hasAttribute(Constants.XML_ATTR_VERSION_NAME)) element.getAttribute(Constants.XML_ATTR_VERSION_NAME) else null
-        val versionCodeXMLAttr = if (element.hasAttribute(Constants.XML_ATTR_VERSION_CODE)) element.getAttribute(Constants.XML_ATTR_VERSION_CODE) else null
+        val versionNameXMLAttr =
+            if (element.hasAttribute(Constants.XML_ATTR_VERSION_NAME)) element.getAttribute(
+                Constants.XML_ATTR_VERSION_NAME
+            ) else null
+        val versionCodeXMLAttr =
+            if (element.hasAttribute(Constants.XML_ATTR_VERSION_CODE)) element.getAttribute(
+                Constants.XML_ATTR_VERSION_CODE
+            ) else null
         val versionCode: Int
         val versionName: String
         if (versionNameXMLAttr != null && versionCodeXMLAttr != null) {
@@ -101,7 +110,8 @@ internal object ChangelogParserUtil {
         }
 
         val date = element.getAttribute(Constants.XML_ATTR_DATE)
-        val filter = if (element.hasAttribute(Constants.XML_ATTR_FILTER)) element.getAttribute(Constants.XML_ATTR_FILTER) else null
+        val filter =
+            if (element.hasAttribute(Constants.XML_ATTR_FILTER)) element.getAttribute(Constants.XML_ATTR_FILTER) else null
 
         // 3) Parse all nested tags in release
         val items = ArrayList<DataItem>()
@@ -132,20 +142,42 @@ internal object ChangelogParserUtil {
     private fun readReleaseRowNode(
         tag: String,
         node: Node,
-        idProvider: () -> Int
+        idProvider: () -> Int,
     ): DataItem {
 
         val element = node as Element
 
-        // 1) real all attributes of row tag
-        val filter = if (element.hasAttribute(Constants.XML_ATTR_FILTER)) element.getAttribute(Constants.XML_ATTR_FILTER) else null
-        val type = if (element.hasAttribute(Constants.XML_ATTR_TYPE)) element.getAttribute(Constants.XML_ATTR_TYPE) else null
+        // 1) read all attributes of row tag
+        val filter =
+            if (element.hasAttribute(Constants.XML_ATTR_FILTER)) element.getAttribute(Constants.XML_ATTR_FILTER) else null
+        val type =
+            if (element.hasAttribute(Constants.XML_ATTR_TYPE)) element.getAttribute(Constants.XML_ATTR_TYPE) else null
         val isSummary = Constants.XML_VALUE_SUMMARY.equals(type, true)
 
-        val text = element.textContent
+        // 2) read text of row tag
+        val text = getInnerXml(node)
 
         // 3) create row element and add it to release element
         return DataItem(idProvider(), tag, text, filter, isSummary)
     }
 
+
+    private fun getInnerXml(element: Element): String {
+        val children = element.childNodes
+        val transformer = TransformerFactory.newInstance().newTransformer().apply {
+            setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes")
+            setOutputProperty(OutputKeys.INDENT, "no")
+        }
+
+        val innerXml = StringBuilder()
+
+        for (i in 0 until children.length) {
+            val child: Node = children.item(i)
+            val writer = StringWriter()
+            transformer.transform(DOMSource(child), StreamResult(writer))
+            innerXml.append(writer.toString())
+        }
+
+        return innerXml.toString()
+    }
 }

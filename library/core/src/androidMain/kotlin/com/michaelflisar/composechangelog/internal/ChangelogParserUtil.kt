@@ -17,7 +17,7 @@ internal object ChangelogParserUtil {
     suspend fun parse(
         logFileReader: suspend () -> ByteArray,
         versionFormatter: ChangelogVersionFormatter,
-        sorter: Comparator<DataItemRelease>? = null
+        sorter: Comparator<DataItemRelease>? = null,
     ): ChangelogData {
         return withContext(Dispatchers.IO) {
             try {
@@ -62,7 +62,7 @@ internal object ChangelogParserUtil {
     private fun parseMainNode(
         parser: XmlPullParser,
         versionFormatter: ChangelogVersionFormatter,
-        idProvider: () -> Int
+        idProvider: () -> Int,
     ): List<DataItemRelease> {
 
         val items = ArrayList<DataItemRelease>()
@@ -70,8 +70,7 @@ internal object ChangelogParserUtil {
         // Parse all nested (=release) nodes
         while (parser.eventType != XmlPullParser.END_DOCUMENT) {
             if (parser.eventType == XmlPullParser.START_TAG) {
-                val tag = parser.name
-                if (tag == Constants.XML_RELEASE_TAG) {
+                if (parser.name == Constants.XML_RELEASE_TAG) {
                     items.addAll(readReleaseNode(parser, versionFormatter, idProvider))
                 }
             }
@@ -85,7 +84,7 @@ internal object ChangelogParserUtil {
     private fun readReleaseNode(
         parser: XmlPullParser,
         versionFormatter: ChangelogVersionFormatter,
-        idProvider: () -> Int
+        idProvider: () -> Int,
     ): List<DataItemRelease> {
 
         val releases = ArrayList<DataItemRelease>()
@@ -112,13 +111,15 @@ internal object ChangelogParserUtil {
         val filter = parser.getAttributeValue(null, Constants.XML_ATTR_FILTER)
 
         // 3) Parse all nested tags in release
+        val depth = parser.depth
         val items = ArrayList<DataItem>()
-        while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.eventType != XmlPullParser.START_TAG) {
-                continue
+        while (parser.next() != XmlPullParser.END_DOCUMENT) {
+            if (parser.eventType == XmlPullParser.START_TAG && parser.depth == depth + 1) {
+                val tag = parser.name
+                items.add(readReleaseRowNode(tag, parser, idProvider))
+            } else if (parser.eventType == XmlPullParser.END_TAG && parser.depth == depth) {
+                break
             }
-            val tag = parser.name
-            items.add(readReleaseRowNode(tag, parser, idProvider))
         }
 
         // 4) Create release element and add it to changelog object
@@ -139,23 +140,43 @@ internal object ChangelogParserUtil {
     private fun readReleaseRowNode(
         tag: String,
         parser: XmlPullParser,
-        idProvider: () -> Int
+        idProvider: () -> Int,
     ): DataItem {
 
-        // 1) real all attributes of row tag
+        // 1) read all attributes of row tag
         val filter = parser.getAttributeValue(null, Constants.XML_ATTR_FILTER)
         val type = parser.getAttributeValue(null, Constants.XML_ATTR_TYPE)
         val isSummary = Constants.XML_VALUE_SUMMARY.equals(type, true)
 
-        // 2) read content (=text) of row tag
-        var text = ""
-        if (parser.next() == XmlPullParser.TEXT) {
-            text = parser.text
-            parser.nextTag()
-        }
+        // 2) read text of row tag
+        val text = collectInnerXml(parser)
 
         // 3) create row element and add it to release element
         return DataItem(idProvider(), tag, text, filter, isSummary)
     }
 
+
+    private fun collectInnerXml(parser: XmlPullParser): String {
+        val result = StringBuilder()
+        var depth = 1
+
+        while (depth != 0) {
+            when (parser.next()) {
+                XmlPullParser.START_TAG -> {
+                    result.append("<${parser.name}>")
+                    // Optional: auch Attribute einfügen, falls nötig
+                    depth++
+                }
+
+                XmlPullParser.TEXT -> result.append(parser.text)
+                XmlPullParser.END_TAG -> {
+                    depth--
+                    if (depth > 0)
+                        result.append("</${parser.name}>")
+                }
+            }
+        }
+
+        return result.toString()
+    }
 }

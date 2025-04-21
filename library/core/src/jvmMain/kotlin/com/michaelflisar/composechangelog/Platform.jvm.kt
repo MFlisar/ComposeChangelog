@@ -14,6 +14,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindow
 import androidx.compose.ui.window.WindowPosition
@@ -22,6 +23,7 @@ import com.michaelflisar.composechangelog.classes.ChangelogData
 import com.michaelflisar.composechangelog.classes.DataItemRelease
 import com.michaelflisar.composechangelog.composables.Changelog
 import com.michaelflisar.composechangelog.internal.ChangelogParserUtil
+import org.w3c.dom.html.HTMLElement
 
 @Composable
 actual fun stringOk() = "OK"
@@ -52,6 +54,12 @@ internal actual fun ShowChangelogDialog(
             }
         }
     }
+}
+
+@Composable
+internal actual fun String.toAnnotatedString(): AnnotatedString {
+    val cleanText = this.replace(Regex("<[^>]*>"), "")
+    return AnnotatedString(cleanText)
 }
 
 @Composable

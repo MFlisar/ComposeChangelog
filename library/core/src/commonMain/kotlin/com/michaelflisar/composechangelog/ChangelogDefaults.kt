@@ -6,6 +6,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.michaelflisar.composechangelog.classes.DataItem
@@ -116,12 +117,13 @@ object ChangelogDefaults {
     @Composable
     fun defaultItem(
         item: DataItem,
+        itemTextToAnnotatedString: @Composable (text: String) -> AnnotatedString = { it.toAnnotatedString() },
         width: Dp? = 64.dp,
         tagAlignment: Alignment.Horizontal = Alignment.Start,
         tagColorProvider: @Composable (String) -> Color = tagColorProvider(),
         tagNameFormatter: @Composable (String) -> String = tagNameFormatter()
     ) {
-        ChangelogItem(item = item, tagAlignment = tagAlignment) {
+        ChangelogItem(item = item, itemTextToAnnotatedString = itemTextToAnnotatedString, tagAlignment = tagAlignment) {
             ChangelogTag(item, width, tagColorProvider, tagNameFormatter)
         }
     }

@@ -2,7 +2,11 @@ import com.vanniktech.maven.publish.GradlePlugin
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SonatypeHost
 
+// compose multiplatform needs kotlin >= 2
+// java-gradle-plugin needs kotlin < 2
+// ... wrapper 8.10 and following config works... although it may show an error on sync...
 plugins {
+    //alias(libs.plugins.kotlin.jvm)
     `kotlin-dsl-base`
     `java-library`
     `java-gradle-plugin`
