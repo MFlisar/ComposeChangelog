@@ -31,13 +31,13 @@ tasks.register("publish") {
 }*/
 
 tasks.register("publish") {
-    dependsOn(gradle.includedBuild("gradle-plugin").task(":publish"))
+    dependsOn(gradle.includedBuild("gradle-plugin").task(":plugin:publish"))
 }
 
 tasks.register("publishToMaven") {
-    dependsOn(gradle.includedBuild("gradle-plugin").task(":publishToMaven"))
+    dependsOn(gradle.includedBuild("gradle-plugin").task(":plugin:publishToMaven"))
 }
 
 tasks.register("publishToMavenLocal") {
-    dependsOn(gradle.includedBuild("gradle-plugin").task(":publishToMavenLocal"))
+    dependsOn(gradle.includedBuild("gradle-plugin").task(":plugin:publishToMavenLocal"))
 }
