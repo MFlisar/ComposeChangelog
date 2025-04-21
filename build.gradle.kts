@@ -11,6 +11,8 @@ plugins {
     alias(libs.plugins.compose) apply false
     alias(libs.plugins.gradle.maven.publish.plugin) apply false
     alias(libs.plugins.kotlin.jvm) apply false
+    `kotlin-dsl-base` apply false
+    //`java-gradle-plugin` apply false
 }
 
 
