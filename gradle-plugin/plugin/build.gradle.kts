@@ -6,7 +6,7 @@ import com.vanniktech.maven.publish.SonatypeHost
 // java-gradle-plugin needs kotlin < 2
 // ... wrapper 8.10 and following config works... although it may show an error on sync...
 plugins {
-    alias(libs.plugins.kotlin.jvm)
+    //alias(libs.plugins.kotlin.jvm)
     `kotlin-dsl-base`
     //`java-library`
     `java-gradle-plugin`
