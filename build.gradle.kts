@@ -15,7 +15,7 @@ plugins {
     //`java-gradle-plugin` apply false
 }
 
-
+/*
 tasks.register("publishToMavenLocal") {
     dependsOn(gradle.includedBuild("gradle-plugin").task(":gradle-plugin:plugin:publishToMavenLocal"))
     //dependsOn(gradle.includedBuild("gradle-plugin").task(":gradle-plugin-shared:publishToMavenLocal"))
@@ -29,4 +29,4 @@ tasks.register("publishToMaven") {
 tasks.register("publish") {
     dependsOn(gradle.includedBuild("gradle-plugin").task(":gradle-plugin:plugin:publish"))
     //dependsOn(gradle.includedBuild("gradle-plugin").task(":gradle-plugin-shared:publishToMavenLocal"))
-}
+}*/
