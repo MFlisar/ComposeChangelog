@@ -93,7 +93,7 @@ kotlin {
 
             api(deps.moko.parcelize)
 
-            api(project(":composechangelog:shared"))
+            api(project(":shared"))
         }
 
     }

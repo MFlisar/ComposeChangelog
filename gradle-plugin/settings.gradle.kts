@@ -1,21 +1,24 @@
-pluginManagement {
-
-    // repositories for build
-    repositories {
-        mavenCentral()
-        google()
-        gradlePluginPortal()
-    }
-}
 dependencyResolutionManagement {
+
     repositories {
         mavenCentral()
         google()
         gradlePluginPortal()
+        maven("https://jitpack.io")
     }
+
     versionCatalogs {
         create("app") {
             from(files("../gradle/app.versions.toml"))
+        }
+        create("androidx") {
+            from(files("../gradle/androidx.versions.toml"))
+        }
+        create("kotlinx") {
+            from(files("../gradle/kotlinx.versions.toml"))
+        }
+        create("deps") {
+            from(files("../gradle/deps.versions.toml"))
         }
         create("libs") {
             from(files("../gradle/libs.versions.toml"))
@@ -23,7 +26,15 @@ dependencyResolutionManagement {
     }
 }
 
-include(":gradle-plugin")
-project(":gradle-plugin").projectDir = file("plugin")
-include(":gradle-plugin-shared")
-project(":gradle-plugin-shared").projectDir = file("../library/shared")
+pluginManagement {
+
+    repositories {
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+        maven("https://jitpack.io")
+    }
+}
+
+include(":plugin")
+include(":shared")

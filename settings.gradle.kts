@@ -37,7 +37,14 @@ pluginManagement {
 // Gradle Plugin
 // --------------
 
-includeBuild("gradle-plugin")
+include(":shared")
+project(":shared").projectDir = file("gradle-plugin/shared")
+
+includeBuild("gradle-plugin") {
+    dependencySubstitution {
+        //substitute(project(":shared")).using(project(":shared"))
+    }
+}
 
 // --------------
 // Library
@@ -52,8 +59,9 @@ project(":composechangelog:modules:statesaver:kotpreferences").projectDir = file
 
 //include(":gradle-plugin-shared")
 //project(":gradle-plugin-shared").projectdir = file("library/shared")
-include(":composechangelog:shared")
-project(":composechangelog:shared").projectDir = file("library/shared")
+
+//include(":composechangelog:shared")
+//project(":composechangelog:shared").projectDir = file("library/shared")
 
 // --------------
 // Demo
