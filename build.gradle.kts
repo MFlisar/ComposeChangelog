@@ -14,7 +14,6 @@ plugins {
     `kotlin-dsl-base` apply false
     //`java-gradle-plugin` apply false
 }
-
 /*
 tasks.register("publishToMavenLocal") {
     dependsOn(gradle.includedBuild("gradle-plugin").task(":gradle-plugin:plugin:publishToMavenLocal"))
@@ -30,3 +29,7 @@ tasks.register("publish") {
     dependsOn(gradle.includedBuild("gradle-plugin").task(":gradle-plugin:plugin:publish"))
     //dependsOn(gradle.includedBuild("gradle-plugin").task(":gradle-plugin-shared:publishToMavenLocal"))
 }*/
+
+tasks.register("publishToMavenLocal") {
+    dependsOn(gradle.includedBuild("gradle-plugin").task(":publishToMavenLocal"))
+}
