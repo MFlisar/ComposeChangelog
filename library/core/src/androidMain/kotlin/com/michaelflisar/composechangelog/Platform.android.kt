@@ -1,64 +1,50 @@
 package com.michaelflisar.composechangelog
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.fromHtml
-import com.michaelflisar.composechangelog.classes.ChangelogData
-import com.michaelflisar.composechangelog.classes.DataItemRelease
+import com.michaelflisar.composechangelog.classes.ChangelogSetup
 import com.michaelflisar.composechangelog.composables.Changelog
+import com.michaelflisar.composechangelog.data.ChangelogReleaseItem
+import com.michaelflisar.composechangelog.data.XMLTag
 import com.michaelflisar.composechangelog.internal.ChangelogParserUtil
-
-@Composable
-actual fun stringOk() = stringResource(android.R.string.ok)
-
-@Composable
-internal actual fun ShowChangelogDialog(
-    data: ChangelogData,
-    setup: ChangelogSetup,
-    onDismiss: () -> Unit
-) {
-    AlertDialog(
-        onDismissRequest = {
-            onDismiss()
-        },
-        title = {
-            Text(text = setup.texts.dialogTitle)
-        },
-        text = {
-            Changelog(data, setup)
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onDismiss()
-                }) {
-                Text(setup.texts.dialogButtonDismiss)
-            }
-        }
-    )
-}
 
 @Composable
 internal actual fun String.toAnnotatedString(): AnnotatedString = AnnotatedString.fromHtml(this)
 
 @Composable
-internal actual fun LazyScrollContainer(state: LazyListState, content: LazyListScope.() -> Unit) {
-    LazyColumn(state = state) {
+internal actual fun LazyScrollContainer(
+    state: LazyListState,
+    verticalArrangement: Arrangement.Vertical,
+    horizontalAlignment: Alignment.Horizontal,
+    content: LazyListScope.() -> Unit
+) {
+    LazyColumn(
+        state = state,
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
+    ) {
         content()
     }
 }
 
-internal actual suspend fun ChangelogUtil.readFile(
+internal actual suspend fun Changelog.readFile(
     logFileReader: suspend () -> ByteArray,
-    versionFormatter: ChangelogVersionFormatter,
-    sorter: Comparator<DataItemRelease>?
-): ChangelogData {
-    return ChangelogParserUtil.parse(logFileReader, versionFormatter, sorter)
+    versionFormatter: ChangelogVersionFormatter
+): List<ChangelogReleaseItem> {
+    return ChangelogParserUtil.parse(logFileReader, versionFormatter)
+}
+
+internal actual fun XMLTag.children(): List<XMLTag> {
+    return ChangelogParserUtil.children(this)
 }

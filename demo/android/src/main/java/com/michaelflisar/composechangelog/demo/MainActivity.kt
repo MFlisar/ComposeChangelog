@@ -6,22 +6,22 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -30,13 +30,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.michaelflisar.composechangelog.Changelog
 import com.michaelflisar.composechangelog.ChangelogDefaults
-import com.michaelflisar.composechangelog.ChangelogUtil
-import com.michaelflisar.composechangelog.ShowChangelogDialog
-import com.michaelflisar.composechangelog.ShowChangelogDialogIfNecessary
+import com.michaelflisar.composechangelog.DefaultVersionFormatter
+import com.michaelflisar.composechangelog.classes.ChangelogData
+import com.michaelflisar.composechangelog.classes.ChangelogState
+import com.michaelflisar.composechangelog.classes.rememberChangelogState
+import com.michaelflisar.composechangelog.composables.Changelog
 import com.michaelflisar.composechangelog.demo.classes.DemoPrefs
 import com.michaelflisar.composechangelog.getAppVersionCode
 import com.michaelflisar.composechangelog.getAppVersionName
+import com.michaelflisar.composechangelog.rememberChangelogData
 import com.michaelflisar.composechangelog.setup
 import com.michaelflisar.composechangelog.statesaver.kotpreferences.ChangelogStateSaverKotPreferences
 import com.michaelflisar.composechangelog.statesaver.preferences.ChangelogStateSaverPreferences
@@ -50,11 +54,15 @@ import com.michaelflisar.toolbox.composables.MyColumn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+val CHANGELOG_FORMATTER =
+    DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatchCandidate)
+
 class MainActivity : DemoActivity() {
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun ColumnScope.Content(
-        themeState: ComposeTheme.State
+        themeState: ComposeTheme.State,
     ) {
         val context = LocalContext.current
 
@@ -75,97 +83,70 @@ class MainActivity : DemoActivity() {
         val setup = ChangelogDefaults.setup(
             context = context,
             //changelogResourceId = R.raw.changelog, // this is the default
-            versionFormatter = Constants.CHANGELOG_FORMATTER
+            versionFormatter = CHANGELOG_FORMATTER
         )
 
         // Changelog - this will show the changelog once only if the changelog was not shown for the current app version yet
-        val versionName = ChangelogUtil.getAppVersionName(context)
-        ShowChangelogDialogIfNecessary(changelogStateSaver, versionName, setup)
+        val versionName = Changelog.getAppVersionName(context)
 
-        val showChangelog = remember { mutableStateOf(false) }
+        val showChangelog = rememberChangelogState()
+        // initially we check if we need to show the changelog
+        // this is optional of course...
+        LaunchedEffect(Unit) {
+            showChangelog.checkShouldShowChangelogOnStart(
+                changelogStateSaver,
+                versionName,
+                CHANGELOG_FORMATTER
+            )
+        }
+
         val infos = remember { mutableStateListOf<String>() }
-        val filterDogs = remember { mutableStateOf(false) }
-        val useShowMoreButtons = remember { mutableStateOf(true) }
-        val useCustomRenderer = remember { mutableStateOf(false) }
 
         // Content
         Content(
             regionState,
             showChangelog,
             changelogStateSaver,
-            infos,
-            filterDogs,
-            useShowMoreButtons,
-            useCustomRenderer
+            infos
         )
 
         // eventually show a full changelog dialog
-        if (showChangelog.value) {
-            val userSetup = ChangelogDefaults.setup(
-                context = context,
-                filter = if (filterDogs.value) ChangelogDefaults.filter(
-                    "dogs",
-                    false
-                ) else null,
-                useShowMoreButtons = useShowMoreButtons.value,
-                renderer = if (useCustomRenderer.value) {
-                    // we only adjust the release item renderer, but of course you can do whatever you want here
-                    ChangelogDefaults.renderer(
-                        itemRelease = { modifier, item, setup ->
-                            Card(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 8.dp),
-                                colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.primary,
-                                    contentColor = MaterialTheme.colorScheme.onPrimary
-                                )
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(8.dp)
-                                ) {
-                                    Text(
-                                        item.versionInfo,
-                                        style = MaterialTheme.typography.titleLarge
-                                    )
-                                    Spacer(modifier = Modifier.weight(1f))
-                                    Text(
-                                        item.date,
-                                        style = MaterialTheme.typography.labelMedium
-                                    )
-                                }
-                            }
-
-                        },
-                        item = { modifier, item, setup ->
-                            ChangelogDefaults.defaultItem(item, tagAlignment = Alignment.Start)
-                        }
+        if (showChangelog.visible) {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    showChangelog.hide()
+                }
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                ) {
+                    Text(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        text = "Changelog",
+                        style = MaterialTheme.typography.titleLarge
                     )
-                } else ChangelogDefaults.renderer(),
-                versionFormatter = Constants.CHANGELOG_FORMATTER
-            )
-            ShowChangelogDialog(userSetup) {
-                showChangelog.value = false
+                    Spacer(modifier = Modifier.height(16.dp))
+                    val releases = rememberChangelogData(showChangelog, setup)
+                    when (val d = releases.value) {
+                        is ChangelogData.Data -> Changelog(d.items, setup)
+                        ChangelogData.Loading -> LinearProgressIndicator()
+                    }
+                }
             }
         }
 
-        LaunchedEffect(showChangelog) {
-            infos.add("showChangelog = $showChangelog")
+        LaunchedEffect(showChangelog.visible) {
+            infos.add("showChangelog.visible = ${showChangelog.visible}")
         }
     }
 
     @Composable
     private fun Content(
         regionState: DemoCollapsibleRegion.State,
-        showChangelog: MutableState<Boolean>,
+        showChangelog: ChangelogState,
         changelogStateSaver: ChangelogStateSaverPreferences,
         infos: SnapshotStateList<String>,
-        filterDogs: MutableState<Boolean>,
-        useShowMoreButtons: MutableState<Boolean>,
-        useCustomRenderer: MutableState<Boolean>
     ) {
         val scope = rememberCoroutineScope()
         val context = LocalContext.current
@@ -174,11 +155,11 @@ class MainActivity : DemoActivity() {
         Column {
             Text("App Version", fontWeight = FontWeight.Bold)
             Text(
-                "Code: ${ChangelogUtil.getAppVersionCode(context)}",
+                "Code: ${Changelog.getAppVersionCode(context)}",
                 style = MaterialTheme.typography.bodySmall
             )
             Text(
-                "Name: ${ChangelogUtil.getAppVersionName(context)}",
+                "Name: ${Changelog.getAppVersionName(context)}",
                 style = MaterialTheme.typography.bodySmall
             )
         }
@@ -188,34 +169,11 @@ class MainActivity : DemoActivity() {
 
         // Demo
         DemoCollapsibleRegion("Demo", regionId = 1, state = regionState) {
-            Column {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text("Show dog changelogs only?", modifier = Modifier.weight(1f))
-                    Checkbox(checked = filterDogs.value, onCheckedChange = {
-                        filterDogs.value = it
-                    })
-                }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text("Use show more buttons?", modifier = Modifier.weight(1f))
-                    Checkbox(checked = useShowMoreButtons.value, onCheckedChange = {
-                        useShowMoreButtons.value = it
-                    })
-                }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text("Custom renderer?", modifier = Modifier.weight(1f))
-                    Checkbox(checked = useCustomRenderer.value, onCheckedChange = {
-                        useCustomRenderer.value = it
-                    })
-                }
-
-                OutlinedButton(
-                    onClick = { showChangelog.value = true },
+            MyColumn(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Button(
+                    onClick = { showChangelog.show() },
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
                     Text("Open Changelog")
@@ -225,7 +183,7 @@ class MainActivity : DemoActivity() {
                         scope.launch(Dispatchers.IO) {
                             changelogStateSaver.saveLastShownVersion(0L)
                         }
-                        infos.add("changelog - last shown version resettet to 0")
+
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
@@ -233,15 +191,30 @@ class MainActivity : DemoActivity() {
                 }
                 OutlinedButton(
                     onClick = {
+                        scope.launch {
+                            changelogStateSaver.saveLastShownVersion(
+                                CHANGELOG_FORMATTER.parseVersion(
+                                    "1.0.0"
+                                ).toLong()
+                            )
+                        }
+                        infos.add("changelog - last shown version resettet to 1.0.0")
+                    },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Text("Reset Last Changelog to 1.0.0")
+                }
+                OutlinedButton(
+                    onClick = {
                         scope.launch(Dispatchers.IO) {
-                            val versionName = ChangelogUtil.getAppVersionName(context)
-                            val showChangelog =
-                                ChangelogUtil.shouldShowChangelogOnStart(
+                            val versionName = Changelog.getAppVersionName(context)
+                            scope.launch {
+                                showChangelog.checkShouldShowChangelogOnStart(
                                     changelogStateSaver,
                                     versionName,
-                                    Constants.CHANGELOG_FORMATTER
+                                    CHANGELOG_FORMATTER
                                 )
-                            infos.add("shouldShow = ${showChangelog.shouldShow} ($showChangelog)")
+                            }
                         }
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -253,7 +226,9 @@ class MainActivity : DemoActivity() {
 
         // Infos
         DemoCollapsibleRegion("Infos", regionId = 2, state = regionState) {
-            MyColumn {
+            MyColumn(
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 infos.forEach {
                     Row {
                         Box(

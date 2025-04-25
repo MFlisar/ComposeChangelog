@@ -1,6 +1,5 @@
 package com.michaelflisar.composechangelog
 
-import com.michaelflisar.composechangelog.ChangelogVersionFormatter
 import kotlin.math.ceil
 import kotlin.math.floor
 

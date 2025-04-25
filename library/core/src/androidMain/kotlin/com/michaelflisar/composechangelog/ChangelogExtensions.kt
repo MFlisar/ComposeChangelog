@@ -5,20 +5,17 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
-import com.michaelflisar.composechangelog.classes.DataItem
-import com.michaelflisar.composechangelog.interfaces.IChangelogFilter
+import com.michaelflisar.composechangelog.classes.ChangelogSetup
 import com.michaelflisar.composechangelog.core.R
 
 @Composable
 fun ChangelogDefaults.setup(
     context: Context,
     changelogResourceId: Int = R.raw.changelog,
-    texts: ChangelogSetup.Texts = texts(),
-    useShowMoreButtons: Boolean = true,
+    textFormatter: @Composable (text: String) -> AnnotatedString = { it.toAnnotatedString() },
     versionFormatter: ChangelogVersionFormatter = DefaultVersionFormatter(),
-    sorter: ((items: List<DataItem>) -> List<DataItem>)? = ChangelogDefaults.sorter(),
-    filter: IChangelogFilter? = null,
-    renderer: ChangelogSetup.Renderer = renderer()
+    skipUnknownTags: Boolean = false,
+    textMore: String = "More"
 ) = ChangelogSetup(
     logFileReader = {
         val resourceType: String = context.resources.getResourceTypeName(changelogResourceId)
@@ -29,12 +26,10 @@ fun ChangelogDefaults.setup(
             bytes
         } else throw RuntimeException("Wrong changelog resource type, provide a raw resource!")
     },
-    texts = texts,
-    useShowMoreButtons = useShowMoreButtons,
+    textFormatter = textFormatter,
     versionFormatter = versionFormatter,
-    filter = filter,
-    sorter = sorter,
-    renderer = renderer
+    skipUnknownTags = skipUnknownTags,
+    textMore = textMore
 )
 
 
@@ -44,7 +39,7 @@ fun ChangelogDefaults.setup(
  * @param context context to use to retrieve the app version name
  * @return the app version name
  */
-fun ChangelogUtil.getAppVersionName(context: Context): String {
+fun Changelog.getAppVersionName(context: Context): String {
     try {
         val info = context.packageManager.getPackageInfo(context.packageName, 0)
         return info.versionName ?: "<NULL>"
@@ -61,7 +56,7 @@ fun ChangelogUtil.getAppVersionName(context: Context): String {
  * @return the app version code
  */
 @Suppress("DEPRECATION")
-fun ChangelogUtil.getAppVersionCode(context: Context): Long {
+fun Changelog.getAppVersionCode(context: Context): Long {
     try {
         val info = context.packageManager.getPackageInfo(context.packageName, 0)
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

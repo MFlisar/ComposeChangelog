@@ -1,0 +1,97 @@
+package com.michaelflisar.composechangelog.renderer.header
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.michaelflisar.composechangelog.Changelog
+import com.michaelflisar.composechangelog.classes.ChangelogSetup
+import com.michaelflisar.composechangelog.data.XMLTag
+import com.michaelflisar.composechangelog.interfaces.IChangelogItemRenderer
+import com.michaelflisar.composechangelog.interfaces.IChangelogItemRenderer.HeaderTag
+import com.michaelflisar.composechangelog.rememberSubXMLTags
+import com.michaelflisar.composechangelog.renderer.SimpleRenderer.Companion.RenderItem
+
+class ChangelogHeaderRenderer(
+    val iconProvider: @Composable (icon: String?) -> Unit = {}
+) : IChangelogItemRenderer {
+
+    companion object {
+
+        private const val ATTR_ICON = "icon"
+
+        private const val TAG_TITLE = "title"
+        private const val TAG_INFOS = "infos"
+        private const val TAG_INFO = "info"
+    }
+
+    override fun canRender(item: XMLTag): Boolean {
+        return item.tag.equals("header", true)
+    }
+
+    @Composable
+    override fun headerTag(): HeaderTag? = null
+
+    @Composable
+    override fun render(setup: ChangelogSetup, item: XMLTag) {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        ) {
+            val icon = remember(item) {
+                item.attributes.find { it.name.equals(ATTR_ICON, true) }?.value
+            }
+            Row(
+                modifier = Modifier.padding(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.Top
+            ) {
+                iconProvider(icon)
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    val subItems by rememberSubXMLTags(item)
+
+                    if (!setup.skipUnknownTags) {
+                        Changelog.ensureAllTagsSupported(
+                            setup,
+                            listOf(TAG_TITLE, TAG_INFOS, TAG_INFO),
+                            subItems
+                        )
+                    }
+
+                    subItems.forEach { subItem ->
+                        if (subItem.tag.equals(TAG_TITLE, true)) {
+                            Text(
+                                text = setup.textFormatter(subItem.innerText),
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        } else if (subItem.tag.equals(TAG_INFOS, true)) {
+                            val subItems2 by rememberSubXMLTags(subItem)
+                            if (!setup.skipUnknownTags) {
+                                Changelog.ensureAllTagsSupported(setup, listOf(TAG_INFO), subItems2)
+                            }
+                            subItems2.forEach { subItem2 ->
+                                RenderItem(setup, subItem2)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

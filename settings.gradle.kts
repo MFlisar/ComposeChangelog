@@ -52,16 +52,16 @@ includeBuild("gradle-plugin") {
 
 include(":composechangelog:core")
 project(":composechangelog:core").projectDir = file("library/core")
+
+// renderer
+include(":composechangelog:modules:renderer:header")
+project(":composechangelog:modules:renderer:header").projectDir = file("library/modules/renderer/header")
+
+// Statesavers
 include(":composechangelog:modules:statesaver:preferences")
 project(":composechangelog:modules:statesaver:preferences").projectDir = file("library/modules/statesaver/preferences")
 include(":composechangelog:modules:statesaver:kotpreferences")
 project(":composechangelog:modules:statesaver:kotpreferences").projectDir = file("library/modules/statesaver/kotpreferences")
-
-//include(":gradle-plugin-shared")
-//project(":gradle-plugin-shared").projectdir = file("library/shared")
-
-//include(":composechangelog:shared")
-//project(":composechangelog:shared").projectDir = file("library/shared")
 
 // --------------
 // Demo

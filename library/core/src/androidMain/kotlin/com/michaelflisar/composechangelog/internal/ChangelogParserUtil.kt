@@ -1,82 +1,74 @@
 package com.michaelflisar.composechangelog.internal
 
-import android.util.Log
 import android.util.Xml
 import com.michaelflisar.composechangelog.ChangelogVersionFormatter
-import com.michaelflisar.composechangelog.classes.ChangelogData
-import com.michaelflisar.composechangelog.classes.DataItem
-import com.michaelflisar.composechangelog.classes.DataItemRelease
+import com.michaelflisar.composechangelog.Constants
+import com.michaelflisar.composechangelog.data.ChangelogReleaseItem
+import com.michaelflisar.composechangelog.data.XMLAttribute
+import com.michaelflisar.composechangelog.data.XMLTag
+import com.michaelflisar.composechangelog.internal.ChangelogParserUtil.getInnerXml
+import com.michaelflisar.composechangelog.internal.ChangelogParserUtil.getXMLAttributes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.w3c.dom.Element
+import org.w3c.dom.Node
 import org.xmlpull.v1.XmlPullParser
-import org.xmlpull.v1.XmlPullParserException
-import java.io.IOException
+import java.io.ByteArrayInputStream
+import javax.xml.parsers.DocumentBuilderFactory
 
 internal object ChangelogParserUtil {
 
     suspend fun parse(
         logFileReader: suspend () -> ByteArray,
         versionFormatter: ChangelogVersionFormatter,
-        sorter: Comparator<DataItemRelease>? = null,
-    ): ChangelogData {
+    ): List<ChangelogReleaseItem> {
         return withContext(Dispatchers.IO) {
-            try {
-                val bytes = logFileReader()
-                val inputStream = bytes.inputStream()
-                val parser = Xml.newPullParser()
-                parser.setInput(inputStream, null)
+            val bytes = logFileReader()
+            val inputStream = bytes.inputStream()
+            val parser = Xml.newPullParser()
+            parser.setInput(inputStream, Charsets.UTF_8.name())
 
-                var id: Int = 1
-                val idProvider = {
-                    id++
-                }
-
-                // 1) Create Changelog items
-                val items = ArrayList<DataItemRelease>()
-
-                // 2) Parse file into Changelog object
-                items.addAll(parseMainNode(parser, versionFormatter, idProvider))
-
-                // 3) sort changelogs
-                if (sorter != null) {
-                    items.sortWith(sorter)
-                }
-
-                // 4) create Changelog object
-                ChangelogData(items)
-            } catch (xpe: XmlPullParserException) {
-                Log.d(
-                    Constants.DEBUG_TAG,
-                    "XmlPullParseException while parsing changelog file",
-                    xpe
-                )
-                throw xpe
-            } catch (ioe: IOException) {
-                Log.d(Constants.DEBUG_TAG, "IOException with changelog file", ioe)
-                throw ioe
-            }
+            // read all <release> tags
+            val items = ArrayList<ChangelogReleaseItem>()
+            items.addAll(parseMainNode(parser, versionFormatter))
+            items
         }
+    }
+
+    fun children(
+        xmlTag: XMLTag,
+    ): List<XMLTag> {
+        val parser = rawStringToParser(xmlTag.innerText, false)
+        val items = ArrayList<XMLTag>()
+        while (parser.eventType != XmlPullParser.END_DOCUMENT) {
+            if (parser.eventType == XmlPullParser.START_TAG) {
+                items.add(
+                    XMLTag(
+                        parser.name,
+                        parser.getXMLAttributes(),
+                        parser.getInnerXml()
+                    )
+                )
+            }
+            parser.next()
+        }
+        return items
     }
 
     @Throws(Exception::class)
     private fun parseMainNode(
         parser: XmlPullParser,
-        versionFormatter: ChangelogVersionFormatter,
-        idProvider: () -> Int,
-    ): List<DataItemRelease> {
-
-        val items = ArrayList<DataItemRelease>()
-
-        // Parse all nested (=release) nodes
+        versionFormatter: ChangelogVersionFormatter
+    ): List<ChangelogReleaseItem> {
+        val items = ArrayList<ChangelogReleaseItem>()
         while (parser.eventType != XmlPullParser.END_DOCUMENT) {
             if (parser.eventType == XmlPullParser.START_TAG) {
                 if (parser.name == Constants.XML_RELEASE_TAG) {
-                    items.addAll(readReleaseNode(parser, versionFormatter, idProvider))
+                    items.add(readReleaseNode(parser, versionFormatter))
                 }
             }
             parser.next()
         }
-
         return items
     }
 
@@ -84,99 +76,93 @@ internal object ChangelogParserUtil {
     private fun readReleaseNode(
         parser: XmlPullParser,
         versionFormatter: ChangelogVersionFormatter,
-        idProvider: () -> Int,
-    ): List<DataItemRelease> {
+    ): ChangelogReleaseItem {
 
-        val releases = ArrayList<DataItemRelease>()
-
-        // 1) parse release tag
+        // 1) real all attributes of release tag
         parser.require(XmlPullParser.START_TAG, null, Constants.XML_RELEASE_TAG)
-
-        // 2) real all attributes of release tag
-        val versionNameXMLAttr = parser.getAttributeValue(null, Constants.XML_ATTR_VERSION_NAME)
-        val versionCodeXMLAttr = parser.getAttributeValue(null, Constants.XML_ATTR_VERSION_CODE)
+        val attrVersionName = parser.getAttributeValue(null, Constants.XML_ATTR_VERSION_NAME)
+        val attrVersionCode = parser.getAttributeValue(null, Constants.XML_ATTR_VERSION_CODE)
         val versionCode: Int
         val versionName: String
-        if (versionNameXMLAttr != null && versionCodeXMLAttr != null) {
+        if (attrVersionName != null && attrVersionCode != null) {
             throw RuntimeException("Please only provide ${Constants.XML_ATTR_VERSION_NAME} OR ${Constants.XML_ATTR_VERSION_CODE}!")
-        } else if (versionNameXMLAttr != null) {
-            versionCode = versionFormatter.parseVersion(versionNameXMLAttr)
-            versionName = versionNameXMLAttr
+        } else if (attrVersionName != null) {
+            versionCode = versionFormatter.parseVersion(attrVersionName)
+            versionName = attrVersionName
         } else {
-            versionCode = versionCodeXMLAttr.toInt()
+            versionCode = attrVersionCode.toInt()
             versionName = versionFormatter.formatVersion(versionCode)
         }
+        val attrTitle = parser.getAttributeValue(null, Constants.XML_ATTR_TITLE)
+        val attrDate = parser.getAttributeValue(null, Constants.XML_ATTR_DATE)
 
-        val date = parser.getAttributeValue(null, Constants.XML_ATTR_DATE)
-        val filter = parser.getAttributeValue(null, Constants.XML_ATTR_FILTER)
-
-        // 3) Parse all nested tags in release
+        // 2) Parse all nested tags in release
+        val items = ArrayList<XMLTag>()
         val depth = parser.depth
-        val items = ArrayList<DataItem>()
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.eventType == XmlPullParser.START_TAG && parser.depth == depth + 1) {
                 val tag = parser.name
-                items.add(readReleaseRowNode(tag, parser, idProvider))
+                items.add(XMLTag(tag, parser.getXMLAttributes(), parser.getInnerXml()))
             } else if (parser.eventType == XmlPullParser.END_TAG && parser.depth == depth) {
                 break
             }
         }
 
-        // 4) Create release element and add it to changelog object
-        val release = DataItemRelease(
-            idProvider(),
+        // 3) Create release element and add it to changelog object
+        val release = ChangelogReleaseItem(
             versionCode,
             versionName,
-            date,
-            filter,
+            attrDate,
+            attrTitle,
             items
         )
-        releases.add(release)
 
-        return releases
+        return release
     }
 
-    @Throws(Exception::class)
-    private fun readReleaseRowNode(
-        tag: String,
-        parser: XmlPullParser,
-        idProvider: () -> Int,
-    ): DataItem {
-
-        // 1) read all attributes of row tag
-        val filter = parser.getAttributeValue(null, Constants.XML_ATTR_FILTER)
-        val type = parser.getAttributeValue(null, Constants.XML_ATTR_TYPE)
-        val isSummary = Constants.XML_VALUE_SUMMARY.equals(type, true)
-
-        // 2) read text of row tag
-        val text = collectInnerXml(parser)
-
-        // 3) create row element and add it to release element
-        return DataItem(idProvider(), tag, text, filter, isSummary)
-    }
-
-
-    private fun collectInnerXml(parser: XmlPullParser): String {
+    private fun XmlPullParser.getInnerXml(): String {
         val result = StringBuilder()
         var depth = 1
 
         while (depth != 0) {
-            when (parser.next()) {
+            when (next()) {
                 XmlPullParser.START_TAG -> {
-                    result.append("<${parser.name}>")
+                    result.append("<${name}>")
                     // Optional: auch Attribute einfügen, falls nötig
                     depth++
                 }
 
-                XmlPullParser.TEXT -> result.append(parser.text)
+                XmlPullParser.TEXT -> result.append(text)
                 XmlPullParser.END_TAG -> {
                     depth--
                     if (depth > 0)
-                        result.append("</${parser.name}>")
+                        result.append("</${name}>")
                 }
             }
         }
 
         return result.toString()
+    }
+
+    private fun XmlPullParser.getXMLAttributes(): List<XMLAttribute> {
+        val list = ArrayList<XMLAttribute>()
+        for (i in 0 until attributeCount) {
+            val name = getAttributeName(i)
+            val value = getAttributeValue(i)
+            list.add(XMLAttribute(name, value))
+        }
+        return list
+    }
+
+    private fun rawStringToParser(rawXml: String, wrapInRoot: Boolean): XmlPullParser {
+        val text = if (wrapInRoot) {
+            "<root>$rawXml</root>"
+        } else {
+            rawXml
+        }
+        val parser = Xml.newPullParser()
+        val inputStream = ByteArrayInputStream(text.toByteArray(Charsets.UTF_8))
+        parser.setInput(inputStream, Charsets.UTF_8.name())
+        return parser
     }
 }

@@ -2,8 +2,7 @@ package com.michaelflisar.composechangelog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
-import com.michaelflisar.composechangelog.classes.DataItem
-import com.michaelflisar.composechangelog.interfaces.IChangelogFilter
+import com.michaelflisar.composechangelog.classes.ChangelogSetup
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
@@ -11,20 +10,16 @@ import java.io.InputStreamReader
 @Composable
 fun ChangelogDefaults.setup(
     file: File = File("changelog.xml"),
-    texts: ChangelogSetup.Texts = ChangelogDefaults.texts(),
-    useShowMoreButtons: Boolean = true,
+    textFormatter: @Composable (text: String) -> AnnotatedString = { it.toAnnotatedString() },
     versionFormatter: ChangelogVersionFormatter = DefaultVersionFormatter(),
-    sorter: ((items: List<DataItem>) -> List<DataItem>)? = ChangelogDefaults.sorter(),
-    filter: IChangelogFilter? = null,
-    renderer: ChangelogSetup.Renderer = ChangelogDefaults.renderer()
+    skipUnknownTags: Boolean = false,
+    textMore: String = "More"
 ) = ChangelogSetup(
     logFileReader = { file.readBytes() },
-    texts = texts,
-    useShowMoreButtons = useShowMoreButtons,
+    textFormatter = textFormatter,
     versionFormatter = versionFormatter,
-    filter = filter,
-    sorter = sorter,
-    renderer = renderer
+    skipUnknownTags = skipUnknownTags,
+    textMore = textMore
 )
 
 /**
@@ -34,10 +29,10 @@ fun ChangelogDefaults.setup(
  *
  * @return the app version name
  */
-fun ChangelogUtil.getAppVersionName(
+fun Changelog.getAppVersionName(
     exe: File = File(System.getProperty("user.dir")).let {
         File(it, it.name + ".exe")
-    }
+    },
 ): String {
     val versionInfo = runPS("(Get-Item '${exe.absolutePath}').VersionInfo.FileVersion")
     return versionInfo.takeIf { it.isNotEmpty() } ?: "<UNKNOWN>"
@@ -67,7 +62,7 @@ fun runPS(command: String): String {
         //println("Done")
 
         return lines.firstOrNull() ?: ""
-    } catch(e: Exception) {
+    } catch (e: Exception) {
         return ""
     }
 }

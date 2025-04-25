@@ -7,7 +7,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.compose)
     alias(libs.plugins.dokka)
@@ -18,11 +17,11 @@ plugins {
 // Informations
 // -------------------
 
-val description = "provides all the basic classes and composables to show a changelog"
+val description = "implements rendering of a <header> tag"
 
 // Module
-val artifactId = "core"
-val androidNamespace = "com.michaelflisar.composechangelog.core"
+val artifactId = "renderer-header"
+val androidNamespace = "com.michaelflisar.composechangelog.renderer.header"
 
 // Library
 val libraryName = "ComposeChangelog"
@@ -37,18 +36,12 @@ val licenseUrl = "$github/blob/main/LICENSE"
 // Variables for Documentation Generator
 // -------------------
 
-// # DEP + GROUP are optional arrays!
+// # DEP is an optional arrays!
 
-// OPTIONAL = "false"               // defines if this module is optional or not
-// GROUP_ID = "core"                // defines the "grouping" in the documentation this module belongs to
-// #DEP = "deps.composables.core|Compose Unstyled (core)|https://github.com/composablehorizons/compose-unstyled/"
+// OPTIONAL = "true"                // defines if this module is optional or not
+// GROUP_ID = "modules"             // defines the "grouping" in the documentation this module belongs to
+// #DEP = "deps.kotbilling|KotBilling|https://github.com/MFlisar/Kotbilling"
 // PLATFORM_INFO = ""               // defines a comment that will be shown in the documentation for this modules platform support
-
-// GLOBAL DATA
-// BRANCH = "master"        // defines the branch on github (master/main)
-// GROUP = "core|Core|core"
-// GROUP = "modules|Modules|dialog modules"
-// GROUP = "gradle-plugin|Gradle Plugin|gradle plugin"
 
 // -------------------
 // Setup
@@ -65,7 +58,6 @@ kotlin {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
-            //freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=dev.icerock.moko.parcelize.Parcelize")
         }
     }
 
@@ -84,25 +76,15 @@ kotlin {
 
         commonMain.dependencies {
 
-            implementation(compose.components.resources)
-
             // Kotlin
             implementation(kotlinx.coroutines.core)
 
             implementation(libs.compose.material3)
-            implementation(libs.compose.material.icons.core)
-            implementation(libs.compose.material.icons.extended)
 
-            api(deps.moko.parcelize)
+            implementation(project(":composechangelog:core"))
 
-            api(project(":shared"))
         }
-
     }
-}
-
-compose.resources {
-    packageOfResClass = "$androidNamespace.resources"
 }
 
 android {
@@ -112,7 +94,6 @@ android {
     compileSdk = app.versions.compileSdk.get().toInt()
 
     buildFeatures {
-        compose = true
     }
 
     defaultConfig {

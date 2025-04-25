@@ -8,7 +8,7 @@ plugins {
     id("io.github.mflisar.composechangelog.gradle-plugin")
 }
 
-val version = "1.0.4"
+val version = "2.0.0"
 val code = Changelog.buildVersionCode(version, DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatchCandidate))
 
 kotlin {
@@ -26,6 +26,8 @@ kotlin {
                 implementation(libs.compose.material3)
 
                 implementation(project(":composechangelog:core"))
+                implementation(project(":composechangelog:modules:renderer:header"))
+
                 implementation(project(":composechangelog:modules:statesaver:preferences"))
                 implementation(project(":composechangelog:modules:statesaver:kotpreferences"))
 
