@@ -5,14 +5,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -21,23 +20,23 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.michaelflisar.composechangelog.Changelog
-import com.michaelflisar.composechangelog.classes.ChangelogSetup
+import com.michaelflisar.composechangelog.ChangelogUtil
 import com.michaelflisar.composechangelog.data.XMLTag
 import com.michaelflisar.composechangelog.interfaces.IChangelogItemRenderer
 import com.michaelflisar.composechangelog.interfaces.IChangelogItemRenderer.HeaderTag
-import com.michaelflisar.composechangelog.rememberSubXMLTags
 
 class SimpleRenderer(
     val tag: String,
-    val color:  @Composable () -> Color = { LocalContentColor.current },
+    val showIcon: Boolean = true,
+    val color: @Composable () -> Color = { LocalContentColor.current },
     val region: @Composable (color: Color) -> Unit,
 ) : IChangelogItemRenderer {
 
@@ -49,31 +48,13 @@ class SimpleRenderer(
         @Composable
         fun RenderRegion(
             label: String,
-            icon: ImageVector,
-            iconColor: Color = LocalContentColor.current,
-            textColor: Color = LocalContentColor.current
+            textColor: Color = LocalContentColor.current,
         ) {
             Text(text = label, style = MaterialTheme.typography.titleMedium, color = textColor)
-            /*
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(SPACE.dp)
-            ) {
-                /*Icon(
-                    modifier = Modifier
-                        .width((INSET - 2 * ICON_PADDING).dp)
-                        .height(INSET.dp)
-                        .padding(vertical = ICON_PADDING.dp),
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = iconColor
-                )*/
-                Text(text = label, style = MaterialTheme.typography.titleMedium, color = textColor)
-            }*/
         }
 
         @Composable
-        fun RenderItem(setup: ChangelogSetup, item: XMLTag) {
+        fun RenderItem(setup: Changelog.Setup, item: XMLTag) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 //horizontalArrangement = Arrangement.spacedBy(SPACE.dp),
@@ -99,9 +80,9 @@ class SimpleRenderer(
 
         @Composable
         fun ColumnScope.RenderMore(
-            setup: ChangelogSetup,
+            setup: Changelog.Setup,
             subItems: List<XMLTag>,
-            item: @Composable (item: XMLTag) -> Unit
+            item: @Composable (item: XMLTag) -> Unit,
         ) {
             val expanded = rememberSaveable { mutableStateOf(false) }
             AnimatedVisibility(
@@ -146,7 +127,7 @@ class SimpleRenderer(
     }
 
     @Composable
-    override fun render(setup: ChangelogSetup, item: XMLTag) {
+    override fun render(setup: Changelog.Setup, item: XMLTag) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -155,21 +136,21 @@ class SimpleRenderer(
             // <more>
             //     <item>...</item>
             // </more>
-            val subItems by rememberSubXMLTags(item)
+            val subItems by ChangelogUtil.rememberSubXMLTags(item)
 
             region(color())
 
             if (!setup.skipUnknownTags) {
-                Changelog.ensureAllTagsSupported(setup, listOf(TAG_MORE, TAG_ITEM), subItems)
+                ChangelogUtil.ensureAllTagsSupported(setup, listOf(TAG_MORE, TAG_ITEM), subItems)
             }
 
             subItems.forEach { subItem ->
                 if (subItem.tag.equals(TAG_ITEM, true)) {
                     RenderItem(setup, subItem)
                 } else if (subItem.tag.equals(TAG_MORE, true)) {
-                    val subItems2 by rememberSubXMLTags(subItem)
+                    val subItems2 by ChangelogUtil.rememberSubXMLTags(subItem)
                     if (!setup.skipUnknownTags) {
-                        Changelog.ensureAllTagsSupported(setup, listOf(TAG_ITEM), subItems2)
+                        ChangelogUtil.ensureAllTagsSupported(setup, listOf(TAG_ITEM), subItems2)
                     }
                     RenderMore(setup, subItems2, { RenderItem(setup, it) })
                 }

@@ -2,7 +2,6 @@ package com.michaelflisar.composechangelog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
-import com.michaelflisar.composechangelog.classes.ChangelogSetup
 
 object ChangelogDefaults {
 
@@ -13,7 +12,7 @@ object ChangelogDefaults {
         versionFormatter: ChangelogVersionFormatter = DefaultVersionFormatter(),
         skipUnknownTags: Boolean = false,
         textMore: String = "More"
-    ) = ChangelogSetup(
+    ) = Changelog.Setup(
         logFileReader = logFileReader,
         textFormatter = textFormatter,
         versionFormatter = versionFormatter,

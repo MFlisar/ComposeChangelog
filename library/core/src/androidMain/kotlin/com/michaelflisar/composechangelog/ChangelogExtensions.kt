@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
-import com.michaelflisar.composechangelog.classes.ChangelogSetup
 import com.michaelflisar.composechangelog.core.R
 
 @Composable
@@ -16,7 +15,7 @@ fun ChangelogDefaults.setup(
     versionFormatter: ChangelogVersionFormatter = DefaultVersionFormatter(),
     skipUnknownTags: Boolean = false,
     textMore: String = "More"
-) = ChangelogSetup(
+) = Changelog.Setup(
     logFileReader = {
         val resourceType: String = context.resources.getResourceTypeName(changelogResourceId)
         if (resourceType == "raw") {

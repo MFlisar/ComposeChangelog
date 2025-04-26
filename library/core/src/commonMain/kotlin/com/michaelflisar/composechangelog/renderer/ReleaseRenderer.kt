@@ -19,47 +19,52 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.michaelflisar.composechangelog.ChangelogUtil
 import com.michaelflisar.composechangelog.data.ChangelogReleaseItem
-import com.michaelflisar.composechangelog.findRenderer
+import com.michaelflisar.composechangelog.interfaces.IChangelogReleaseRenderer
 
-object ReleaseRenderer {
+class ReleaseRenderer(
+    val showTags: Boolean = true,
+) : IChangelogReleaseRenderer {
 
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
-    fun render(release: ChangelogReleaseItem) {
+    override fun render(release: ChangelogReleaseItem) {
         Column(
             modifier = Modifier.padding(vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                // all existing types...
-                val types = release.items.mapNotNull {
-                    val renderer = findRenderer(it)
-                    renderer?.headerTag()
-                }
-                    .distinct()
-                    .sortedBy { it.text }
+            if (showTags) {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    // all existing types...
+                    val types = release.items.mapNotNull {
+                        val renderer = ChangelogUtil.findRenderer(it)
+                        renderer?.headerTag()
+                    }
+                        .distinct()
+                        .sortedBy { it.text }
 
-                val fontTags = MaterialTheme.typography.bodySmall.copy(
-                    //fontSize = MaterialTheme.typography.bodySmall.fontSize * 0.8f,
-                    //lineHeight = MaterialTheme.typography.bodySmall.lineHeight * 0.8f,
-                )
+                    val fontTags = MaterialTheme.typography.bodySmall.copy(
+                        //fontSize = MaterialTheme.typography.bodySmall.fontSize * 0.8f,
+                        //lineHeight = MaterialTheme.typography.bodySmall.lineHeight * 0.8f,
+                    )
 
-                types.forEach {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(with(LocalDensity.current) { fontTags.lineHeight.toDp() }),
-                            imageVector = Icons.Default.Circle,
-                            contentDescription = null,
-                            tint = it.color
-                        )
-                        Text(text = it.text.uppercase(), style = fontTags)
+                    types.forEach {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(with(LocalDensity.current) { fontTags.lineHeight.toDp() }),
+                                imageVector = Icons.Default.Circle,
+                                contentDescription = null,
+                                tint = it.color
+                            )
+                            Text(text = it.text.uppercase(), style = fontTags)
+                        }
                     }
                 }
             }

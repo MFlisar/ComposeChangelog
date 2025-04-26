@@ -3,6 +3,7 @@ package com.michaelflisar.composechangelog.demo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
@@ -15,10 +16,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -33,14 +32,12 @@ import com.michaelflisar.composechangelog.ChangelogDefaults
 import com.michaelflisar.composechangelog.DefaultVersionFormatter
 import com.michaelflisar.composechangelog.classes.ChangelogData
 import com.michaelflisar.composechangelog.classes.rememberChangelogState
-import com.michaelflisar.composechangelog.composables.Changelog
 import com.michaelflisar.composechangelog.getAppVersionName
 import com.michaelflisar.composechangelog.rememberChangelogData
 import com.michaelflisar.composechangelog.renderer.header.ChangelogHeaderRenderer
 import com.michaelflisar.composechangelog.setup
 import com.michaelflisar.composechangelog.statesaver.preferences.ChangelogStateSaverPreferences
 import com.michaelflisar.composechangelog.statesaver.preferences.create
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 val CHANGELOG_FORMATTER = DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatchCandidate)
@@ -98,11 +95,11 @@ fun main() {
             ) {
                 val scope = rememberCoroutineScope()
 
-                val showChangelog = rememberChangelogState()
+                val changelogState = rememberChangelogState()
                 // initially we check if we need to show the changelog
                 // this is optional of course...
                 LaunchedEffect(Unit) {
-                    showChangelog.checkShouldShowChangelogOnStart(
+                    changelogState.checkShouldShowChangelogOnStart(
                         changelogStateSaver,
                         versionName,
                         CHANGELOG_FORMATTER
@@ -132,7 +129,7 @@ fun main() {
                             )
                         }
                         Button(onClick = {
-                            showChangelog.show()
+                            changelogState.show()
                         }) {
                             Text("Show Changelog")
 
@@ -146,7 +143,7 @@ fun main() {
                         }
                         Button(onClick = {
                             scope.launch {
-                                showChangelog.checkShouldShowChangelogOnStart(
+                                changelogState.checkShouldShowChangelogOnStart(
                                     changelogStateSaver,
                                     versionName,
                                     CHANGELOG_FORMATTER
@@ -159,17 +156,13 @@ fun main() {
                 }
 
                 // show changelog dialog
-                if (showChangelog.visible) {
+                if (changelogState.visible) {
                     Dialog(
                         visible = true,
                         title = "Changelog",
-                        onCloseRequest = { showChangelog.hide() }
+                        onCloseRequest = { changelogState.hide() }
                     ) {
-                        val releases = rememberChangelogData(showChangelog, setup)
-                        when (val d = releases.value) {
-                            is ChangelogData.Data -> Changelog(d.items, setup)
-                            ChangelogData.Loading -> LinearProgressIndicator()
-                        }
+                        Changelog(changelogState, setup, Modifier.fillMaxWidth())
                     }
                 }
             }

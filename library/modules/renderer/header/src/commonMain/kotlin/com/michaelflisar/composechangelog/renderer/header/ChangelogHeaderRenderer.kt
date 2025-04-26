@@ -16,11 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.michaelflisar.composechangelog.Changelog
-import com.michaelflisar.composechangelog.classes.ChangelogSetup
+import com.michaelflisar.composechangelog.ChangelogUtil
 import com.michaelflisar.composechangelog.data.XMLTag
 import com.michaelflisar.composechangelog.interfaces.IChangelogItemRenderer
 import com.michaelflisar.composechangelog.interfaces.IChangelogItemRenderer.HeaderTag
-import com.michaelflisar.composechangelog.rememberSubXMLTags
 import com.michaelflisar.composechangelog.renderer.SimpleRenderer.Companion.RenderItem
 
 class ChangelogHeaderRenderer(
@@ -44,7 +43,7 @@ class ChangelogHeaderRenderer(
     override fun headerTag(): HeaderTag? = null
 
     @Composable
-    override fun render(setup: ChangelogSetup, item: XMLTag) {
+    override fun render(setup: Changelog.Setup, item: XMLTag) {
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(
@@ -64,10 +63,10 @@ class ChangelogHeaderRenderer(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    val subItems by rememberSubXMLTags(item)
+                    val subItems by ChangelogUtil.rememberSubXMLTags(item)
 
                     if (!setup.skipUnknownTags) {
-                        Changelog.ensureAllTagsSupported(
+                        ChangelogUtil.ensureAllTagsSupported(
                             setup,
                             listOf(TAG_TITLE, TAG_INFOS, TAG_INFO),
                             subItems
@@ -81,9 +80,9 @@ class ChangelogHeaderRenderer(
                                 style = MaterialTheme.typography.titleMedium
                             )
                         } else if (subItem.tag.equals(TAG_INFOS, true)) {
-                            val subItems2 by rememberSubXMLTags(subItem)
+                            val subItems2 by ChangelogUtil.rememberSubXMLTags(subItem)
                             if (!setup.skipUnknownTags) {
-                                Changelog.ensureAllTagsSupported(setup, listOf(TAG_INFO), subItems2)
+                                ChangelogUtil.ensureAllTagsSupported(setup, listOf(TAG_INFO), subItems2)
                             }
                             subItems2.forEach { subItem2 ->
                                 RenderItem(setup, subItem2)

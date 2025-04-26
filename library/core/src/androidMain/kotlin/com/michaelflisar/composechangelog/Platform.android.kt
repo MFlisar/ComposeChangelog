@@ -4,17 +4,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.fromHtml
-import com.michaelflisar.composechangelog.classes.ChangelogSetup
-import com.michaelflisar.composechangelog.composables.Changelog
 import com.michaelflisar.composechangelog.data.ChangelogReleaseItem
 import com.michaelflisar.composechangelog.data.XMLTag
 import com.michaelflisar.composechangelog.internal.ChangelogParserUtil
@@ -24,12 +18,14 @@ internal actual fun String.toAnnotatedString(): AnnotatedString = AnnotatedStrin
 
 @Composable
 internal actual fun LazyScrollContainer(
+    modifier: Modifier,
     state: LazyListState,
     verticalArrangement: Arrangement.Vertical,
     horizontalAlignment: Alignment.Horizontal,
     content: LazyListScope.() -> Unit
 ) {
     LazyColumn(
+        modifier = modifier,
         state = state,
         verticalArrangement = verticalArrangement,
         horizontalAlignment = horizontalAlignment

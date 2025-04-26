@@ -2,7 +2,6 @@ package com.michaelflisar.composechangelog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
-import com.michaelflisar.composechangelog.classes.ChangelogSetup
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
@@ -14,7 +13,7 @@ fun ChangelogDefaults.setup(
     versionFormatter: ChangelogVersionFormatter = DefaultVersionFormatter(),
     skipUnknownTags: Boolean = false,
     textMore: String = "More"
-) = ChangelogSetup(
+) = Changelog.Setup(
     logFileReader = { file.readBytes() },
     textFormatter = textFormatter,
     versionFormatter = versionFormatter,

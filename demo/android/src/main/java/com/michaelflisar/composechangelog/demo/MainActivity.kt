@@ -36,7 +36,6 @@ import com.michaelflisar.composechangelog.DefaultVersionFormatter
 import com.michaelflisar.composechangelog.classes.ChangelogData
 import com.michaelflisar.composechangelog.classes.ChangelogState
 import com.michaelflisar.composechangelog.classes.rememberChangelogState
-import com.michaelflisar.composechangelog.composables.Changelog
 import com.michaelflisar.composechangelog.demo.classes.DemoPrefs
 import com.michaelflisar.composechangelog.getAppVersionCode
 import com.michaelflisar.composechangelog.getAppVersionName
@@ -89,11 +88,11 @@ class MainActivity : DemoActivity() {
         // Changelog - this will show the changelog once only if the changelog was not shown for the current app version yet
         val versionName = Changelog.getAppVersionName(context)
 
-        val showChangelog = rememberChangelogState()
+        val changelogState = rememberChangelogState()
         // initially we check if we need to show the changelog
         // this is optional of course...
         LaunchedEffect(Unit) {
-            showChangelog.checkShouldShowChangelogOnStart(
+            changelogState.checkShouldShowChangelogOnStart(
                 changelogStateSaver,
                 versionName,
                 CHANGELOG_FORMATTER
@@ -105,16 +104,16 @@ class MainActivity : DemoActivity() {
         // Content
         Content(
             regionState,
-            showChangelog,
+            changelogState,
             changelogStateSaver,
             infos
         )
 
         // eventually show a full changelog dialog
-        if (showChangelog.visible) {
+        if (changelogState.visible) {
             ModalBottomSheet(
                 onDismissRequest = {
-                    showChangelog.hide()
+                    changelogState.hide()
                 }
             ) {
                 Column(
@@ -127,17 +126,13 @@ class MainActivity : DemoActivity() {
                         style = MaterialTheme.typography.titleLarge
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    val releases = rememberChangelogData(showChangelog, setup)
-                    when (val d = releases.value) {
-                        is ChangelogData.Data -> Changelog(d.items, setup)
-                        ChangelogData.Loading -> LinearProgressIndicator()
-                    }
+                    Changelog(changelogState, setup, Modifier.fillMaxWidth())
                 }
             }
         }
 
-        LaunchedEffect(showChangelog.visible) {
-            infos.add("showChangelog.visible = ${showChangelog.visible}")
+        LaunchedEffect(changelogState.visible) {
+            infos.add("showChangelog.visible = ${changelogState.visible}")
         }
     }
 
