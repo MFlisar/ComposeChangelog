@@ -64,23 +64,19 @@ class SimpleRenderer(
         }
 
         @Composable
-        fun RenderItem(setup: Changelog.Setup, item: XMLTag) {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row {
+        fun RenderItem(setup: Changelog.Setup, item: XMLTag, list: Boolean = true) {
+            Row {
+                if (list) {
                     Text(
                         modifier = Modifier.padding(start = 4.dp),
                         text = "• ",
                         style = MaterialTheme.typography.bodyMedium
                     )
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = setup.textFormatter(item.innerText),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
                 }
-
+                Text(
+                    text = setup.textFormatter(item.innerText),
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
         }
 

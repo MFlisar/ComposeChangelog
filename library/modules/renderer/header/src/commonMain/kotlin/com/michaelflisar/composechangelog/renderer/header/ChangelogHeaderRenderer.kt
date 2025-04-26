@@ -72,7 +72,8 @@ class ChangelogHeaderRenderer(
                 }
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    horizontalAlignment = Alignment.Start
                 ) {
                     if (iconPlacement == IconPlacement.Top) {
                         Box(
@@ -99,6 +100,13 @@ class ChangelogHeaderRenderer(
                                 text = setup.textFormatter(subItem.innerText),
                                 style = MaterialTheme.typography.titleMedium
                             )
+                        } else if (subItem.tag.equals(TAG_ITEM, true)) {
+                            // single item takes alignment from title...
+                            Box(
+                                modifier = Modifier.align(titleAlignment)
+                            ) {
+                                RenderItem(setup, subItem, list = false)
+                            }
                         } else if (subItem.tag.equals(TAG_INFOS, true)) {
                             val subItems2 by ChangelogUtil.rememberSubXMLTags(subItem)
                             if (!setup.skipUnknownTags) {
