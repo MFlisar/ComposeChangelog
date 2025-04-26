@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
@@ -33,13 +32,11 @@ import androidx.compose.ui.unit.dp
 import com.michaelflisar.composechangelog.Changelog
 import com.michaelflisar.composechangelog.ChangelogDefaults
 import com.michaelflisar.composechangelog.DefaultVersionFormatter
-import com.michaelflisar.composechangelog.classes.ChangelogData
 import com.michaelflisar.composechangelog.classes.ChangelogState
 import com.michaelflisar.composechangelog.classes.rememberChangelogState
 import com.michaelflisar.composechangelog.demo.classes.DemoPrefs
 import com.michaelflisar.composechangelog.getAppVersionCode
 import com.michaelflisar.composechangelog.getAppVersionName
-import com.michaelflisar.composechangelog.rememberChangelogData
 import com.michaelflisar.composechangelog.setup
 import com.michaelflisar.composechangelog.statesaver.kotpreferences.ChangelogStateSaverKotPreferences
 import com.michaelflisar.composechangelog.statesaver.preferences.ChangelogStateSaverPreferences
@@ -118,7 +115,10 @@ class MainActivity : DemoActivity() {
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(horizontal = 8.dp)
+                        .padding(
+                            horizontal = 8.dp,
+                            vertical = 16.dp
+                        )
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.CenterHorizontally),

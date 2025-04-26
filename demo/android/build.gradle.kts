@@ -61,6 +61,8 @@ android {
 
 dependencies {
 
+    implementation(libs.kotlin.reflect)
+
     // ------------------------
     // AndroidX
     // ------------------------

@@ -25,6 +25,8 @@ kotlin {
 
                 implementation(libs.compose.material3)
 
+                implementation(libs.kotlin.reflect)
+
                 implementation(project(":composechangelog:core"))
                 implementation(project(":composechangelog:modules:renderer:header"))
 

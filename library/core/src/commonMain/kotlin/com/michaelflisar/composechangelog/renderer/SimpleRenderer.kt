@@ -6,13 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,8 +19,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.michaelflisar.composechangelog.Changelog
 import com.michaelflisar.composechangelog.ChangelogUtil
@@ -33,9 +26,26 @@ import com.michaelflisar.composechangelog.data.XMLTag
 import com.michaelflisar.composechangelog.interfaces.IChangelogItemRenderer
 import com.michaelflisar.composechangelog.interfaces.IChangelogItemRenderer.HeaderTag
 
+/**
+ * a simple renderer that can render a xml tag
+ *
+ * this renderer supports following child structure:
+ *
+ * <item>...</item>         // 0 to n times
+ * <more>
+ *     <item>...</item>     // 0 to n times
+ * </more>
+ *
+ * the <item> tag is used to render a single item and is the one that is rendered by this renderer
+ *
+ * tag: the tag to render
+ * showTag: if true, the tag will be shown above the release header (colored dot + text)
+ * color: the color of the tag (used for the dot in the release header and is passed on to the next region lambda)
+ * region: the region composable that renders the region / section header
+ */
 class SimpleRenderer(
     val tag: String,
-    val showIcon: Boolean = true,
+    val showTag: Boolean = true,
     val color: @Composable () -> Color = { LocalContentColor.current },
     val region: @Composable (color: Color) -> Unit,
 ) : IChangelogItemRenderer {
@@ -56,12 +66,8 @@ class SimpleRenderer(
         @Composable
         fun RenderItem(setup: Changelog.Setup, item: XMLTag) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                //horizontalArrangement = Arrangement.spacedBy(SPACE.dp),
+                modifier = Modifier.fillMaxWidth()
             ) {
-                //Spacer(
-                //    modifier = Modifier.size(INSET.dp)
-                //)
                 Row {
                     Text(
                         modifier = Modifier.padding(start = 4.dp),
@@ -119,7 +125,9 @@ class SimpleRenderer(
     }
 
     @Composable
-    override fun headerTag(): HeaderTag {
+    override fun headerTag(): HeaderTag? {
+        if (!showTag)
+            return null
         return HeaderTag(
             text = tag,
             color = color()
@@ -131,11 +139,6 @@ class SimpleRenderer(
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // this renderer supports following child structure:
-            // <item>...</item>
-            // <more>
-            //     <item>...</item>
-            // </more>
             val subItems by ChangelogUtil.rememberSubXMLTags(item)
 
             region(color())

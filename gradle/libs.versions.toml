@@ -30,6 +30,7 @@ compose =                           { id = "org.jetbrains.compose",             
 [libraries]
 
 kotlin-test = 			            { module = "org.jetbrains.kotlin:kotlin-test",                          version.ref = "kotlin" }
+kotlin-reflect = 			        { module = "org.jetbrains.kotlin:kotlin-reflect",                       version.ref = "kotlin" }
 
 compose-runtime =                   { module = "org.jetbrains.compose.runtime:runtime",                     version.ref = "compose" }
 compose-material-icons-core = 	    { module = "org.jetbrains.compose.material:material-icons-core",        version.ref = "compose" }

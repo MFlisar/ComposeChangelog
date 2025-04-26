@@ -3,12 +3,12 @@
     <release versionName="2.0.0" date="2018-03-01" title="Major Update: Version 2.0.0">
 
         <!-- optional header -->
-        <header icon="info">
+        <header icon="Info">
             <title>This version introduces a new feature: Cool New Feature</title>
             <infos>
-                <info>Feature 1: theme the app the way you want it</info>
-                <info>Feature 2: ...</info>
-                <info>Feature 3: ...</info>
+                <item>Feature 1: theme the app the way you want it</item>
+                <item>Feature 2: ...</item>
+                <item>Feature 3: ...</item>
             </infos>
         </header>
 
@@ -54,9 +54,9 @@
 
     <release versionName="1.0.0" date="2018-01-01">
         <!-- optional header -->
-        <header icon="info">
+        <header icon="Outlined.Warning">
             <title>First release version</title>
-            <info>We finally made it - this is the first stable release version</info>
+            <item>We finally made it - this is the first stable release version</item>
         </header>
         <!-- news -->
         <news>

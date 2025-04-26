@@ -1,6 +1,7 @@
 package com.michaelflisar.composechangelog.renderer.header
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,8 +24,15 @@ import com.michaelflisar.composechangelog.interfaces.IChangelogItemRenderer.Head
 import com.michaelflisar.composechangelog.renderer.SimpleRenderer.Companion.RenderItem
 
 class ChangelogHeaderRenderer(
-    val iconProvider: @Composable (icon: String?) -> Unit = {}
+    val titleAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    val iconPlacement: IconPlacement = IconPlacement.Top,
+    val iconProvider: @Composable (icon: String?) -> Unit = {},
 ) : IChangelogItemRenderer {
+
+    enum class IconPlacement {
+        Start,
+        Top
+    }
 
     companion object {
 
@@ -32,7 +40,7 @@ class ChangelogHeaderRenderer(
 
         private const val TAG_TITLE = "title"
         private const val TAG_INFOS = "infos"
-        private const val TAG_INFO = "info"
+        private const val TAG_ITEM = "item"
     }
 
     override fun canRender(item: XMLTag): Boolean {
@@ -55,20 +63,31 @@ class ChangelogHeaderRenderer(
                 item.attributes.find { it.name.equals(ATTR_ICON, true) }?.value
             }
             Row(
-                modifier = Modifier.padding(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.Top
             ) {
-                iconProvider(icon)
+                if (iconPlacement == IconPlacement.Start) {
+                    iconProvider(icon)
+                }
                 Column(
+                    modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
+                    if (iconPlacement == IconPlacement.Top) {
+                        Box(
+                            modifier = Modifier.align(titleAlignment)
+                        ) {
+                            iconProvider(icon)
+                        }
+                    }
+
                     val subItems by ChangelogUtil.rememberSubXMLTags(item)
 
                     if (!setup.skipUnknownTags) {
                         ChangelogUtil.ensureAllTagsSupported(
                             setup,
-                            listOf(TAG_TITLE, TAG_INFOS, TAG_INFO),
+                            listOf(TAG_TITLE, TAG_INFOS, TAG_ITEM),
                             subItems
                         )
                     }
@@ -76,13 +95,18 @@ class ChangelogHeaderRenderer(
                     subItems.forEach { subItem ->
                         if (subItem.tag.equals(TAG_TITLE, true)) {
                             Text(
+                                modifier = Modifier.align(titleAlignment),
                                 text = setup.textFormatter(subItem.innerText),
                                 style = MaterialTheme.typography.titleMedium
                             )
                         } else if (subItem.tag.equals(TAG_INFOS, true)) {
                             val subItems2 by ChangelogUtil.rememberSubXMLTags(subItem)
                             if (!setup.skipUnknownTags) {
-                                ChangelogUtil.ensureAllTagsSupported(setup, listOf(TAG_INFO), subItems2)
+                                ChangelogUtil.ensureAllTagsSupported(
+                                    setup,
+                                    listOf(TAG_ITEM),
+                                    subItems2
+                                )
                             }
                             subItems2.forEach { subItem2 ->
                                 RenderItem(setup, subItem2)
