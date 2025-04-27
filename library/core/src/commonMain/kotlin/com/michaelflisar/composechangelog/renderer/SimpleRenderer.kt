@@ -39,15 +39,15 @@ import com.michaelflisar.composechangelog.interfaces.IChangelogItemRenderer.Head
  * the <item> tag is used to render a single item and is the one that is rendered by this renderer
  *
  * tag: the tag to render
+ * tag: the label for this tag
  * showTag: if true, the tag will be shown above the release header (colored dot + text)
  * color: the color of the tag (used for the dot in the release header and is passed on to the next region lambda)
- * region: the region composable that renders the region / section header
  */
 class SimpleRenderer(
     val tag: String,
+    val label: String,
     val showTag: Boolean = true,
-    val color: @Composable () -> Color = { LocalContentColor.current },
-    val region: @Composable (color: Color) -> Unit,
+    val color: @Composable () -> Color = { LocalContentColor.current }
 ) : IChangelogItemRenderer {
 
     companion object {
@@ -137,7 +137,7 @@ class SimpleRenderer(
         ) {
             val subItems by ChangelogUtil.rememberSubXMLTags(item)
 
-            region(color())
+            RenderRegion(label, color())
 
             if (!setup.skipUnknownTags) {
                 ChangelogUtil.ensureAllTagsSupported(setup, listOf(TAG_MORE, TAG_ITEM), subItems)

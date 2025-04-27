@@ -45,7 +45,6 @@ class ReleaseRenderer(
                         renderer?.headerTag()
                     }
                         .distinct()
-                        .sortedBy { it.text }
 
                     val fontTags = MaterialTheme.typography.bodySmall.copy(
                         //fontSize = MaterialTheme.typography.bodySmall.fontSize * 0.8f,

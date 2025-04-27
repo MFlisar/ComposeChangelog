@@ -39,28 +39,26 @@ object Changelog {
     internal val RENDERERS = mutableListOf<IChangelogItemRenderer>(
         SimpleRenderer(
             tag = "news",
+            label  ="News",
             color = {
                 if (MaterialTheme.colorScheme.background.luminance() > 0.5)
                     Color(0, 100, 0) /* dark green */
                 else
                     Color(144, 238, 144) /* light green */
-            },
-            region = {
-                SimpleRenderer.RenderRegion("New", it)
             }
         ),
         SimpleRenderer(
             tag = "improvements",
-            region = { SimpleRenderer.RenderRegion("Improvements") }
+            label = "Improvements"
         ),
         SimpleRenderer(
             tag = "changes",
-            region = { SimpleRenderer.RenderRegion("Changes") }
+            label = "Changes"
         ),
         SimpleRenderer(
             tag = "bugfixes",
-            color = { MaterialTheme.colorScheme.error },
-            region = { SimpleRenderer.RenderRegion("Bugfixes", it) }
+            label = "Bugfixes",
+            color = { MaterialTheme.colorScheme.error }
         )
     )
 
