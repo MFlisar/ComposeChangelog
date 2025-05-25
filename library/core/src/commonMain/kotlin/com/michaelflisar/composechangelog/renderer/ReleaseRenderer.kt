@@ -27,7 +27,6 @@ class ReleaseRenderer(
     val showTags: Boolean = true,
 ) : IChangelogReleaseRenderer {
 
-    @OptIn(ExperimentalLayoutApi::class)
     @Composable
     override fun render(release: ChangelogReleaseItem) {
         Column(
