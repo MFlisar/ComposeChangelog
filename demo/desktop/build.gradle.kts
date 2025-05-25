@@ -13,9 +13,7 @@ val code = Changelog.buildVersionCode(version, DefaultVersionFormatter(DefaultVe
 
 kotlin {
 
-    jvm {
-        withJava()
-    }
+    jvm()
 
     sourceSets {
         val jvmMain by getting {
@@ -24,6 +22,8 @@ kotlin {
                 implementation(compose.desktop.currentOs)
 
                 implementation(libs.compose.material3)
+                implementation(libs.compose.material.icons.core)
+                implementation(libs.compose.material.icons.extended)
 
                 implementation(libs.kotlin.reflect)
 

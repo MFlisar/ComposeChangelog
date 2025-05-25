@@ -1,7 +1,7 @@
 [versions]
 
-activity = 		    "1.9.3"
-datastoreprefs =    "1.1.1"
+activity = 		    "1.10.1"
+datastoreprefs =    "1.1.7"
 
 [libraries]
 
