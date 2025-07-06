@@ -13,7 +13,7 @@ groups:
     gradle-comment: core
   - id: modules
     label: Modules
-    gradle-comment: dialog modules
+    gradle-comment: modules
   - id: gradle-plugin
     label: Gradle Plugin
     gradle-comment: gradle plugin
