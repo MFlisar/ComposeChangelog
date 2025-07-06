@@ -63,7 +63,7 @@ modules:
     optional: false
     platforms-info: ""
     dependencies: []
-  - relativePath: gradle-plugin\plugin
+  - relativePath: library\gradle-plugin\plugin
     artifact-id: gradle-plugin
     group: gradle-plugin
     description: a gradle plugin that provides common functions for gradle files
