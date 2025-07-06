@@ -14,7 +14,7 @@ import com.michaelflisar.composechangelog.internal.ChangelogParserUtil
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
-internal actual val Changelog.IODispatcher: CoroutineDispatcher
+actual val Changelog.IODispatcher: CoroutineDispatcher
     get() = Dispatchers.IO
 
 @Composable

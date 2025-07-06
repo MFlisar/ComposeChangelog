@@ -10,7 +10,7 @@ import androidx.compose.ui.text.AnnotatedString
 import com.michaelflisar.composechangelog.data.ChangelogReleaseItem
 import kotlinx.coroutines.CoroutineDispatcher
 
-internal expect val Changelog.IODispatcher: CoroutineDispatcher
+expect val Changelog.IODispatcher: CoroutineDispatcher
 
 @Composable
 internal expect fun String.toAnnotatedString(): AnnotatedString

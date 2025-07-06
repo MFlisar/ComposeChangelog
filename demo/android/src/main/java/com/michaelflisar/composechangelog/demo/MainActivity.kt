@@ -3,9 +3,9 @@ package com.michaelflisar.composechangelog.demo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,7 +45,6 @@ import com.michaelflisar.composechangelog.setup
 import com.michaelflisar.composechangelog.statesaver.kotpreferences.ChangelogStateSaverKotPreferences
 import com.michaelflisar.composechangelog.statesaver.preferences.ChangelogStateSaverPreferences
 import com.michaelflisar.composechangelog.statesaver.preferences.create
-import com.michaelflisar.toolbox.composables.MyColumn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -173,8 +172,9 @@ class MainActivity : ComponentActivity() {
         }
 
 
-        MyColumn(
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Button(
                 onClick = { showChangelog.show() },
@@ -228,8 +228,9 @@ class MainActivity : ComponentActivity() {
         }
 
         // Infos
-        MyColumn(
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             infos.forEach {
                 Row {
