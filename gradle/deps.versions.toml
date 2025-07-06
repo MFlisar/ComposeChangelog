@@ -24,6 +24,7 @@ kotpreferences-storage-datastore =  { module = "io.github.mflisar.kotpreferences
 kotpreferences-extension-compose =  { module = "io.github.mflisar.kotpreferences:extension-compose",      	version.ref = "kotpreferences" }
 kmp-parcelize =                     { module = "io.github.mflisar.parcelize:library", 	                    version.ref = "kmp-parcelize" }
 kmp-gradle-tools-scripts =          { module = "io.github.mflisar.kmp-gradle-tools:scripts",                version.ref = "kmp-gradle-tools" }
+kmp-gradle-tools-docs =             { module = "io.github.mflisar.kmp-gradle-tools:docs",                version.ref = "kmp-gradle-tools" }
 
 htmlconverter =                     { module = "be.digitalia.compose.htmlconverter:htmlconverter", 			version.ref = "htmlconverter" }
 xml-core =                          { module = "io.github.pdvrieze.xmlutil:core", 			                version.ref = "xml" }
