@@ -34,11 +34,19 @@ pluginManagement {
 }
 
 // --------------
+// Functions
+// --------------
+
+fun includeModule(path: String, name: String) {
+    include(name)
+    project(name).projectDir = file(path)
+}
+
+// --------------
 // Gradle Plugin
 // --------------
 
-include(":shared")
-project(":shared").projectDir = file("gradle-plugin/shared")
+includeModule("gradle-plugin/shared", ":shared")
 
 includeBuild("gradle-plugin") {
     dependencySubstitution {
@@ -50,18 +58,14 @@ includeBuild("gradle-plugin") {
 // Library
 // --------------
 
-include(":composechangelog:core")
-project(":composechangelog:core").projectDir = file("library/core")
+includeModule("library/core", ":composechangelog:core")
 
 // renderer
-include(":composechangelog:modules:renderer:header")
-project(":composechangelog:modules:renderer:header").projectDir = file("library/modules/renderer/header")
+includeModule("library/modules/renderer/header", ":composechangelog:modules:renderer:header")
 
 // Statesavers
-include(":composechangelog:modules:statesaver:preferences")
-project(":composechangelog:modules:statesaver:preferences").projectDir = file("library/modules/statesaver/preferences")
-include(":composechangelog:modules:statesaver:kotpreferences")
-project(":composechangelog:modules:statesaver:kotpreferences").projectDir = file("library/modules/statesaver/kotpreferences")
+includeModule("library/modules/statesaver/preferences", ":composechangelog:modules:statesaver:preferences")
+includeModule("library/modules/statesaver/kotpreferences", ":composechangelog:modules:statesaver:kotpreferences")
 
 // --------------
 // Demo

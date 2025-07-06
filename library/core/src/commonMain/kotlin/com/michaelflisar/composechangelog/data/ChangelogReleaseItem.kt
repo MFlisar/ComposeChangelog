@@ -5,5 +5,5 @@ class ChangelogReleaseItem(
     val versionName: String,
     val date: String,
     val title: String?,
-    val items: List<XMLTag>
+    val items: List<XMLTag>,
 )

@@ -8,7 +8,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import com.michaelflisar.composechangelog.data.ChangelogReleaseItem
-import com.michaelflisar.composechangelog.data.XMLTag
+import kotlinx.coroutines.CoroutineDispatcher
+
+internal expect val Changelog.IODispatcher: CoroutineDispatcher
 
 @Composable
 internal expect fun String.toAnnotatedString(): AnnotatedString
@@ -26,6 +28,3 @@ internal expect suspend fun Changelog.readFile(
     logFileReader: suspend () -> ByteArray,
     versionFormatter: ChangelogVersionFormatter,
 ): List<ChangelogReleaseItem>
-
-internal expect fun XMLTag.children(): List<XMLTag>
-

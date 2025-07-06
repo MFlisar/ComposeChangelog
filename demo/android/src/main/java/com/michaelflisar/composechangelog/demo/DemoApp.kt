@@ -1,13 +1,13 @@
 package com.michaelflisar.composechangelog.demo
 
+import android.app.Application
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.michaelflisar.composechangelog.Changelog
 import com.michaelflisar.composechangelog.renderer.header.ChangelogHeaderRenderer
-import com.michaelflisar.toolbox.androiddemoapp.DemoApp
 
-class DemoApp : DemoApp() {
+class DemoApp : Application() {
     override fun onCreate() {
         super.onCreate()
 

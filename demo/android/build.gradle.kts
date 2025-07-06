@@ -91,7 +91,4 @@ dependencies {
     implementation(deps.kotpreferences.core)
     implementation(deps.kotpreferences.storage.datastore)
     implementation(deps.kotpreferences.extension.compose)
-
-    // a minimal library that provides some useful composables that I use inside demo activities
-    implementation(deps.toolbox.demo.app)
 }

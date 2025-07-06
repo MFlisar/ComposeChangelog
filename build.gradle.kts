@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     `kotlin-dsl-base` apply false
     //`java-gradle-plugin` apply false
+    alias(deps.plugins.kmp.gradle.tools.gradle.plugin) apply false
 }
 
 tasks.register("publish") {

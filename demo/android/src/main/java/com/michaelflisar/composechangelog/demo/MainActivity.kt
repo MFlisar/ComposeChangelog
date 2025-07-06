@@ -1,5 +1,8 @@
 package com.michaelflisar.composechangelog.demo
 
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -17,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,11 +45,6 @@ import com.michaelflisar.composechangelog.setup
 import com.michaelflisar.composechangelog.statesaver.kotpreferences.ChangelogStateSaverKotPreferences
 import com.michaelflisar.composechangelog.statesaver.preferences.ChangelogStateSaverPreferences
 import com.michaelflisar.composechangelog.statesaver.preferences.create
-import com.michaelflisar.composethemer.ComposeTheme
-import com.michaelflisar.toolbox.androiddemoapp.DemoActivity
-import com.michaelflisar.toolbox.androiddemoapp.composables.DemoAppThemeRegion
-import com.michaelflisar.toolbox.androiddemoapp.composables.DemoCollapsibleRegion
-import com.michaelflisar.toolbox.androiddemoapp.composables.rememberDemoExpandedRegions
 import com.michaelflisar.toolbox.composables.MyColumn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,16 +52,32 @@ import kotlinx.coroutines.launch
 val CHANGELOG_FORMATTER =
     DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatchCandidate)
 
-class MainActivity : DemoActivity() {
+class MainActivity : ComponentActivity() {
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            MaterialTheme {
+                Scaffold {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(it)
+                    ) {
+                        Content()
+                    }
+                }
+            }
+        }
+    }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    override fun ColumnScope.Content(
-        themeState: ComposeTheme.State,
-    ) {
-        val context = LocalContext.current
+    private fun Content() {
 
-        val regionState = rememberDemoExpandedRegions(ids = listOf(1, 2))
+        val context = LocalContext.current
 
         // needed - you can also provide your own implementation instead of this simple one
         // (which simply saves the last shown version inside a preference file)
@@ -100,7 +115,6 @@ class MainActivity : DemoActivity() {
 
         // Content
         Content(
-            regionState,
             changelogState,
             changelogStateSaver,
             infos
@@ -138,7 +152,6 @@ class MainActivity : DemoActivity() {
 
     @Composable
     private fun Content(
-        regionState: DemoCollapsibleRegion.State,
         showChangelog: ChangelogState,
         changelogStateSaver: ChangelogStateSaverPreferences,
         infos: SnapshotStateList<String>,
@@ -159,83 +172,76 @@ class MainActivity : DemoActivity() {
             )
         }
 
-        // App Theme
-        DemoAppThemeRegion(0, regionState)
 
-        // Demo
-        DemoCollapsibleRegion("Demo", regionId = 1, state = regionState) {
-            MyColumn(
-                modifier = Modifier.fillMaxWidth()
+        MyColumn(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Button(
+                onClick = { showChangelog.show() },
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                Button(
-                    onClick = { showChangelog.show() },
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                ) {
-                    Text("Open Changelog")
-                }
-                OutlinedButton(
-                    onClick = {
-                        scope.launch(Dispatchers.IO) {
-                            changelogStateSaver.saveLastShownVersion(0L)
-                        }
+                Text("Open Changelog")
+            }
+            OutlinedButton(
+                onClick = {
+                    scope.launch(Dispatchers.IO) {
+                        changelogStateSaver.saveLastShownVersion(0L)
+                    }
 
-                    },
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                ) {
-                    Text("Reset Last Shown Version")
-                }
-                OutlinedButton(
-                    onClick = {
+                },
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ) {
+                Text("Reset Last Shown Version")
+            }
+            OutlinedButton(
+                onClick = {
+                    scope.launch {
+                        changelogStateSaver.saveLastShownVersion(
+                            CHANGELOG_FORMATTER.parseVersion(
+                                "1.0.0"
+                            ).toLong()
+                        )
+                    }
+                    infos.add("changelog - last shown version resettet to 1.0.0")
+                },
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ) {
+                Text("Reset Last Changelog to 1.0.0")
+            }
+            OutlinedButton(
+                onClick = {
+                    scope.launch(Dispatchers.IO) {
+                        val versionName = Changelog.getAppVersionName(context)
                         scope.launch {
-                            changelogStateSaver.saveLastShownVersion(
-                                CHANGELOG_FORMATTER.parseVersion(
-                                    "1.0.0"
-                                ).toLong()
+                            showChangelog.checkShouldShowChangelogOnStart(
+                                changelogStateSaver,
+                                versionName,
+                                CHANGELOG_FORMATTER
                             )
                         }
-                        infos.add("changelog - last shown version resettet to 1.0.0")
-                    },
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                ) {
-                    Text("Reset Last Changelog to 1.0.0")
-                }
-                OutlinedButton(
-                    onClick = {
-                        scope.launch(Dispatchers.IO) {
-                            val versionName = Changelog.getAppVersionName(context)
-                            scope.launch {
-                                showChangelog.checkShouldShowChangelogOnStart(
-                                    changelogStateSaver,
-                                    versionName,
-                                    CHANGELOG_FORMATTER
-                                )
-                            }
-                        }
-                    },
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                ) {
-                    Text("Check if changelog should be shown")
-                }
+                    }
+                },
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            ) {
+                Text("Check if changelog should be shown")
             }
         }
 
         // Infos
-        DemoCollapsibleRegion("Infos", regionId = 2, state = regionState) {
-            MyColumn(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                infos.forEach {
-                    Row {
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier.padding(end = 8.dp)
-                        ) {
-                            Icon(Icons.Default.Circle, null, modifier = Modifier.size(8.dp))
-                            // simple hack to align circle with the first line of the text
-                            Text(" ", style = MaterialTheme.typography.bodySmall)
-                        }
-                        Text(it, style = MaterialTheme.typography.bodySmall)
+        MyColumn(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            infos.forEach {
+                Row {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.padding(end = 8.dp)
+                    ) {
+                        Icon(Icons.Default.Circle, null, modifier = Modifier.size(8.dp))
+                        // simple hack to align circle with the first line of the text
+                        Text(" ", style = MaterialTheme.typography.bodySmall)
                     }
+                    Text(it, style = MaterialTheme.typography.bodySmall)
                 }
             }
         }

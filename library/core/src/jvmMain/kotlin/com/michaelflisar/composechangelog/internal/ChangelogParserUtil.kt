@@ -41,20 +41,23 @@ internal object ChangelogParserUtil {
         }
     }
 
-    fun children(
-        xmlTag: XMLTag,
+    private fun children(
+        innerText: String
     ): List<XMLTag> {
-        val element = rawStringToElement(xmlTag.innerText, true)
+        val element = rawStringToElement(innerText, true)
         val items = ArrayList<XMLTag>()
         for (i in 0..<element.childNodes.length) {
             val n = element.childNodes.item(i)
             if (n.nodeType == Node.ELEMENT_NODE) {
                 val element = n as Element
+                val innerText = element.getInnerXml()
+                val children = children(innerText)
                 items.add(
                     XMLTag(
                         element.nodeName,
                         element.getXMLAttributes(),
-                        element.getInnerXml()
+                        innerText,
+                        children
                     )
                 )
             }
@@ -108,7 +111,9 @@ internal object ChangelogParserUtil {
             if (n.nodeType == Node.ELEMENT_NODE) {
                 val element2 = n as Element
                 val tag = element2.tagName
-                items.add(XMLTag(tag, element2.getXMLAttributes(), element2.getInnerXml()))
+                val innerText = element2.getInnerXml()
+                val children = children(innerText)
+                items.add(XMLTag(tag, element2.getXMLAttributes(), innerText, children))
             }
         }
 

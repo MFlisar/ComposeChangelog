@@ -158,7 +158,7 @@ fun rememberChangelogData(
 ): MutableState<ChangelogData> {
     val data = remember { mutableStateOf<ChangelogData>(ChangelogData.Loading) }
     LaunchedEffect(Unit) {
-        withContext(Dispatchers.IO) {
+        withContext(Changelog.IODispatcher) {
             val items = Changelog
                 .readFile(setup.logFileReader, setup.versionFormatter)
                 .filter { it.versionCode >= state.minimumVisibleReleaseVersion.value }

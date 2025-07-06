@@ -32,14 +32,4 @@ object ChangelogUtil {
             return
         throw RuntimeException("Unsupported tags found: ${unsupported.joinToString { it.tag }}")
     }
-
-    @Composable
-    fun rememberSubXMLTags(xmlTag: XMLTag): State<List<XMLTag>> {
-        return remember(xmlTag.innerText) {
-            derivedStateOf {
-                val subItems = xmlTag.children()
-                subItems
-            }
-        }
-    }
 }

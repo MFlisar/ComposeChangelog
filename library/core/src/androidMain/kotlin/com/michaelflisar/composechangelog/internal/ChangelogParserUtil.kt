@@ -6,15 +6,10 @@ import com.michaelflisar.composechangelog.Constants
 import com.michaelflisar.composechangelog.data.ChangelogReleaseItem
 import com.michaelflisar.composechangelog.data.XMLAttribute
 import com.michaelflisar.composechangelog.data.XMLTag
-import com.michaelflisar.composechangelog.internal.ChangelogParserUtil.getInnerXml
-import com.michaelflisar.composechangelog.internal.ChangelogParserUtil.getXMLAttributes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.w3c.dom.Element
-import org.w3c.dom.Node
 import org.xmlpull.v1.XmlPullParser
 import java.io.ByteArrayInputStream
-import javax.xml.parsers.DocumentBuilderFactory
 
 internal object ChangelogParserUtil {
 
@@ -35,18 +30,21 @@ internal object ChangelogParserUtil {
         }
     }
 
-    fun children(
-        xmlTag: XMLTag,
+    private fun children(
+        innerText: String
     ): List<XMLTag> {
-        val parser = rawStringToParser(xmlTag.innerText, false)
+        val parser = rawStringToParser(innerText, false)
         val items = ArrayList<XMLTag>()
         while (parser.eventType != XmlPullParser.END_DOCUMENT) {
             if (parser.eventType == XmlPullParser.START_TAG) {
+                val innerText = parser.getInnerXml()
+                val children = children(innerText)
                 items.add(
                     XMLTag(
                         parser.name,
                         parser.getXMLAttributes(),
-                        parser.getInnerXml()
+                        innerText,
+                        children
                     )
                 )
             }
@@ -58,7 +56,7 @@ internal object ChangelogParserUtil {
     @Throws(Exception::class)
     private fun parseMainNode(
         parser: XmlPullParser,
-        versionFormatter: ChangelogVersionFormatter
+        versionFormatter: ChangelogVersionFormatter,
     ): List<ChangelogReleaseItem> {
         val items = ArrayList<ChangelogReleaseItem>()
         while (parser.eventType != XmlPullParser.END_DOCUMENT) {
@@ -102,7 +100,9 @@ internal object ChangelogParserUtil {
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.eventType == XmlPullParser.START_TAG && parser.depth == depth + 1) {
                 val tag = parser.name
-                items.add(XMLTag(tag, parser.getXMLAttributes(), parser.getInnerXml()))
+                val innerText = parser.getInnerXml()
+                val children = children(innerText)
+                items.add(XMLTag(tag, parser.getXMLAttributes(), innerText, children))
             } else if (parser.eventType == XmlPullParser.END_TAG && parser.depth == depth) {
                 break
             }

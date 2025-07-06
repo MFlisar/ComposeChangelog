@@ -135,7 +135,7 @@ class SimpleRenderer(
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            val subItems by ChangelogUtil.rememberSubXMLTags(item)
+            val subItems = item.children
 
             RenderRegion(label, color())
 
@@ -147,7 +147,7 @@ class SimpleRenderer(
                 if (subItem.tag.equals(TAG_ITEM, true)) {
                     RenderItem(setup, subItem)
                 } else if (subItem.tag.equals(TAG_MORE, true)) {
-                    val subItems2 by ChangelogUtil.rememberSubXMLTags(subItem)
+                    val subItems2 = subItem.children
                     if (!setup.skipUnknownTags) {
                         ChangelogUtil.ensureAllTagsSupported(setup, listOf(TAG_ITEM), subItems2)
                     }

@@ -83,7 +83,7 @@ class ChangelogHeaderRenderer(
                         }
                     }
 
-                    val subItems by ChangelogUtil.rememberSubXMLTags(item)
+                    val subItems = item.children
 
                     if (!setup.skipUnknownTags) {
                         ChangelogUtil.ensureAllTagsSupported(
@@ -108,7 +108,7 @@ class ChangelogHeaderRenderer(
                                 RenderItem(setup, subItem, list = false)
                             }
                         } else if (subItem.tag.equals(TAG_INFOS, true)) {
-                            val subItems2 by ChangelogUtil.rememberSubXMLTags(subItem)
+                            val subItems2 = subItem.children
                             if (!setup.skipUnknownTags) {
                                 ChangelogUtil.ensureAllTagsSupported(
                                     setup,

@@ -1,10 +1,10 @@
 [versions]
 
-gradle = 				        "8.9.3"
-kotlin = 				        "2.1.21"
+gradle = 				        "8.11.0"
+kotlin = 				        "2.2.0"
 dokka =                         "1.9.20"
-gradle-maven-publish-plugin =   "0.32.0"
-compose =                       "1.8.1"
+gradle-maven-publish-plugin =   "0.33.0"
+compose =                       "1.8.2"
 compose-icons =                 "1.7.3"
 
 [plugins]

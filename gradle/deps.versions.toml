@@ -1,23 +1,30 @@
 [versions]
 
-moko-parcelize =        "0.9.0"
-accompanist = 			"0.36.0"
+accompanist = 			"0.37.3"
 
 # mflisar
-kotpreferences =        "0.8.0"
-toolbox =               "2.4.5" # demo app only!
+kotpreferences =        "1.0.2"
+kmp-parcelize =         "1.0.0"
+kmp-gradle-tools =      "1.3.3"
 
-htmlconverter =         "1.0.3"
+htmlconverter =         "1.1.0"
+xml =                   "0.91.1"
+
+[plugins]
+
+kmp-gradle-tools-gradle-plugin =    { id = "io.github.mflisar.kmp-gradle-tools.gradle-plugin",              version.ref = "kmp-gradle-tools" }
 
 [libraries]
 
-moko-parcelize =                    { module = "dev.icerock.moko:parcelize", 		                        version.ref = "moko-parcelize" }
 drawablepainter = 		            { module = "com.google.accompanist:accompanist-drawablepainter", 		version.ref = "accompanist" }
 
 # mflisar
 kotpreferences-core =               { module = "io.github.mflisar.kotpreferences:core", 					version.ref = "kotpreferences" }
 kotpreferences-storage-datastore =  { module = "io.github.mflisar.kotpreferences:storage-datastore",      	version.ref = "kotpreferences" }
 kotpreferences-extension-compose =  { module = "io.github.mflisar.kotpreferences:extension-compose",      	version.ref = "kotpreferences" }
-toolbox-demo-app =                  { module = "io.github.mflisar.toolbox:android-demo-app", 			    version.ref = "toolbox" }
+kmp-parcelize =                     { module = "io.github.mflisar.parcelize:library", 	                    version.ref = "kmp-parcelize" }
+kmp-gradle-tools-scripts =          { module = "io.github.mflisar.kmp-gradle-tools:scripts",                version.ref = "kmp-gradle-tools" }
 
 htmlconverter =                     { module = "be.digitalia.compose.htmlconverter:htmlconverter", 			version.ref = "htmlconverter" }
+xml-core =                          { module = "io.github.pdvrieze.xmlutil:core", 			                version.ref = "xml" }
+xml-serialization =                 { module = "io.github.pdvrieze.xmlutil:serialization", 			                version.ref = "xml" }
