@@ -30,7 +30,7 @@ val buildTargets = Targets(
     windows = true,
     macOS = true,
     // web
-    wasm = true
+    wasm = false
 )
 
 // -------------------

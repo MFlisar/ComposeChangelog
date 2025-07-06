@@ -52,7 +52,7 @@ tasks.register("buildDocs") {
         // read env from build-mkdocs.yml
         val generatedDocsDir = project.findProperty("generatedDocsDir") as String? ?: "gen/docs"
         com.michaelflisar.kmpgradletools.docs.buildDocs(
-            relativePathDocsCustom = "documentation/custom",
+            relativePathDocsCustom = "documentation",
             relativePathGeneratedDocsOutput = generatedDocsDir,
             relativeModulesPath = "library",
             relativeDemosPath = "demo",
