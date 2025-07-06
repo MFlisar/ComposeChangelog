@@ -9,7 +9,6 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.compose)
     alias(libs.plugins.dokka)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.gradle.maven.publish.plugin)
     alias(deps.plugins.kmp.gradle.tools.gradle.plugin)
 }
@@ -103,9 +102,6 @@ kotlin {
             api(deps.kmp.parcelize)
 
             api(project(":shared"))
-
-            implementation(deps.xml.core)
-            implementation(deps.xml.serialization)
         }
 
     }

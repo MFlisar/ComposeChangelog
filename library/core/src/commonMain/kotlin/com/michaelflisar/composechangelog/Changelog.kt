@@ -82,7 +82,7 @@ object Changelog {
         RELEASE_RENDERER = renderer
     }
 
-    data class Setup internal constructor(
+    class Setup internal constructor(
         val logFileReader: suspend () -> ByteArray,
         val textFormatter: @Composable (text: String) -> AnnotatedString,
         val versionFormatter: ChangelogVersionFormatter,

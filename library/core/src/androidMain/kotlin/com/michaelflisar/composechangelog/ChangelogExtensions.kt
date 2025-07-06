@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
 import com.michaelflisar.composechangelog.core.R
 
-@Composable
 fun ChangelogDefaults.setup(
     context: Context,
     changelogResourceId: Int = R.raw.changelog,

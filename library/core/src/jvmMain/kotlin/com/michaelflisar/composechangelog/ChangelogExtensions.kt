@@ -6,7 +6,6 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 
-@Composable
 fun ChangelogDefaults.setup(
     file: File = File("changelog.xml"),
     textFormatter: @Composable (text: String) -> AnnotatedString = { it.toAnnotatedString() },
