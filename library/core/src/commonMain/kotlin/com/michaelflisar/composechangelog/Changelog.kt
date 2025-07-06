@@ -112,7 +112,7 @@ fun Changelog(
     val releases = rememberChangelogData(state, setup)
     when (val d = releases.value) {
         is ChangelogData.Data -> Changelog(d.items, setup, modifier, releaseContainer)
-        ChangelogData.Loading -> Box(modifier) { loading() }
+        ChangelogData.Loading -> Box(modifier, contentAlignment = Alignment.Center) { loading() }
     }
 }
 

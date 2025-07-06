@@ -30,25 +30,27 @@ internal object ChangelogParserUtil {
         }
     }
 
-    private fun children(
-        innerText: String
-    ): List<XMLTag> {
-        val parser = rawStringToParser(innerText, false)
+    private fun children(innerText: String): List<XMLTag> {
+        val parser = rawStringToParser(innerText, wrapInRoot = true)
         val items = ArrayList<XMLTag>()
-        while (parser.eventType != XmlPullParser.END_DOCUMENT) {
-            if (parser.eventType == XmlPullParser.START_TAG) {
-                val innerText = parser.getInnerXml()
-                val children = children(innerText)
-                items.add(
-                    XMLTag(
-                        parser.name,
-                        parser.getXMLAttributes(),
-                        innerText,
-                        children
-                    )
-                )
-            }
+
+        // Zum <root> Tag springen
+        while (parser.eventType != XmlPullParser.START_TAG) {
             parser.next()
+        }
+        val rootDepth = parser.depth
+
+        // Jetzt alle direkten Kind-Tags von <root> sammeln
+        while (parser.next() != XmlPullParser.END_DOCUMENT) {
+            if (parser.eventType == XmlPullParser.START_TAG && parser.depth == rootDepth + 1) {
+                val tag = parser.name
+                val attributes = parser.getXMLAttributes()
+                val inner = parser.getInnerXml()
+                val children = children(inner)
+                items.add(XMLTag(tag, attributes, inner, children))
+            } else if (parser.eventType == XmlPullParser.END_TAG && parser.depth == rootDepth) {
+                break
+            }
         }
         return items
     }
