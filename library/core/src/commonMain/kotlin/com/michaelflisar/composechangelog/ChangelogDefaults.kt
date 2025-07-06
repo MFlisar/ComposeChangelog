@@ -2,10 +2,10 @@ package com.michaelflisar.composechangelog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
+import com.michaelflisar.composechangelog.core.resources.Res
 
 object ChangelogDefaults {
 
-    @Composable
     fun setup(
         logFileReader: suspend () -> ByteArray,
         textFormatter: @Composable (text: String) -> AnnotatedString = { it.toAnnotatedString() },
