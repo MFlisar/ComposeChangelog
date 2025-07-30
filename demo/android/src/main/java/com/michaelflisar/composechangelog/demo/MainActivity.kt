@@ -71,6 +71,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(it)
+                            .padding(all = 16.dp),
                     ) {
                         Content()
                     }
