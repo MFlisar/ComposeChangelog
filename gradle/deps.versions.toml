@@ -1,9 +1,9 @@
 [versions]
 
 # mflisar
-kotpreferences =        "1.0.2"
+kotpreferences =        "1.0.3"
 kmp-parcelize =         "1.0.0"
-kmp-gradle-tools =      "1.3.3"
+kmp-gradle-tools =      "1.4.2"
 
 accompanist = 			"0.37.3"
 htmlconverter =         "1.1.0"

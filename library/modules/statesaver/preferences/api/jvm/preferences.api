@@ -1,0 +1,17 @@
+public final class com/michaelflisar/composechangelog/statesaver/preferences/ChangelogStateSaverPreferences : com/michaelflisar/composechangelog/interfaces/IChangelogStateSaver {
+	public static final field $stable I
+	public static final field Companion Lcom/michaelflisar/composechangelog/statesaver/preferences/ChangelogStateSaverPreferences$Companion;
+	public static final field PREF_KEY Ljava/lang/String;
+	public fun collectLastShownVersion (Landroidx/compose/runtime/Composer;I)Landroidx/compose/runtime/State;
+	public fun lastShownVersion (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun saveLastShownVersion (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/michaelflisar/composechangelog/statesaver/preferences/ChangelogStateSaverPreferences$Companion {
+}
+
+public final class com/michaelflisar/composechangelog/statesaver/preferences/ChangelogStateSaverPreferencesKt {
+	public static final fun create (Lcom/michaelflisar/composechangelog/statesaver/preferences/ChangelogStateSaverPreferences$Companion;Ljava/io/File;Ljava/lang/String;Ljava/lang/String;)Lcom/michaelflisar/composechangelog/statesaver/preferences/ChangelogStateSaverPreferences;
+	public static synthetic fun create$default (Lcom/michaelflisar/composechangelog/statesaver/preferences/ChangelogStateSaverPreferences$Companion;Ljava/io/File;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/michaelflisar/composechangelog/statesaver/preferences/ChangelogStateSaverPreferences;
+}
+

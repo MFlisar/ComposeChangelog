@@ -1,0 +1,31 @@
+public final class com/michaelflisar/composechangelog/renderer/header/ChangelogHeaderRenderer : com/michaelflisar/composechangelog/interfaces/IChangelogItemRenderer {
+	public static final field $stable I
+	public static final field Companion Lcom/michaelflisar/composechangelog/renderer/header/ChangelogHeaderRenderer$Companion;
+	public fun <init> ()V
+	public fun <init> (Landroidx/compose/ui/Alignment$Horizontal;Lcom/michaelflisar/composechangelog/renderer/header/ChangelogHeaderRenderer$IconPlacement;Lkotlin/jvm/functions/Function3;)V
+	public synthetic fun <init> (Landroidx/compose/ui/Alignment$Horizontal;Lcom/michaelflisar/composechangelog/renderer/header/ChangelogHeaderRenderer$IconPlacement;Lkotlin/jvm/functions/Function3;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun canRender (Lcom/michaelflisar/composechangelog/data/XMLTag;)Z
+	public final fun getIconPlacement ()Lcom/michaelflisar/composechangelog/renderer/header/ChangelogHeaderRenderer$IconPlacement;
+	public final fun getIconProvider ()Lkotlin/jvm/functions/Function3;
+	public final fun getTitleAlignment ()Landroidx/compose/ui/Alignment$Horizontal;
+	public fun headerTag (Landroidx/compose/runtime/Composer;I)Lcom/michaelflisar/composechangelog/interfaces/IChangelogItemRenderer$HeaderTag;
+	public fun render (Lcom/michaelflisar/composechangelog/Changelog$Setup;Lcom/michaelflisar/composechangelog/data/XMLTag;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class com/michaelflisar/composechangelog/renderer/header/ChangelogHeaderRenderer$Companion {
+}
+
+public final class com/michaelflisar/composechangelog/renderer/header/ChangelogHeaderRenderer$IconPlacement : java/lang/Enum {
+	public static final field Start Lcom/michaelflisar/composechangelog/renderer/header/ChangelogHeaderRenderer$IconPlacement;
+	public static final field Top Lcom/michaelflisar/composechangelog/renderer/header/ChangelogHeaderRenderer$IconPlacement;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/michaelflisar/composechangelog/renderer/header/ChangelogHeaderRenderer$IconPlacement;
+	public static fun values ()[Lcom/michaelflisar/composechangelog/renderer/header/ChangelogHeaderRenderer$IconPlacement;
+}
+
+public final class com/michaelflisar/composechangelog/renderer/header/ComposableSingletons$ChangelogHeaderRendererKt {
+	public static final field INSTANCE Lcom/michaelflisar/composechangelog/renderer/header/ComposableSingletons$ChangelogHeaderRendererKt;
+	public fun <init> ()V
+	public final fun getLambda$-2072416788$header_release ()Lkotlin/jvm/functions/Function3;
+}
+

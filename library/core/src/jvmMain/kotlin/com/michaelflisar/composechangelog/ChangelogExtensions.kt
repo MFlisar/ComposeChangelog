@@ -27,12 +27,9 @@ fun ChangelogDefaults.setup(
  *
  * @return the app version name
  */
-fun Changelog.getAppVersionName(
-    exe: File = File(System.getProperty("user.dir")).let {
-        File(it, it.name + ".exe")
-    },
-): String {
-    val versionInfo = runPS("(Get-Item '${exe.absolutePath}').VersionInfo.FileVersion")
+fun Changelog.getAppVersionName(): String {
+    val exePath = File(Changelog::class.java.protectionDomain.codeSource.location.toURI()).absolutePath
+    val versionInfo = runPS("(Get-Item '${exePath}').VersionInfo.FileVersion")
     return versionInfo.takeIf { it.isNotEmpty() } ?: "<UNKNOWN>"
 }
 

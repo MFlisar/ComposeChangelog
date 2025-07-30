@@ -1,0 +1,193 @@
+public final class com/michaelflisar/composechangelog/Changelog {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/michaelflisar/composechangelog/Changelog;
+	public final fun clearRenderers ()V
+	public final fun registerRenderer (Lcom/michaelflisar/composechangelog/interfaces/IChangelogItemRenderer;)V
+	public final fun setReleaseRenderer (Lcom/michaelflisar/composechangelog/interfaces/IChangelogReleaseRenderer;)V
+}
+
+public final class com/michaelflisar/composechangelog/Changelog$Setup {
+	public static final field $stable I
+	public final fun getLogFileReader ()Lkotlin/jvm/functions/Function1;
+	public final fun getSkipUnknownTags ()Z
+	public final fun getTextFormatter ()Lkotlin/jvm/functions/Function3;
+	public final fun getTextMore ()Ljava/lang/String;
+	public final fun getVersionFormatter ()Lcom/michaelflisar/composechangelog/ChangelogVersionFormatter;
+}
+
+public final class com/michaelflisar/composechangelog/ChangelogDefaults {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/michaelflisar/composechangelog/ChangelogDefaults;
+	public final fun setup (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Lcom/michaelflisar/composechangelog/ChangelogVersionFormatter;ZLjava/lang/String;)Lcom/michaelflisar/composechangelog/Changelog$Setup;
+	public static synthetic fun setup$default (Lcom/michaelflisar/composechangelog/ChangelogDefaults;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Lcom/michaelflisar/composechangelog/ChangelogVersionFormatter;ZLjava/lang/String;ILjava/lang/Object;)Lcom/michaelflisar/composechangelog/Changelog$Setup;
+}
+
+public final class com/michaelflisar/composechangelog/ChangelogExtensionsKt {
+	public static final fun getAppVersionName (Lcom/michaelflisar/composechangelog/Changelog;)Ljava/lang/String;
+	public static final fun runPS (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun setup (Lcom/michaelflisar/composechangelog/ChangelogDefaults;Ljava/io/File;Lkotlin/jvm/functions/Function3;Lcom/michaelflisar/composechangelog/ChangelogVersionFormatter;ZLjava/lang/String;)Lcom/michaelflisar/composechangelog/Changelog$Setup;
+	public static synthetic fun setup$default (Lcom/michaelflisar/composechangelog/ChangelogDefaults;Ljava/io/File;Lkotlin/jvm/functions/Function3;Lcom/michaelflisar/composechangelog/ChangelogVersionFormatter;ZLjava/lang/String;ILjava/lang/Object;)Lcom/michaelflisar/composechangelog/Changelog$Setup;
+}
+
+public final class com/michaelflisar/composechangelog/ChangelogKt {
+	public static final fun Changelog (Lcom/michaelflisar/composechangelog/classes/ChangelogState;Lcom/michaelflisar/composechangelog/Changelog$Setup;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun Changelog (Ljava/util/List;Lcom/michaelflisar/composechangelog/Changelog$Setup;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+	public static final fun rememberChangelogData (Lcom/michaelflisar/composechangelog/classes/ChangelogState;Lcom/michaelflisar/composechangelog/Changelog$Setup;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Landroidx/compose/runtime/MutableState;
+}
+
+public final class com/michaelflisar/composechangelog/ChangelogUtil {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/michaelflisar/composechangelog/ChangelogUtil;
+	public final fun ensureAllTagsSupported (Lcom/michaelflisar/composechangelog/Changelog$Setup;Ljava/util/List;Ljava/util/List;)V
+}
+
+public final class com/michaelflisar/composechangelog/ComposableSingletons$ChangelogKt {
+	public static final field INSTANCE Lcom/michaelflisar/composechangelog/ComposableSingletons$ChangelogKt;
+	public fun <init> ()V
+	public final fun getLambda$-948364180$core ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1612258380$core ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1900981055$core ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class com/michaelflisar/composechangelog/Platform_jvmKt {
+	public static final fun getIODispatcher (Lcom/michaelflisar/composechangelog/Changelog;)Lkotlinx/coroutines/CoroutineDispatcher;
+}
+
+public abstract class com/michaelflisar/composechangelog/classes/ChangelogData {
+	public static final field $stable I
+}
+
+public final class com/michaelflisar/composechangelog/classes/ChangelogData$Data : com/michaelflisar/composechangelog/classes/ChangelogData {
+	public static final field $stable I
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lcom/michaelflisar/composechangelog/classes/ChangelogData$Data;
+	public static synthetic fun copy$default (Lcom/michaelflisar/composechangelog/classes/ChangelogData$Data;Ljava/util/List;ILjava/lang/Object;)Lcom/michaelflisar/composechangelog/classes/ChangelogData$Data;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getItems ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/michaelflisar/composechangelog/classes/ChangelogData$Loading : com/michaelflisar/composechangelog/classes/ChangelogData {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/michaelflisar/composechangelog/classes/ChangelogData$Loading;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/michaelflisar/composechangelog/classes/ChangelogState {
+	public static final field $stable I
+	public final fun checkShouldShowChangelogOnStart (Lcom/michaelflisar/composechangelog/interfaces/IChangelogStateSaver;Ljava/lang/String;Lcom/michaelflisar/composechangelog/ChangelogVersionFormatter;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun getVisible ()Z
+	public final fun hide ()V
+	public final fun show (J)V
+	public static synthetic fun show$default (Lcom/michaelflisar/composechangelog/classes/ChangelogState;JILjava/lang/Object;)V
+}
+
+public final class com/michaelflisar/composechangelog/classes/ChangelogStateKt {
+	public static final fun rememberChangelogState (ZJLandroidx/compose/runtime/Composer;II)Lcom/michaelflisar/composechangelog/classes/ChangelogState;
+}
+
+public final class com/michaelflisar/composechangelog/data/ChangelogReleaseItem {
+	public static final field $stable I
+	public fun <init> (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+	public final fun getDate ()Ljava/lang/String;
+	public final fun getItems ()Ljava/util/List;
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun getVersionCode ()I
+	public final fun getVersionName ()Ljava/lang/String;
+}
+
+public final class com/michaelflisar/composechangelog/data/XMLAttribute {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lcom/michaelflisar/composechangelog/data/XMLAttribute;
+	public static synthetic fun copy$default (Lcom/michaelflisar/composechangelog/data/XMLAttribute;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/michaelflisar/composechangelog/data/XMLAttribute;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/michaelflisar/composechangelog/data/XMLTag {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/List;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/List;)Lcom/michaelflisar/composechangelog/data/XMLTag;
+	public static synthetic fun copy$default (Lcom/michaelflisar/composechangelog/data/XMLTag;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/michaelflisar/composechangelog/data/XMLTag;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun findAttribute (Ljava/lang/String;)Lcom/michaelflisar/composechangelog/data/XMLAttribute;
+	public final fun getAttributes ()Ljava/util/List;
+	public final fun getChildren ()Ljava/util/List;
+	public final fun getInnerText ()Ljava/lang/String;
+	public final fun getTag ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/michaelflisar/composechangelog/defaults/XMLRegexParser {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/michaelflisar/composechangelog/defaults/XMLRegexParser;
+	public final fun parse (Lkotlin/jvm/functions/Function1;Lcom/michaelflisar/composechangelog/ChangelogVersionFormatter;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/michaelflisar/composechangelog/interfaces/IChangelogItemRenderer {
+	public abstract fun canRender (Lcom/michaelflisar/composechangelog/data/XMLTag;)Z
+	public abstract fun headerTag (Landroidx/compose/runtime/Composer;I)Lcom/michaelflisar/composechangelog/interfaces/IChangelogItemRenderer$HeaderTag;
+	public abstract fun render (Lcom/michaelflisar/composechangelog/Changelog$Setup;Lcom/michaelflisar/composechangelog/data/XMLTag;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class com/michaelflisar/composechangelog/interfaces/IChangelogItemRenderer$HeaderTag {
+	public static final field $stable I
+	public synthetic fun <init> (Ljava/lang/String;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getColor-0d7_KjU ()J
+	public final fun getText ()Ljava/lang/String;
+}
+
+public abstract interface class com/michaelflisar/composechangelog/interfaces/IChangelogReleaseRenderer {
+	public abstract fun render (Lcom/michaelflisar/composechangelog/data/ChangelogReleaseItem;Landroidx/compose/runtime/Composer;I)V
+}
+
+public abstract interface class com/michaelflisar/composechangelog/interfaces/IChangelogStateSaver {
+	public abstract fun collectLastShownVersion (Landroidx/compose/runtime/Composer;I)Landroidx/compose/runtime/State;
+	public abstract fun lastShownVersion (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun saveLastShownVersion (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/michaelflisar/composechangelog/renderer/ReleaseRenderer : com/michaelflisar/composechangelog/interfaces/IChangelogReleaseRenderer {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getShowTags ()Z
+	public fun render (Lcom/michaelflisar/composechangelog/data/ChangelogReleaseItem;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class com/michaelflisar/composechangelog/renderer/SimpleRenderer : com/michaelflisar/composechangelog/interfaces/IChangelogItemRenderer {
+	public static final field $stable I
+	public static final field Companion Lcom/michaelflisar/composechangelog/renderer/SimpleRenderer$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;ZLkotlin/jvm/functions/Function2;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZLkotlin/jvm/functions/Function2;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun canRender (Lcom/michaelflisar/composechangelog/data/XMLTag;)Z
+	public final fun getColor ()Lkotlin/jvm/functions/Function2;
+	public final fun getLabel ()Ljava/lang/String;
+	public final fun getShowTag ()Z
+	public final fun getTag ()Ljava/lang/String;
+	public fun headerTag (Landroidx/compose/runtime/Composer;I)Lcom/michaelflisar/composechangelog/interfaces/IChangelogItemRenderer$HeaderTag;
+	public fun render (Lcom/michaelflisar/composechangelog/Changelog$Setup;Lcom/michaelflisar/composechangelog/data/XMLTag;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class com/michaelflisar/composechangelog/renderer/SimpleRenderer$Companion {
+	public final fun RenderItem (Lcom/michaelflisar/composechangelog/Changelog$Setup;Lcom/michaelflisar/composechangelog/data/XMLTag;ZLandroidx/compose/runtime/Composer;II)V
+	public final fun RenderMore (Landroidx/compose/foundation/layout/ColumnScope;Lcom/michaelflisar/composechangelog/Changelog$Setup;Ljava/util/List;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;I)V
+	public final fun RenderRegion-iJQMabo (Ljava/lang/String;JLandroidx/compose/runtime/Composer;II)V
+}
+

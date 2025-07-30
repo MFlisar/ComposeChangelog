@@ -55,7 +55,11 @@ modules:
     description: provides a simple state saver based on KotPreferences
     optional: false
     platforms-info: ""
-    dependencies: []
+    dependencies:
+      - name: KotPreferences
+        versions-file: deps.versions.toml
+        versions-key: kotpreferences
+        link: https://github.com/MFlisar/KotPreferences
   - relativePath: library\modules\statesaver\preferences
     artifact-id: statesaver-preferences
     group: modules

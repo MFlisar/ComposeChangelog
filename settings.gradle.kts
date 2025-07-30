@@ -46,7 +46,7 @@ fun includeModule(path: String, name: String) {
 // Gradle Plugin
 // --------------
 
-includeModule("library/gradle-plugin/shared", ":shared")
+includeModule("library/gradle-plugin/shared", ":composechangelog:gradle-plugin:shared")
 
 includeBuild("library/gradle-plugin") {
     dependencySubstitution {

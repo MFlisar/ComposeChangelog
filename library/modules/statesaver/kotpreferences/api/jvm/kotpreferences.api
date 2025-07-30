@@ -1,0 +1,8 @@
+public final class com/michaelflisar/composechangelog/statesaver/kotpreferences/ChangelogStateSaverKotPreferences : com/michaelflisar/composechangelog/interfaces/IChangelogStateSaver {
+	public static final field $stable I
+	public fun <init> (Lcom/michaelflisar/kotpreferences/core/interfaces/StorageSetting;)V
+	public fun collectLastShownVersion (Landroidx/compose/runtime/Composer;I)Landroidx/compose/runtime/State;
+	public fun lastShownVersion (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun saveLastShownVersion (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
