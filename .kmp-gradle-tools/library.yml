@@ -27,7 +27,10 @@ library:
     name: Apache License 2.0
     link: https://github.com/MFlisar/ComposeChangelog/blob/main/LICENSE
   screenshots:
-    - docs/screenshots/core/changelog.png
+    - name: changelog
+      images:
+        - docs/screenshots/core/changelog1.png
+        - docs/screenshots/core/changelog2.png
   about-me: true # set to true if you want to show the about me section on the homepage
 
 maven:

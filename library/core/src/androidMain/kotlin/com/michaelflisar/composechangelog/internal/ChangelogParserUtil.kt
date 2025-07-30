@@ -102,9 +102,10 @@ internal object ChangelogParserUtil {
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.eventType == XmlPullParser.START_TAG && parser.depth == depth + 1) {
                 val tag = parser.name
+                val attributes = parser.getXMLAttributes()
                 val innerText = parser.getInnerXml()
                 val children = children(innerText)
-                items.add(XMLTag(tag, parser.getXMLAttributes(), innerText, children))
+                items.add(XMLTag(tag, attributes, innerText, children))
             } else if (parser.eventType == XmlPullParser.END_TAG && parser.depth == depth) {
                 break
             }
