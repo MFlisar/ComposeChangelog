@@ -1,0 +1,45 @@
+# -----------
+# Module Groups
+# -----------
+
+# optional - remove it if you do not want to group your modules
+# each group has following properties:
+# - id...  the id - only needed to reference this group below inside the modules sections
+# - label... the label of the group - used in the docs tables
+# - gradle-comment... the comment on the gradle setup docs page for this group
+##groups:
+##  - id: core
+##    label: Core
+##    gradle-comment: core
+
+# -----------
+# Modules
+# -----------
+
+# REQUIRED! each module must define its meta data here!
+# each module has following properties:
+# relativePath... the relative path to the project root folder
+# artifact-id... the maven artifact id
+# group... the id of the group this module belongs to (defined above) [OPTIONAL]
+# platforms-info... a string that is displayed inside the docs in the "supported platforms" table in the info column [OPTIONAL]
+#                   IDEE: reference this info inside the parts/index_platform_comments.md
+# dependencies... a list of dependencies this module has (see below for details) [OPTIONAL]
+#    ... name: the name of the dependency - used in the docs tables
+#    ... versions-file... the toml file to load the version from (e.g. deps.versions.toml, ...)
+#    ... versions-key... the key for the versions table in the toml file
+#    ... link: a link to the dependency - used in the docs tables
+modules:
+  - relativePath: plugin
+    artifact-id: gradle-plugin
+    group: gradle-plugin
+    description: a gradle plugin that provides common functions for gradle files
+    optional: true
+    platforms-info: "this is a gradle plugin only"
+    dependencies: []
+  - relativePath: shared
+    artifact-id: gradle-plugin-shared
+    group: gradle-plugin
+    description: this provides shared classes for the gradle plugin and for the library (must never be included directly!)
+    optional: true
+    platforms-info: ""
+    dependencies: []

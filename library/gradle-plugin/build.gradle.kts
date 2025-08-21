@@ -13,4 +13,5 @@ plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     `kotlin-dsl-base` apply false
     //`java-gradle-plugin` apply false
+    alias(deps.plugins.kmplibrary.buildplugin) apply false
 }

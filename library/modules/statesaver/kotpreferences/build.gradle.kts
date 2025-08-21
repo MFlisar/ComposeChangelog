@@ -1,6 +1,10 @@
-import com.michaelflisar.kmpgradletools.BuildFilePlugin
-import com.michaelflisar.kmpgradletools.Target
-import com.michaelflisar.kmpgradletools.Targets
+import com.michaelflisar.kmplibrary.BuildFilePlugin
+import com.michaelflisar.kmplibrary.dependencyOf
+import com.michaelflisar.kmplibrary.dependencyOfAll
+import com.michaelflisar.kmplibrary.Target
+import com.michaelflisar.kmplibrary.Targets
+import com.michaelflisar.kmplibrary.api
+import com.michaelflisar.kmplibrary.implementation
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -11,7 +15,7 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.gradle.maven.publish.plugin)
     alias(libs.plugins.binary.compatibility.validator)
-    alias(deps.plugins.kmp.gradle.tools.gradle.plugin)
+    alias(deps.plugins.kmplibrary.buildplugin)
 }
 
 // get build file plugin
@@ -60,14 +64,8 @@ kotlin {
             implementation(libs.compose.runtime)
 
             // KotPreferences
-            val useLiveDependencies = providers.gradleProperty("useLiveDependencies").get().toBoolean()
-            if (useLiveDependencies) {
-                api(deps.kotpreferences.core)
-                implementation(deps.kotpreferences.extension.compose)
-            } else {
-                api(project(":kotpreferences:core"))
-                implementation(project(":kotpreferences:extensions:compose"))
-            }
+            api(live = deps.kotpreferences.core, project = ":kotpreferences:core", plugin = buildFilePlugin)
+            implementation(live = deps.kotpreferences.extension.compose, project = ":kotpreferences:modules:compose", plugin = buildFilePlugin)
 
             implementation(project(":composechangelog:core"))
 
@@ -90,4 +88,5 @@ android {
 }
 
 // maven publish configuration
-buildFilePlugin.setupMavenPublish()
+if (buildFilePlugin.checkGradleProperty("publishToMaven") != false)
+    buildFilePlugin.setupMavenPublish()

@@ -74,3 +74,10 @@ modules:
     optional: true
     platforms-info: "this is a gradle plugin only"
     dependencies: []
+  - relativePath: library\gradle-plugin\shared
+    artifact-id: gradle-plugin-shared
+    group: gradle-plugin
+    description: this provides shared classes for the gradle plugin and for the library (must never be included directly!)
+    optional: true
+    platforms-info: ""
+    dependencies: []
