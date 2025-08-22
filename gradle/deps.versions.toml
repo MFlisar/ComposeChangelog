@@ -3,7 +3,7 @@
 # mflisar
 kotpreferences =            "1.0.3"
 kmp-parcelize =             "1.0.0"
-kmp-library =               "1.7.4"
+kmp-library =               "1.9.0"
 
 accompanist = 			    "0.37.3"
 htmlconverter =             "1.1.0"

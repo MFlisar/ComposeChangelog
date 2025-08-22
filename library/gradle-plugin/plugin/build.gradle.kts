@@ -1,6 +1,5 @@
 import com.michaelflisar.kmplibrary.BuildFilePlugin
-import com.michaelflisar.kmplibrary.dependencyOf
-import com.michaelflisar.kmplibrary.dependencyOfAll
+import com.michaelflisar.kmplibrary.setupDependencies
 import com.michaelflisar.kmplibrary.Target
 import com.michaelflisar.kmplibrary.Targets
 import com.vanniktech.maven.publish.GradlePlugin
@@ -54,3 +53,5 @@ if (buildFilePlugin.checkGradleProperty("publishToMaven") != false)
             sourcesJar = true
         )
     )
+
+
