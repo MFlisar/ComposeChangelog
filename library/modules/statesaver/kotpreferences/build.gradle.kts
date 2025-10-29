@@ -72,13 +72,8 @@ kotlin {
 
             implementation(project(":composechangelog:core"))
 
-            if (buildFilePlugin.useLiveDependencies()) {
-                api(deps.kotpreferences.core)
-                implementation(deps.kotpreferences.extension.compose)
-            } else {
-                api(project(":kotpreferences:core"))
-                implementation(project(":kotpreferences:modules:compose"))
-            }
+            api(deps.kotpreferences.core)
+            implementation(deps.kotpreferences.extension.compose)
         }
     }
 }
