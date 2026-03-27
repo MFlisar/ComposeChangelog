@@ -1,0 +1,86 @@
+<changelog>
+
+    <release versionName="2.0.0" date="2018-03-01" title="Major Update: Version 2.0.0">
+
+        <!-- optional header -->
+        <header icon="info">
+            <title>This version introduces a new feature: Cool New Feature</title>
+            <infos>
+                <item>Feature 1: theme the app the way you want it</item>
+                <item>Feature 2: ...</item>
+                <item>Feature 3: ...</item>
+            </infos>
+        </header>
+
+        <!-- news -->
+        <news>
+            <item>New <b>backup function</b> added</item>
+            <item>Added a progress indicator to the backup</item>
+            <item>Some longer news with a very very very very very very very very very very very very long description to ensure that this item has multiple lines</item>
+        </news>
+
+        <!-- improvements -->
+        <improvements>
+            <item>Scrolling performance drastically improved</item>
+            <item>Fixed a rare crash during export</item>
+        </improvements>
+
+        <!-- changes -->
+        <changes>
+            <item>Menu restructured - the export function was moved to the settings screen</item>
+        </changes>
+
+        <!-- bugfixes -->
+        <bugfixes>
+            <item>Fixed a possible rare crash during export</item>
+            <item>Fixed a rare crash during export</item>
+            <more>
+                <item>Fixed a small internal bug</item>
+                <item>Fixed another small internal bug</item>
+                <item>And another one...</item>
+                <item>And another one...</item>
+                <item>And another one...</item>
+                <item>And another one...</item>
+            </more>
+        </bugfixes>
+    </release>
+
+    <release versionName="1.0.1" date="2018-02-01">
+        <!-- bugfixes -->
+        <bugfixes>
+            <item>Severe crash when opening the settings screen fixed</item>
+        </bugfixes>
+    </release>
+
+    <release versionName="1.0.0" date="2018-01-01">
+        <!-- optional header -->
+        <header icon="warning">
+            <title>First release version</title>
+            <item>We finally made it - this is the first stable release version</item>
+        </header>
+        <!-- news -->
+        <news>
+            <item>New backup function added</item>
+            <item>Added a progress indicator to the backup</item>
+        </news>
+        <!-- improvements -->
+        <improvements>
+            <item>Scrolling performance drastically improved</item>
+            <item>Fixed a rare crash during export</item>
+        </improvements>
+        <!-- changes -->
+        <changes>
+            <item>Menu restructured - the export function was moved to the settings screen</item>
+        </changes>
+        <!-- bugfixes -->
+        <bugfixes>
+            <item>Fixed a possible rare crash during export</item>
+            <item>Fixed a rare crash during export</item>
+            <more>
+                <item>Fixed a small internal bug</item>
+                <item>Fixed another small internal bug</item>
+            </more>
+        </bugfixes>
+    </release>
+
+</changelog>

@@ -5,7 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import com.michaelflisar.composechangelog.ChangelogVersionFormatter
+import com.michaelflisar.composechangelog.format.ChangelogVersionFormatter
 import com.michaelflisar.composechangelog.interfaces.IChangelogStateSaver
 
 class ChangelogState internal constructor(

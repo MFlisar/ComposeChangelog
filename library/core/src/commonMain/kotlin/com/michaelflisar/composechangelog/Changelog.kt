@@ -4,12 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BugReport
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.PriorityHigh
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
@@ -22,15 +19,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.michaelflisar.composechangelog.classes.ChangelogData
 import com.michaelflisar.composechangelog.classes.ChangelogState
+import com.michaelflisar.composechangelog.classes.ChangelogTextFormatter
 import com.michaelflisar.composechangelog.data.ChangelogReleaseItem
+import com.michaelflisar.composechangelog.format.ChangelogVersionFormatter
 import com.michaelflisar.composechangelog.interfaces.IChangelogItemRenderer
 import com.michaelflisar.composechangelog.interfaces.IChangelogReleaseRenderer
 import com.michaelflisar.composechangelog.renderer.ReleaseRenderer
 import com.michaelflisar.composechangelog.renderer.SimpleRenderer
+import com.michaelflisar.kmp.platformcontext.PlatformIO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -84,7 +83,7 @@ object Changelog {
 
     class Setup internal constructor(
         val logFileReader: suspend () -> ByteArray,
-        val textFormatter: @Composable (text: String) -> AnnotatedString,
+        val textFormatter: ChangelogTextFormatter,
         val versionFormatter: ChangelogVersionFormatter,
         val skipUnknownTags: Boolean,
         val textMore: String,
@@ -97,6 +96,7 @@ fun Changelog(
     state: ChangelogState,
     setup: Changelog.Setup,
     modifier: Modifier,
+    lazyListState: LazyListState = rememberLazyListState(),
     releaseContainer: @Composable (content: @Composable () -> Unit) -> Unit = {
         OutlinedCard {
             Column(
@@ -111,7 +111,7 @@ fun Changelog(
 ) {
     val releases = rememberChangelogData(state, setup)
     when (val d = releases.value) {
-        is ChangelogData.Data -> Changelog(d.items, setup, modifier, releaseContainer)
+        is ChangelogData.Data -> Changelog(d.items, setup, modifier, lazyListState, releaseContainer)
         ChangelogData.Loading -> Box(modifier, contentAlignment = Alignment.Center) { loading() }
     }
 }
@@ -121,11 +121,12 @@ fun Changelog(
     releases: List<ChangelogReleaseItem>,
     setup: Changelog.Setup,
     modifier: Modifier,
+    lazyListState: LazyListState = rememberLazyListState(),
     releaseContainer: @Composable (content: @Composable () -> Unit) -> Unit = { it() },
 ) {
-    LazyScrollContainer(
+    LazyColumn(
         modifier = modifier,
-        state = rememberLazyListState(),
+        state = lazyListState,
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.Start
     ) {
@@ -158,7 +159,7 @@ fun rememberChangelogData(
 ): MutableState<ChangelogData> {
     val data = remember { mutableStateOf<ChangelogData>(ChangelogData.Loading) }
     LaunchedEffect(Unit) {
-        withContext(Changelog.IODispatcher) {
+        withContext(Dispatchers.PlatformIO) {
             val items = Changelog
                 .readFile(setup.logFileReader, setup.versionFormatter)
                 .filter { it.versionCode >= state.minimumVisibleReleaseVersion.value }
@@ -172,6 +173,3 @@ fun rememberChangelogData(
     }
     return data
 }
-
-
-

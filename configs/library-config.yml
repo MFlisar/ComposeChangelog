@@ -1,0 +1,31 @@
+# Github Library
+github:
+  name: ComposeChangelog
+  release: 2023
+  namespace: com.michaelflisar.composechangelog
+  license:
+    name: Apache License 2.0
+    path: blob/main/LICENSE
+
+# Maven
+maven:
+  group-id: io.github.mflisar.composechangelog
+  primary-artifact-id: core # used to detect latest release version of the library (dynamically on the published homepage)
+
+# Modules - list of modules [artifact-id, description, path]
+modules:
+  - artifact-id: core
+    description: provides all the basic classes and composables to show a changelog
+    path: library/core
+  - artifact-id: renderer-header
+    description: implements rendering of a <header> tag
+    path: library/modules/renderer/header
+  - artifact-id: statesaver-kotpreferences
+    description: provides a simple state saver based on KotPreferences
+    path: library/modules/statesaver/kotpreferences
+  - artifact-id: statesaver-preferences
+    description: provides a simple state saver based on jetpack preferences
+    path: library/modules/statesaver/preferences
+
+# XCFrameworks [name, path, targets (ios, macos)]
+xcframeworks: [ ]

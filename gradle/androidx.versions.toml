@@ -1,9 +1,0 @@
-[versions]
-
-activity = 		    "1.10.1"
-datastoreprefs =    "1.1.7"
-
-[libraries]
-
-activity-compose =          { module = "androidx.activity:activity-compose", 			version.ref = "activity" }
-datastore-preferences = 	{ module = "androidx.datastore:datastore-preferences", 	    version.ref = "datastoreprefs" }

@@ -1,12 +1,12 @@
 package com.michaelflisar.composechangelog.defaults
 
-import com.michaelflisar.composechangelog.Changelog
-import com.michaelflisar.composechangelog.ChangelogVersionFormatter
 import com.michaelflisar.composechangelog.Constants
-import com.michaelflisar.composechangelog.IODispatcher
 import com.michaelflisar.composechangelog.data.ChangelogReleaseItem
 import com.michaelflisar.composechangelog.data.XMLAttribute
 import com.michaelflisar.composechangelog.data.XMLTag
+import com.michaelflisar.composechangelog.format.ChangelogVersionFormatter
+import com.michaelflisar.kmp.platformcontext.PlatformIO
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 object XMLRegexParser {
@@ -17,7 +17,7 @@ object XMLRegexParser {
         logFileReader: suspend () -> ByteArray,
         versionFormatter: ChangelogVersionFormatter,
     ): List<ChangelogReleaseItem> {
-        return withContext(Changelog.IODispatcher) {
+        return withContext(Dispatchers.PlatformIO) {
             val bytes = logFileReader()
             val content = bytes.decodeToString()
             findAllReleaseTags(content)
@@ -47,8 +47,8 @@ object XMLRegexParser {
                         attrDate,
                         attrTitle,
                         subTags
-                 )
-            }
+                    )
+                }
         }
     }
 

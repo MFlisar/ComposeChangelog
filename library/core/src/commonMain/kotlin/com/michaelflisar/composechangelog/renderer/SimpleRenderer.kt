@@ -13,7 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -47,7 +46,7 @@ class SimpleRenderer(
     val tag: String,
     val label: String,
     val showTag: Boolean = true,
-    val color: @Composable () -> Color = { LocalContentColor.current }
+    val color: @Composable () -> Color = { LocalContentColor.current },
 ) : IChangelogItemRenderer {
 
     companion object {
@@ -74,7 +73,7 @@ class SimpleRenderer(
                     )
                 }
                 Text(
-                    text = setup.textFormatter(item.innerText),
+                    text = setup.textFormatter.format(item.innerText),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

@@ -3,17 +3,18 @@ package com.michaelflisar.composechangelog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.AnnotatedString
+import com.michaelflisar.composechangelog.classes.ChangelogTextFormatter
 import com.michaelflisar.composechangelog.core.R
+import com.michaelflisar.composechangelog.format.ChangelogVersionFormatter
+import com.michaelflisar.composechangelog.format.DefaultVersionFormatter
 
 fun ChangelogDefaults.setup(
     context: Context,
     changelogResourceId: Int = R.raw.changelog,
-    textFormatter: @Composable (text: String) -> AnnotatedString = { it.toAnnotatedString() },
+    textFormatter: ChangelogTextFormatter = DefaultTextFormatter,
     versionFormatter: ChangelogVersionFormatter = DefaultVersionFormatter(),
     skipUnknownTags: Boolean = false,
-    textMore: String = "More"
+    textMore: String = "More",
 ) = Changelog.Setup(
     logFileReader = {
         val resourceType: String = context.resources.getResourceTypeName(changelogResourceId)

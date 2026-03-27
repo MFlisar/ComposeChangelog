@@ -1,25 +1,30 @@
 [versions]
 
 # mflisar
-kotpreferences =            "2.0.0"
-kmp-parcelize =             "1.0.0"
-kmp-library =               "2.2.5"
+kmp-parcelize =             "1.1.0-alpha01"
+kmpplatformcontext =        "1.1.0-alpha03"
+kotpreferences =        	"4.0.0-alpha02"
+
+kmpdevtools =               "7.4.2" # change via "updateDevToolsVersion" gradle task!
 
 accompanist = 			    "0.37.3"
 htmlconverter =             "1.1.0"
 
 [plugins]
 
-kmplibrary-buildplugin =            { id = "io.github.mflisar.kmp-library.plugins-build-gradle",           version.ref = "kmp-library" }
+# mflisar
+kmpdevtools-buildplugin =           { id = "io.github.mflisar.kmpdevtools.plugins-build-gradle",        version.ref = "kmpdevtools" }
 
 [libraries]
 
 # mflisar
+kmp-parcelize =                     { module = "io.github.mflisar.kmpparcelize:library", 	                version.ref = "kmp-parcelize" }
+kmpplatformcontext-core =           { module = "io.github.mflisar.kmpplatformcontext:core",                 version.ref = "kmpplatformcontext" }
+kmpplatformcontext-initializer =    { module = "io.github.mflisar.kmpplatformcontext:initializer",          version.ref = "kmpplatformcontext" }
 kotpreferences-core =               { module = "io.github.mflisar.kotpreferences:core", 					version.ref = "kotpreferences" }
 kotpreferences-storage-datastore =  { module = "io.github.mflisar.kotpreferences:storage-datastore",      	version.ref = "kotpreferences" }
+kotpreferences-storage-keyvalue =   { module = "io.github.mflisar.kotpreferences:storage-keyvalue",      	version.ref = "kotpreferences" }
 kotpreferences-extension-compose =  { module = "io.github.mflisar.kotpreferences:extension-compose",      	version.ref = "kotpreferences" }
-kmp-parcelize =                     { module = "io.github.mflisar.parcelize:library", 	                    version.ref = "kmp-parcelize" }
-kmplibrary-docs =                   { module = "io.github.mflisar.kmp-library:docs",                        version.ref = "kmp-library" }
 
 drawablepainter = 		            { module = "com.google.accompanist:accompanist-drawablepainter", 		version.ref = "accompanist" }
 htmlconverter =                     { module = "be.digitalia.compose.htmlconverter:htmlconverter", 			version.ref = "htmlconverter" }

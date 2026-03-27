@@ -1,3 +1,5 @@
+import com.michaelflisar.kmpdevtools.core.configs.LibraryConfig
+
 dependencyResolutionManagement {
 
     repositories {
@@ -5,17 +7,15 @@ dependencyResolutionManagement {
         google()
         gradlePluginPortal()
         maven("https://jitpack.io")
+        maven("https://oss.sonatype.org/content/repositories/snapshots")
+        // jewel + skiko
+        maven("https://www.jetbrains.com/intellij-repository/releases")
+        maven("https://packages.jetbrains.team/maven/p/ij/intellij-dependencies/")
     }
 
     versionCatalogs {
         create("app") {
             from(files("gradle/app.versions.toml"))
-        }
-        create("androidx") {
-            from(files("gradle/androidx.versions.toml"))
-        }
-        create("kotlinx") {
-            from(files("gradle/kotlinx.versions.toml"))
         }
         create("deps") {
             from(files("gradle/deps.versions.toml"))
@@ -30,46 +30,36 @@ pluginManagement {
         google()
         gradlePluginPortal()
         maven("https://jitpack.io")
+        mavenLocal()
     }
 }
 
 // --------------
-// Functions
+// Settings Plugin
 // --------------
 
-fun includeModule(path: String, name: String) {
-    include(name)
-    project(name).projectDir = file(path)
+plugins {
+    // version catalogue does not work here!
+    id("io.github.mflisar.kmpdevtools.plugins-settings-gradle") version "7.4.2"
 }
-
-// --------------
-// Gradle Plugin
-// --------------
-
-includeModule("library/gradle-plugin/shared", ":composechangelog:gradle-plugin:shared")
-
-includeBuild("library/gradle-plugin") {
-    dependencySubstitution {
-        //substitute(project(":shared")).using(project(":shared"))
-    }
-}
+val settingsPlugin = plugins.getPlugin(com.michaelflisar.kmpdevtools.SettingsFilePlugin::class.java)
 
 // --------------
 // Library
 // --------------
 
-includeModule("library/core", ":composechangelog:core")
+val libraryConfig = LibraryConfig.read(rootProject)
+val libraryId = libraryConfig.libraryId()
 
-// renderer
-includeModule("library/modules/renderer/header", ":composechangelog:modules:renderer:header")
-
-// Statesavers
-includeModule("library/modules/statesaver/preferences", ":composechangelog:modules:statesaver:preferences")
-includeModule("library/modules/statesaver/kotpreferences", ":composechangelog:modules:statesaver:kotpreferences")
+// Library Modules
+settingsPlugin.includeModules(libraryId, libraryConfig, includeDokka = true)
 
 // --------------
-// Demo
+// App
 // --------------
 
-include(":demo:android")
-include(":demo:desktop")
+if (System.getenv("CI") != "true") {
+    include(":demo:shared")
+    include(":demo:app:android")
+    include(":demo:app:compose")
+}

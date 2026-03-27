@@ -1,6 +1,6 @@
 package com.michaelflisar.composechangelog.internal
 
-import com.michaelflisar.composechangelog.ChangelogVersionFormatter
+import com.michaelflisar.composechangelog.format.ChangelogVersionFormatter
 import com.michaelflisar.composechangelog.Constants
 import com.michaelflisar.composechangelog.data.ChangelogReleaseItem
 import com.michaelflisar.composechangelog.data.XMLAttribute

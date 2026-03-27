@@ -97,7 +97,7 @@ class ChangelogHeaderRenderer(
                         if (subItem.tag.equals(TAG_TITLE, true)) {
                             Text(
                                 modifier = Modifier.align(titleAlignment),
-                                text = setup.textFormatter(subItem.innerText),
+                                text = setup.textFormatter.format(subItem.innerText),
                                 style = MaterialTheme.typography.titleMedium
                             )
                         } else if (subItem.tag.equals(TAG_ITEM, true)) {

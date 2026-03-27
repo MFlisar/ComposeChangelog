@@ -8,11 +8,11 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import com.michaelflisar.composechangelog.interfaces.IChangelogStateSaver
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import com.michaelflisar.composechangelog.Changelog
-import com.michaelflisar.composechangelog.IODispatcher
 
 class ChangelogStateSaverPreferences internal constructor(
     private val dataStore: DataStore<Preferences>,
@@ -24,7 +24,7 @@ class ChangelogStateSaverPreferences internal constructor(
     }
 
     @Composable
-    override fun collectLastShownVersion() : State<Long> = dataStore.data
+    override fun collectLastShownVersion(): State<Long> = dataStore.data
         .map { it[longPreferencesKey(preferenceKey)] ?: -1L }
         .collectAsState(-1L)
 
@@ -35,7 +35,7 @@ class ChangelogStateSaverPreferences internal constructor(
     }
 
     override suspend fun saveLastShownVersion(version: Long) {
-        withContext(Changelog.IODispatcher) {
+        withContext(Dispatchers.IO) {
             dataStore.edit {
                 it[longPreferencesKey(preferenceKey)] = version
             }

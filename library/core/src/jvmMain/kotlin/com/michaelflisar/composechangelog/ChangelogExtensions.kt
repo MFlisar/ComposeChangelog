@@ -1,17 +1,18 @@
 package com.michaelflisar.composechangelog
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.AnnotatedString
+import com.michaelflisar.composechangelog.classes.ChangelogTextFormatter
+import com.michaelflisar.composechangelog.format.ChangelogVersionFormatter
+import com.michaelflisar.composechangelog.format.DefaultVersionFormatter
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 
 fun ChangelogDefaults.setup(
     file: File = File("changelog.xml"),
-    textFormatter: @Composable (text: String) -> AnnotatedString = { it.toAnnotatedString() },
+    textFormatter: ChangelogTextFormatter = DefaultTextFormatter,
     versionFormatter: ChangelogVersionFormatter = DefaultVersionFormatter(),
     skipUnknownTags: Boolean = false,
-    textMore: String = "More"
+    textMore: String = "More",
 ) = Changelog.Setup(
     logFileReader = { file.readBytes() },
     textFormatter = textFormatter,
@@ -28,7 +29,8 @@ fun ChangelogDefaults.setup(
  * @return the app version name
  */
 fun Changelog.getAppVersionName(): String {
-    val exePath = File(Changelog::class.java.protectionDomain.codeSource.location.toURI()).absolutePath
+    val exePath =
+        File(Changelog::class.java.protectionDomain.codeSource.location.toURI()).absolutePath
     val versionInfo = runPS("(Get-Item '${exePath}').VersionInfo.FileVersion")
     return versionInfo.takeIf { it.isNotEmpty() } ?: "<UNKNOWN>"
 }
