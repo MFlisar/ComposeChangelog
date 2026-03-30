@@ -14,7 +14,6 @@ This library provides following main features:
     * you can provide a custom sorter
 * supports raw and xml resources, default resource name is `changelog.xml` in raw folder
 * supports summaries with a "show more" button
-* optional provides a `gradle plugin` that allows you to convert version names automatically to version numbers
 
 # Table of Contents
 
@@ -198,20 +197,21 @@ implementation("io.github.mflisar.composechangelog:statesaver-preferences:${comp
 </changelog>
 ```
 
-!!! info
-
-    * the header tag only works if you add the `renderer-header` module!
-    * supported icons for the header tag must be defined by yourself (the icon is optional though)
+> [!NOTE]
+> the header tag only works if you add the `renderer-header` module!
+> supported icons for the header tag must be defined by yourself (the icon is optional though)
 
 #### Show the interesting parts of the changelog on app start
 
 ```kotlin
 
 // define a version formatter that can convert between a version number and a version string
-val CHANGELOG_FORMATTER = DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatchCandidate)
+val changelogFormatter = DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatchCandidate)
 
- // 1) we need a state saver to persist the version for which the changelog was last shown
+// --------------------------------
+// 1) we need a state saver to persist the version for which the changelog was last shown
 // use either of the following 2 or implement the corresponding interface yourself
+// --------------------------------
 
 // saves the last shown version inside a preference file
 val changelogStateSaver = remember {
@@ -223,10 +223,17 @@ val changelogStateSaverKotPrefs = remember {
     ChangelogStateSaverKotPreferences(DemoPrefs.lastShownVersionForChangelog)
 }
 
+// --------------------------------
 // 2) optional - here you can apply some customisations like changelog resource id, localized texts, styles, filter, sorter, renderer...
+// --------------------------------
+
 val setup = ChangelogDefaults.setup(context = context) // context must only be provided on android!
 
-// 3) show the changelog for the app start - this will only show the changelogs that the user did not see yet
+// --------------------------------
+// 3) optional - use the statesaver to check and update the changelogState to show the changelog on app start if needed
+// this will only show the changelogs that the user did not see yet
+// --------------------------------
+
 val versionName = Changelog.getAppVersionName(context)
 val changelogState = rememberChangelogState()
 // initially we check if we need to show the changelog
@@ -235,8 +242,22 @@ LaunchedEffect(Unit) {
     changelogState.checkShouldShowChangelogOnStart(
         changelogStateSaver,
         versionName,
-        CHANGELOG_FORMATTER
+        changelogFormatter
     )
+}
+
+// --------------------------------
+// 4) show changelog dialog
+// --------------------------------
+
+if (changelogState.visible) {
+    Dialog(
+        onDismissRequest = { changelogState.hide() }
+    ) {
+        Surface {
+            Changelog(changelogState, setup, Modifier.fillMaxWidth())
+        }
+    }
 }
 ```
 
