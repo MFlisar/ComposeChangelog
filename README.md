@@ -2,6 +2,8 @@
 # ComposeChangelog
 ![Platforms](https://img.shields.io/badge/PLATFORMS-black?style=for-the-badge) ![Android](https://img.shields.io/badge/android-3DDC84?style=for-the-badge) ![iOS](https://img.shields.io/badge/ios-A2AAAD?style=for-the-badge) ![Windows](https://img.shields.io/badge/windows-5382A1?style=for-the-badge) ![macOS](https://img.shields.io/badge/macos-B0B0B0?style=for-the-badge) ![WebAssembly](https://img.shields.io/badge/wasm-624DE7?style=for-the-badge)
 
+This library provides following main features:
+
 * filtering
     * useful to filter out uninteresting old changelog entries on app start
     * useful for filtering changelog based on build flavour
@@ -164,7 +166,7 @@ implementation("io.github.mflisar.composechangelog:statesaver-preferences:${comp
 
     <release versionName="1.0.0" date="2018-01-01">
         <!-- optional header -->
-        <header icon="Outlined.Warning">
+        <header icon="Warning">
             <title>First release version</title>
             <item>We finally made it - this is the first stable release version</item>
         </header>
@@ -284,7 +286,7 @@ A full [demo](/demo) is included inside the demo module, it shows nearly every u
 # :information_source: More
 
 - Advanced
-  - [Gradle Plugin](documentation/Advanced/Gradle%20Plugin.md)
+  - [Custom Renderer](documentation/Advanced/Custom%20Renderer.md)
 
 # :books: API
 
