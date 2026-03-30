@@ -1,3 +1,5 @@
+This library provides following main features:
+
 * filtering
     * useful to filter out uninteresting old changelog entries on app start
     * useful for filtering changelog based on build flavour

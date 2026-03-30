@@ -57,7 +57,7 @@
 
     <release versionName="1.0.0" date="2018-01-01">
         <!-- optional header -->
-        <header icon="Outlined.Warning">
+        <header icon="Warning">
             <title>First release version</title>
             <item>We finally made it - this is the first stable release version</item>
         </header>
