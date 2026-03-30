@@ -4,13 +4,13 @@ The process is like following:
 
 #### 1) Create a custom renderer
 
-Simple create a class that extends by implementing the `IChangelogItemRenderer` interface. Here's an example of the header renderer:
+Simple create a class that implements the `IChangelogItemRenderer` interface. Here's an example of the header renderer:
 
-[ChangelogHeaderRenderer](library\modules\renderer\header\src\commonMain\kotlin\com\michaelflisar\composechangelog\renderer\header\ChangelogHeaderRenderer.kt)
+[ChangelogHeaderRenderer](../../library/modules/renderer/header/src/commonMain/kotlin/com/michaelflisar/composechangelog/renderer/header/ChangelogHeaderRenderer.kt)
 
 #### 2) register the renderer
 
 ```kotlin
-val customRenderer = ...
+val customRenderer = ChangelogHeaderRenderer()
 Changelog.registerRenderer(customRenderer)
 ```
