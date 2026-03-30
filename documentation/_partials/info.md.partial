@@ -10,4 +10,3 @@ This library provides following main features:
     * you can provide a custom sorter
 * supports raw and xml resources, default resource name is `changelog.xml` in raw folder
 * supports summaries with a "show more" button
-* optional provides a `gradle plugin` that allows you to convert version names automatically to version numbers
