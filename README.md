@@ -32,7 +32,6 @@ This library provides following main features:
 
 ![changelog2](documentation/screenshots/core/changelog2.png)
 ![changelog1](documentation/screenshots/core/changelog1.png)
-![overview](documentation/screenshots/core/overview.jpg)
 
 # :computer: Supported Platforms
 
@@ -201,12 +200,47 @@ implementation("io.github.mflisar.composechangelog:statesaver-preferences:${comp
 > the header tag only works if you add the `renderer-header` module!
 > supported icons for the header tag must be defined by yourself (the icon is optional though)
 
-#### Show the interesting parts of the changelog on app start
+#### Show the changelog
 
 ```kotlin
 
-// define a version formatter that can convert between a version number and a version string
+// 1) define a version formatter that can convert between a version number and a version string
 val changelogFormatter = DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatchCandidate)
+
+// 2) optional - here you can apply some customisations like changelog resource id, localized texts, styles, filter, sorter, renderer...
+val setup = ChangelogDefaults.setup(context = context) // context must only be provided on android!
+
+// 3) show the changelog
+if (changelogState.visible) {
+    Dialog(
+        onDismissRequest = { changelogState.hide() }
+    ) {
+        Surface {
+            Changelog(changelogState, setup, Modifier.fillMaxWidth())
+        }
+    }
+}
+
+// 4) show the changelog
+// you must just call changelogState.show() somewhere...
+Button(
+    onClick = {
+        changelogState.show() // this shows the full changelog
+    }
+) {
+    Text("Show Changelog")
+}
+
+```
+
+#### Show the interesting parts of the changelog on app start
+
+In addition to the previous code, you can also show the changelog on app start if there are new versions that the user did not see yet. This is optional of course but it is a nice way to inform your users about new features and changes in your app.
+
+> [!NOTE]
+> This will automatically only show new changelogs that the user did not see yet.
+
+```kotlin
 
 // --------------------------------
 // 1) we need a state saver to persist the version for which the changelog was last shown
@@ -224,13 +258,7 @@ val changelogStateSaverKotPrefs = remember {
 }
 
 // --------------------------------
-// 2) optional - here you can apply some customisations like changelog resource id, localized texts, styles, filter, sorter, renderer...
-// --------------------------------
-
-val setup = ChangelogDefaults.setup(context = context) // context must only be provided on android!
-
-// --------------------------------
-// 3) optional - use the statesaver to check and update the changelogState to show the changelog on app start if needed
+// 2) use the statesaver to check and update the changelogState to show the changelog on app start if needed
 // this will only show the changelogs that the user did not see yet
 // --------------------------------
 
@@ -246,31 +274,6 @@ LaunchedEffect(Unit) {
     )
 }
 
-// --------------------------------
-// 4) show changelog dialog
-// --------------------------------
-
-if (changelogState.visible) {
-    Dialog(
-        onDismissRequest = { changelogState.hide() }
-    ) {
-        Surface {
-            Changelog(changelogState, setup, Modifier.fillMaxWidth())
-        }
-    }
-}
-```
-
-#### Show the full changelog
-
-```kotlin
-Button(
-    onClick = {
-        changelogState.show()
-    }
-) {
-    Text("Show Changelog")
-}
 ```
 
 #### Header renderer
