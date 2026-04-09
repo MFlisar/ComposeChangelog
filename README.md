@@ -44,7 +44,7 @@ This library provides following main features:
 | renderer-header | ✅ | ✅ | ✅ | ✅ | ✅ | implements rendering of a <header> tag |
 | statesaver-kotpreferences | ✅ | ✅ | ✅ | ✅ | ✅ | provides a simple state saver based on KotPreferences |
 | statesaver-preferences | ✅ | ✅ | ✅ | ✅ | ❌ | provides a simple state saver based on jetpack preferences |
-| gradle-plugin | ❌ | ❌ | ❌ | ❌ | ❌ | This is a gradle plugin that offers functions to generate version numbers from a version string |
+| gradle-plugin | - | - | - | - | - | This is a gradle plugin that offers functions to generate version numbers from a version string |
 | shared | ✅ | ✅ | ✅ | ✅ | ✅ | shared classes between the gradle plugin and the library - no need to include this manually! |
 
 # :arrow_right: Versions
