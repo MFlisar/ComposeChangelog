@@ -14,7 +14,7 @@ plugins {
     // --
     // build tools
     alias(deps.plugins.kmpdevtools.buildplugin)
-    alias(deps.plugins.changelog.gradleplugin)
+    //alias(deps.plugins.changelog.gradleplugin)
     // others
     // ...
 }
@@ -24,7 +24,7 @@ plugins {
 // ------------------------
 
 // example to parse any version string to a integer inside a build.gradle.kts file
-val appVersionCode = Changelog.buildVersionCode("1.0.0", DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatch))
+//val appVersionCode = Changelog.buildVersionCode("1.0.0", DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatch))
 
 val module = AppModuleConfig.readManual(project)
 
