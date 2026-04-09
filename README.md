@@ -38,14 +38,14 @@ This library provides following main features:
 
 # :computer: Supported Platforms
 
-| Module | android | iOS | windows | macOS | wasm |
-|---|---|---|---|---|---|
-| core | ✅ | ✅ | ✅ | ✅ | ✅ |
-| renderer-header | ✅ | ✅ | ✅ | ✅ | ✅ |
-| statesaver-kotpreferences | ✅ | ✅ | ✅ | ✅ | ✅ |
-| statesaver-preferences | ✅ | ✅ | ✅ | ✅ | ❌ |
-| gradle-plugin | ❌ | ❌ | ❌ | ❌ | ❌ |
-| shared | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Module | android | iOS | windows | macOS | wasm | Notes |
+|---|---|---|---|---|---|---|
+| core | ✅ | ✅ | ✅ | ✅ | ✅ | provides all the basic classes and composables to show a changelog |
+| renderer-header | ✅ | ✅ | ✅ | ✅ | ✅ | implements rendering of a <header> tag |
+| statesaver-kotpreferences | ✅ | ✅ | ✅ | ✅ | ✅ | provides a simple state saver based on KotPreferences |
+| statesaver-preferences | ✅ | ✅ | ✅ | ✅ | ❌ | provides a simple state saver based on jetpack preferences |
+| gradle-plugin | ❌ | ❌ | ❌ | ❌ | ❌ | This is a gradle plugin that offers functions to generate version numbers from a version string |
+| shared | ✅ | ✅ | ✅ | ✅ | ✅ | shared classes between the gradle plugin and the library - no need to include this manually! |
 
 # :arrow_right: Versions
 
@@ -70,6 +70,10 @@ Define the dependencies inside your **libs.versions.toml** file.
 
 composechangelog = "<LATEST-VERSION>"
 
+[plugins]
+
+composechangelog-gradle-plugin = { id = "io.github.mflisar.composechangelog.gradle-plugin", version.ref = "composechangelog" }
+
 [libraries]
 
 composechangelog-core = { module = "io.github.mflisar.composechangelog:core", version.ref = "composechangelog" }
@@ -77,22 +81,20 @@ composechangelog-renderer-header = { module = "io.github.mflisar.composechangelo
 composechangelog-statesaver-kotpreferences = { module = "io.github.mflisar.composechangelog:statesaver-kotpreferences", version.ref = "composechangelog" }
 composechangelog-statesaver-preferences = { module = "io.github.mflisar.composechangelog:statesaver-preferences", version.ref = "composechangelog" }
 composechangelog-shared = { module = "io.github.mflisar.composechangelog:shared", version.ref = "composechangelog" }
-[plugins]
-
-composechangelog-gradle-plugin = { id = "io.github.mflisar.composechangelog.gradle-plugin", version.ref = "composechangelog" }
 ```
 
 And then use the definitions in your projects **build.gradle.kts** file like following:
 
 ```java
+plugins {
+    id(libs.composechangelog.gradle.plugin)
+}
+
 implementation(libs.composechangelog.core)
 implementation(libs.composechangelog.renderer.header)
 implementation(libs.composechangelog.statesaver.kotpreferences)
 implementation(libs.composechangelog.statesaver.preferences)
 implementation(libs.composechangelog.shared)
-plugins {
-    id(libs.composechangelog.gradle.plugin)
-}
 ```
 
 </details>
