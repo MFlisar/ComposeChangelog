@@ -30,8 +30,11 @@ This library provides following main features:
 
 # :camera: Screenshots
 
-![changelog2](documentation/screenshots/core/changelog2.png)
-![changelog1](documentation/screenshots/core/changelog1.png)
+### core
+
+|  |  |  |
+|---|---|---|
+| ![changelog1](documentation/screenshots/core/changelog1.png) | ![changelog2](documentation/screenshots/core/changelog2.png) |
 
 # :computer: Supported Platforms
 
@@ -41,6 +44,8 @@ This library provides following main features:
 | renderer-header | ✅ | ✅ | ✅ | ✅ | ✅ |
 | statesaver-kotpreferences | ✅ | ✅ | ✅ | ✅ | ✅ |
 | statesaver-preferences | ✅ | ✅ | ✅ | ✅ | ❌ |
+| gradle-plugin | ❌ | ❌ | ❌ | ❌ | ❌ |
+| shared | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 # :arrow_right: Versions
 
@@ -71,6 +76,10 @@ composechangelog-core = { module = "io.github.mflisar.composechangelog:core", ve
 composechangelog-renderer-header = { module = "io.github.mflisar.composechangelog:renderer-header", version.ref = "composechangelog" }
 composechangelog-statesaver-kotpreferences = { module = "io.github.mflisar.composechangelog:statesaver-kotpreferences", version.ref = "composechangelog" }
 composechangelog-statesaver-preferences = { module = "io.github.mflisar.composechangelog:statesaver-preferences", version.ref = "composechangelog" }
+composechangelog-shared = { module = "io.github.mflisar.composechangelog:shared", version.ref = "composechangelog" }
+[plugins]
+
+composechangelog-gradle-plugin = { id = "io.github.mflisar.composechangelog.gradle-plugin", version.ref = "composechangelog" }
 ```
 
 And then use the definitions in your projects **build.gradle.kts** file like following:
@@ -80,6 +89,10 @@ implementation(libs.composechangelog.core)
 implementation(libs.composechangelog.renderer.header)
 implementation(libs.composechangelog.statesaver.kotpreferences)
 implementation(libs.composechangelog.statesaver.preferences)
+implementation(libs.composechangelog.shared)
+plugins {
+    id(libs.composechangelog.gradle.plugin)
+}
 ```
 
 </details>
@@ -99,6 +112,10 @@ implementation("io.github.mflisar.composechangelog:core:${composechangelog}")
 implementation("io.github.mflisar.composechangelog:renderer-header:${composechangelog}")
 implementation("io.github.mflisar.composechangelog:statesaver-kotpreferences:${composechangelog}")
 implementation("io.github.mflisar.composechangelog:statesaver-preferences:${composechangelog}")
+implementation("io.github.mflisar.composechangelog:shared:${composechangelog}")
+plugins {
+    id("io.github.mflisar.composechangelog.gradle-plugin") version "<LATEST-VERSION>"
+}
 ```
 
 </details>
@@ -210,7 +227,7 @@ val changelogFormatter = DefaultVersionFormatter(DefaultVersionFormatter.Format.
 // 2) optional - here you can apply some customisations like changelog resource id, localized texts, styles, filter, sorter, renderer...
 val setup = ChangelogDefaults.setup(context = context) // context must only be provided on android!
 
-// 3) show the changelog
+// 3) show the changelog dialog
 if (changelogState.visible) {
     Dialog(
         onDismissRequest = { changelogState.hide() }
@@ -221,8 +238,7 @@ if (changelogState.visible) {
     }
 }
 
-// 4) show the changelog
-// you must just call changelogState.show() somewhere...
+// 4) call changelogState.show() ...
 Button(
     onClick = {
         changelogState.show() // this shows the full changelog
@@ -264,9 +280,10 @@ val changelogStateSaverKotPrefs = remember {
 
 val versionName = Changelog.getAppVersionName(context)
 val changelogState = rememberChangelogState()
-// initially we check if we need to show the changelog
-// this is optional of course...
 LaunchedEffect(Unit) {
+    // determines which changelog versions have not been shown to the user yet
+    // + updates the state accordingly to show the changelog on app start if needed
+    // + saves the latest shown version in the state saver
     changelogState.checkShouldShowChangelogOnStart(
         changelogStateSaver,
         versionName,
@@ -311,6 +328,7 @@ A full [demo](/demo) is included inside the demo module, it shows nearly every u
 
 - Advanced
   - [Custom Renderer](documentation/Advanced/Custom%20Renderer.md)
+  - [Gradle Plugin](documentation/Advanced/Gradle%20Plugin.md)
 
 # :books: API
 
