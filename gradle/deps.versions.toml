@@ -7,7 +7,7 @@ kotpreferences =        	"4.0.0-alpha02"
 
 changelog =                 "LOCAL-SNAPSHOT"
 
-kmpdevtools =               "7.8.4" # change via "updateDevToolsVersion" gradle task!
+kmpdevtools =               "7.8.5" # change via "updateDevToolsVersion" gradle task!
 
 accompanist = 			    "0.37.3"
 htmlconverter =             "1.1.0"
