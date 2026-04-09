@@ -9,11 +9,9 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.multiplatform)
     alias(libs.plugins.android.library)
     // org.jetbrains.kotlin
-    alias(libs.plugins.jetbrains.kotlin.compose)
-    alias(libs.plugins.jetbrains.kotlin.parcelize)
-    alias(libs.plugins.jetbrains.kotlin.serialization)
+    // --
     // org.jetbrains.compose
-    alias(libs.plugins.jetbrains.compose)
+    // --
     // docs, publishing, validation
     alias(libs.plugins.dokka)
     alias(libs.plugins.vanniktech.maven.publish.base)
@@ -45,11 +43,11 @@ val androidConfig = AndroidLibraryConfig.create(
     libraryModuleConfig = module,
     compileSdk = app.versions.compileSdk,
     minSdk = app.versions.minSdk,
-    enableAndroidResources = false
+    enableAndroidResources = true
 )
 
 // -------------------
-// Setup
+// Kotlin
 // -------------------
 
 kotlin {
@@ -81,16 +79,7 @@ kotlin {
 
         commonMain.dependencies {
 
-            // kotlinx
-            implementation(libs.jetbrains.kotlinx.coroutines.core)
 
-            // Compose + AndroidX
-            implementation(libs.jetbrains.compose.runtime)
-
-            implementation(project(":composechangelog:core"))
-
-            api(deps.kotpreferences.core)
-            implementation(deps.kotpreferences.extension.compose)
         }
     }
 }

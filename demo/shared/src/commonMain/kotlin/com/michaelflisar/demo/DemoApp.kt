@@ -75,7 +75,7 @@ private fun DemoContent(
 
     // initially we check if we need to show the changelog
     // this is optional of course...
-    // does not show the log if the current version is the "install version"
+    // does not show the log if the current version is the "installed version"
     LaunchedEffect(Unit) {
         changelogState.checkShouldShowChangelogOnStart(
             stateSaver = changelogStateSaver,

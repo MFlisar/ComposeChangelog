@@ -26,15 +26,11 @@ class ChangelogState internal constructor(
     }
 
     /**
-     * checks if changelog should be shown by creating a [ShowChangelog]
+     * checks if changelog should be shown
      *
      * if last shown version is not the first app install AND if last version is less than current
-     * then this will return a [ShowChangelog.Yes] (including the last shown version) to indicate that all changelog entries after the
-     * last shown one need to be presented to the user
+     * then this will show the changelog for all versions between last shown and current version
      *
-     * @see [ShowChangelog]
-     *
-     * @return [ShowChangelog]
      */
     suspend fun checkShouldShowChangelogOnStart(
         stateSaver: IChangelogStateSaver,

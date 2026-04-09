@@ -2,7 +2,6 @@
 github:
   name: ComposeChangelog
   release: 2023
-  namespace: com.michaelflisar.composechangelog
   license:
     name: Apache License 2.0
     path: blob/main/LICENSE
@@ -12,7 +11,7 @@ maven:
   group-id: io.github.mflisar.composechangelog
   primary-artifact-id: core # used to detect latest release version of the library (dynamically on the published homepage)
 
-# Modules - list of modules [artifact-id, description, path]
+# Modules - list of modules [artifact-id, description, path, (plugin)]
 modules:
   - artifact-id: core
     description: provides all the basic classes and composables to show a changelog
@@ -26,6 +25,13 @@ modules:
   - artifact-id: statesaver-preferences
     description: provides a simple state saver based on jetpack preferences
     path: library/modules/statesaver/preferences
+  - artifact-id: gradle-plugin
+    description: This is a gradle plugin that offers functions to generate version numbers from a version string
+    path: library/gradle-plugin
+    plugin: true
+  - artifact-id: shared
+    description: shared classes between the gradle plugin and the library - no need to include this manually!
+    path: library/shared
 
 # XCFrameworks [name, path, targets (ios, macos)]
 xcframeworks: [ ]

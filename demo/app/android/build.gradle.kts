@@ -1,8 +1,7 @@
+import com.michaelflisar.composechangelog.Changelog
+import com.michaelflisar.composechangelog.format.DefaultVersionFormatter
 import com.michaelflisar.kmpdevtools.BuildFileUtil
-import com.michaelflisar.kmpdevtools.configs.app.AndroidAppConfig
-import com.michaelflisar.kmpdevtools.core.configs.AppConfig
-import com.michaelflisar.kmpdevtools.core.configs.Config
-import com.michaelflisar.kmpdevtools.core.configs.LibraryConfig
+import com.michaelflisar.kmpdevtools.configs.*
 
 plugins {
     // kmp + app/library
@@ -15,6 +14,7 @@ plugins {
     // --
     // build tools
     alias(deps.plugins.kmpdevtools.buildplugin)
+    alias(deps.plugins.changelog.gradleplugin)
     // others
     // ...
 }
@@ -23,9 +23,10 @@ plugins {
 // Setup
 // ------------------------
 
-val config = Config.read(rootProject)
-val libraryConfig = LibraryConfig.read(rootProject)
-val appConfig = AppConfig.read(rootProject)
+// example to parse any version string to a integer inside a build.gradle.kts file
+val appVersionCode = Changelog.buildVersionCode("1.0.0", DefaultVersionFormatter(DefaultVersionFormatter.Format.MajorMinorPatch))
+
+val module = AppModuleConfig.readManual(project)
 
 val androidConfig = AndroidAppConfig(
     compileSdk = app.versions.compileSdk,
@@ -37,13 +38,10 @@ val androidConfig = AndroidAppConfig(
 // Configurations
 // -------------------
 
-// android configuration
 android {
 
     BuildFileUtil.setupAndroidApp(
-        project = project,
-        config = config,
-        appConfig = appConfig,
+        appModuleConfig = module,
         androidAppConfig = androidConfig,
         generateResAppName = true,
         buildConfig = true,
@@ -59,13 +57,3 @@ dependencies {
     // Library
     implementation(project(":demo:app:compose"))
 }
-
-// ------------------------
-// Proguard Map aus AAB extrahieren + im release Ordner abspeichern
-// ------------------------
-
-BuildFileUtil.registerExtractProguardMapFromAABTask(
-    project = project,
-    appName = appConfig.name,
-    appVersionName = appConfig.versionName
-)

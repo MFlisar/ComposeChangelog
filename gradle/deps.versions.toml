@@ -5,7 +5,9 @@ kmp-parcelize =             "1.1.0-alpha01"
 kmpplatformcontext =        "1.1.0-alpha03"
 kotpreferences =        	"4.0.0-alpha02"
 
-kmpdevtools =               "7.4.2" # change via "updateDevToolsVersion" gradle task!
+changelog =                 "LOCAL-SNAPSHOT"
+
+kmpdevtools =               "7.8.2" # change via "updateDevToolsVersion" gradle task!
 
 accompanist = 			    "0.37.3"
 htmlconverter =             "1.1.0"
@@ -13,7 +15,8 @@ htmlconverter =             "1.1.0"
 [plugins]
 
 # mflisar
-kmpdevtools-buildplugin =           { id = "io.github.mflisar.kmpdevtools.plugins-build-gradle",        version.ref = "kmpdevtools" }
+kmpdevtools-buildplugin =           { id = "io.github.mflisar.kmpdevtools.plugins-build-gradle",            version.ref = "kmpdevtools" }
+changelog-gradleplugin =            { id = "io.github.mflisar.composechangelog.gradle-plugin",              version.ref = "changelog" }
 
 [libraries]
 

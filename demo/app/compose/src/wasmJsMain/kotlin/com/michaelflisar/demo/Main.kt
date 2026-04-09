@@ -24,7 +24,6 @@ suspend fun main() {
         versionFormatter = Shared.CHANGELOG_FORMATTER,
     )
 
-    // 4) Application
     ComposeViewport(
         // mit container id geht es nicht --> wäre aber gut, dann würde ein Loader angezeigt werden, aktuell wird der nicht angezeigt...
         // viewportContainerId = wasmSetup.canvasElementId

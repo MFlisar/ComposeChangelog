@@ -103,7 +103,7 @@ val changelogFormatter = DefaultVersionFormatter(DefaultVersionFormatter.Format.
 // 2) optional - here you can apply some customisations like changelog resource id, localized texts, styles, filter, sorter, renderer...
 val setup = ChangelogDefaults.setup(context = context) // context must only be provided on android!
 
-// 3) show the changelog
+// 3) show the changelog dialog
 if (changelogState.visible) {
     Dialog(
         onDismissRequest = { changelogState.hide() }
@@ -114,8 +114,7 @@ if (changelogState.visible) {
     }
 }
 
-// 4) show the changelog
-// you must just call changelogState.show() somewhere...
+// 4) call changelogState.show() ...
 Button(
     onClick = {
         changelogState.show() // this shows the full changelog
@@ -157,9 +156,10 @@ val changelogStateSaverKotPrefs = remember {
 
 val versionName = Changelog.getAppVersionName(context)
 val changelogState = rememberChangelogState()
-// initially we check if we need to show the changelog
-// this is optional of course...
 LaunchedEffect(Unit) {
+    // determines which changelog versions have not been shown to the user yet
+    // + updates the state accordingly to show the changelog on app start if needed
+    // + saves the latest shown version in the state saver
     changelogState.checkShouldShowChangelogOnStart(
         changelogStateSaver,
         versionName,
