@@ -1,0 +1,34 @@
+[versions]
+
+# general (local snapshot: "LOCAL-SNAPSHOT")
+kmp-parcelize =             "2.0.0"
+kmp-platformcontext =       "2.0.0"
+kotpreferences =        	"4.0.0"
+
+# plugins only
+kmpicon-plugin =            "1.0.0"
+kmpdevtools =               "7.9.7" # use the "devTools" task to change the version
+
+# demos
+# --
+
+[plugins]
+
+# general
+# --
+
+# plugins only
+kmpdevtools-buildplugin =           { id = "io.github.mflisar.kmpdevtools.plugins-build-gradle",        version.ref = "kmpdevtools" }
+kmpicon-plugin =                    { id = "io.github.mflisar.kmpicon.plugin",                          version.ref = "kmpicon-plugin" }
+
+[libraries]
+
+# general
+kmp-parcelize =                                 { module = "io.github.mflisar.kmpparcelize:library", 	                            version.ref = "kmp-parcelize" }
+kmp-platformcontext-core =                      { module = "io.github.mflisar.kmpplatformcontext:core", 	                        version.ref = "kmp-platformcontext" }
+kmp-platformcontext-initializer =               { module = "io.github.mflisar.kmpplatformcontext:initializer", 	                    version.ref = "kmp-platformcontext" }
+kotpreferences-core =               			{ module = "io.github.mflisar.kotpreferences:core", 								version.ref = "kotpreferences" }
+kotpreferences-extension-compose =     		    { module = "io.github.mflisar.kotpreferences:extension-compose",      				version.ref = "kotpreferences" }
+
+# demos
+# --

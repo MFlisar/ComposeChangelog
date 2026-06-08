@@ -18,7 +18,7 @@ plugins {
     alias(libs.plugins.vanniktech.maven.publish.base)
     alias(libs.plugins.binary.compatibility.validator)
     // build tools
-    alias(deps.plugins.kmpdevtools.buildplugin)
+    alias(mflisar.plugins.kmpdevtools.buildplugin)
     // others
     // ...
 }
@@ -82,7 +82,7 @@ kotlin {
 
         val notAndroidMain by creating { dependsOn(commonMain.get()) }
 
-        setupDependencies(buildTargets, sourceSets) {
+        setupDependencies(module, buildTargets, sourceSets) {
 
             Platform.IOS addSourceSet iosMain
             Platform.MACOS addSourceSet macosMain
@@ -106,15 +106,15 @@ kotlin {
             implementation(libs.jetbrains.compose.material.icons.core)
             implementation(libs.jetbrains.compose.material.icons.extended)
 
-            implementation(deps.kmpplatformcontext.core)
+            implementation(mflisar.kmp.platformcontext.core)
 
-            api(deps.kmp.parcelize)
+            api(mflisar.kmp.parcelize)
 
             api(project(":composechangelog:shared"))
         }
 
         androidMain.dependencies {
-            implementation(deps.kmpplatformcontext.initializer)
+            implementation(mflisar.kmp.platformcontext.initializer)
         }
 
         notAndroidMain.dependencies {

@@ -29,7 +29,7 @@ import com.michaelflisar.composechangelog.interfaces.IChangelogItemRenderer
 import com.michaelflisar.composechangelog.interfaces.IChangelogReleaseRenderer
 import com.michaelflisar.composechangelog.renderer.ReleaseRenderer
 import com.michaelflisar.composechangelog.renderer.SimpleRenderer
-import com.michaelflisar.kmp.platformcontext.PlatformIO
+import com.michaelflisar.kmp.platformcontext.platformIO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -77,6 +77,9 @@ object Changelog {
         RENDERERS.add(renderer)
     }
 
+    /**
+     * sets the renderer for releases (default is [ReleaseRenderer])
+     */
     fun setReleaseRenderer(renderer: IChangelogReleaseRenderer) {
         RELEASE_RENDERER = renderer
     }
@@ -91,6 +94,16 @@ object Changelog {
 
 }
 
+/**
+ * Main entry point for the changelog. It will read the changelog data and display it.
+ * You can customize the release container and the loading state.
+ *
+ * @param state the state of the changelog, which contains the minimum visible release version and a function to hide the changelog if there are no releases to show
+ * @param setup the setup for the changelog, which contains the log file reader, text formatter, version formatter, and other settings
+ * @param modifier the modifier for the changelog
+ * @param lazyListState the state for the lazy list, which can be used to control the scroll position
+ * @param releaseContainer a composable function that wraps the release content, which can be used to customize the appearance of the release (default is an outlined card with padding)
+ */
 @Composable
 fun Changelog(
     state: ChangelogState,
@@ -116,6 +129,15 @@ fun Changelog(
     }
 }
 
+/**
+ * Displays the list of releases and their items. It uses the release renderer to display the release information and the item renderers to display the items.
+ *
+ * @param releases the list of releases to display
+ * @param setup the setup for the changelog, which contains the text formatter and other settings
+ * @param modifier the modifier for the changelog
+ * @param lazyListState the state for the lazy list, which can be used to control the scroll position
+ * @param releaseContainer a composable function that wraps the release content, which can be used to customize the appearance of the release (default is an outlined card with padding)
+ */
 @Composable
 fun Changelog(
     releases: List<ChangelogReleaseItem>,
@@ -151,6 +173,14 @@ fun Changelog(
     }
 }
 
+/**
+ * Reads the changelog data from the file and filters it based on the minimum visible release version. It returns a mutable state that contains the changelog data, which can be either loading or the actual data.
+ *
+ * @param state the state of the changelog, which contains the minimum visible release version and a function to hide the changelog if there are no releases to show
+ * @param setup the setup for the changelog, which contains the log file reader, version formatter, and other settings
+ * @param filter a function that can be used to filter the releases based on custom criteria (default is to include all releases)
+ * @return a mutable state that contains the changelog data, which can be either loading or the actual data
+ */
 @Composable
 fun rememberChangelogData(
     state: ChangelogState,
@@ -159,7 +189,7 @@ fun rememberChangelogData(
 ): MutableState<ChangelogData> {
     val data = remember { mutableStateOf<ChangelogData>(ChangelogData.Loading) }
     LaunchedEffect(Unit) {
-        withContext(Dispatchers.PlatformIO) {
+        withContext(platformIO) {
             val items = Changelog
                 .readFile(setup.logFileReader, setup.versionFormatter)
                 .filter { it.versionCode >= state.minimumVisibleReleaseVersion.value }

@@ -1,33 +1,13 @@
 [versions]
 
-# mflisar
-kmp-parcelize =             "1.1.0-alpha01"
-kmpplatformcontext =        "1.1.0-alpha03"
-kotpreferences =        	"4.0.0-alpha02"
-
-changelog =                 "LOCAL-SNAPSHOT"
-
-kmpdevtools =               "7.8.5" # change via "updateDevToolsVersion" gradle task!
-
 accompanist = 			    "0.37.3"
-htmlconverter =             "1.1.0"
+htmlconverter =             "1.1.1"
 
 [plugins]
 
-# mflisar
-kmpdevtools-buildplugin =           { id = "io.github.mflisar.kmpdevtools.plugins-build-gradle",            version.ref = "kmpdevtools" }
-changelog-gradleplugin =            { id = "io.github.mflisar.composechangelog.gradle-plugin",              version.ref = "changelog" }
+# --
 
 [libraries]
-
-# mflisar
-kmp-parcelize =                     { module = "io.github.mflisar.kmpparcelize:library", 	                version.ref = "kmp-parcelize" }
-kmpplatformcontext-core =           { module = "io.github.mflisar.kmpplatformcontext:core",                 version.ref = "kmpplatformcontext" }
-kmpplatformcontext-initializer =    { module = "io.github.mflisar.kmpplatformcontext:initializer",          version.ref = "kmpplatformcontext" }
-kotpreferences-core =               { module = "io.github.mflisar.kotpreferences:core", 					version.ref = "kotpreferences" }
-kotpreferences-storage-datastore =  { module = "io.github.mflisar.kotpreferences:storage-datastore",      	version.ref = "kotpreferences" }
-kotpreferences-storage-keyvalue =   { module = "io.github.mflisar.kotpreferences:storage-keyvalue",      	version.ref = "kotpreferences" }
-kotpreferences-extension-compose =  { module = "io.github.mflisar.kotpreferences:extension-compose",      	version.ref = "kotpreferences" }
 
 drawablepainter = 		            { module = "com.google.accompanist:accompanist-drawablepainter", 		version.ref = "accompanist" }
 htmlconverter =                     { module = "be.digitalia.compose.htmlconverter:htmlconverter", 			version.ref = "htmlconverter" }

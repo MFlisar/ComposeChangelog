@@ -1,5 +1,5 @@
-import com.michaelflisar.composechangelog.Changelog
-import com.michaelflisar.composechangelog.format.DefaultVersionFormatter
+//import com.michaelflisar.composechangelog.Changelog
+//import com.michaelflisar.composechangelog.format.DefaultVersionFormatter
 import com.michaelflisar.kmpdevtools.BuildFileUtil
 import com.michaelflisar.kmpdevtools.configs.*
 
@@ -13,7 +13,7 @@ plugins {
     // docs, publishing, validation
     // --
     // build tools
-    alias(deps.plugins.kmpdevtools.buildplugin)
+    alias(mflisar.plugins.kmpdevtools.buildplugin)
     //alias(deps.plugins.changelog.gradleplugin)
     // others
     // ...

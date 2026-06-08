@@ -17,7 +17,7 @@ plugins {
     // docs, publishing, validation
     // --
     // build tools
-    alias(deps.plugins.kmpdevtools.buildplugin)
+    alias(mflisar.plugins.kmpdevtools.buildplugin)
     alias(libs.plugins.buildkonfig)
     // others
     // ...
@@ -92,7 +92,7 @@ kotlin {
         val notWasmMain by creating { dependsOn(commonMain.get()) }
         val javaMain by creating { dependsOn(commonMain.get()) }
 
-        setupDependencies(buildTargets, sourceSets) {
+        setupDependencies(module, buildTargets, sourceSets) {
 
             notWasmMain supportedBy !Platform.WASM
 

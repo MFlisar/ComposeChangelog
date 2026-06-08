@@ -5,11 +5,11 @@ import com.michaelflisar.composechangelog.data.ChangelogReleaseItem
 import com.michaelflisar.composechangelog.data.XMLAttribute
 import com.michaelflisar.composechangelog.data.XMLTag
 import com.michaelflisar.composechangelog.format.ChangelogVersionFormatter
-import com.michaelflisar.kmp.platformcontext.PlatformIO
+import com.michaelflisar.kmp.platformcontext.platformIO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-object XMLRegexParser {
+internal object XMLRegexParser {
 
     private val REGEX_ATTRIBUTES = Regex("(\\w+)=\"(.*?)\"")
 
@@ -17,7 +17,7 @@ object XMLRegexParser {
         logFileReader: suspend () -> ByteArray,
         versionFormatter: ChangelogVersionFormatter,
     ): List<ChangelogReleaseItem> {
-        return withContext(Dispatchers.PlatformIO) {
+        return withContext(platformIO) {
             val bytes = logFileReader()
             val content = bytes.decodeToString()
             findAllReleaseTags(content)
