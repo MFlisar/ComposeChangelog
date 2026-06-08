@@ -51,8 +51,8 @@ This library provides following main features:
 
 | Dependency | Version |
 |---|---|
-| Kotlin | `2.3.20` |
-| Jetbrains Compose | `1.10.3` |
+| Kotlin | `2.4.0` |
+| Jetbrains Compose | `1.11.1` |
 | Jetbrains Compose Material3 | `1.9.0` |
 
 # :wrench: Setup
