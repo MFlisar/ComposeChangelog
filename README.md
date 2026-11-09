@@ -1,6 +1,6 @@
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.mflisar.composechangelog/core?style=for-the-badge&color=blue)](https://central.sonatype.com/artifact/io.github.mflisar.composechangelog/core) ![API](https://img.shields.io/badge/api-24%2B-brightgreen.svg?style=for-the-badge) ![Kotlin](https://img.shields.io/github/languages/top/MFlisar/ComposeChangelog.svg?style=for-the-badge&amp;color=blueviolet) ![Kotlin Multiplatform](https://img.shields.io/badge/Kotlin_Multiplatform-blue?style=for-the-badge&amp;label=Kotlin)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.mflisar.composechangelog/core?color=blue)](https://central.sonatype.com/artifact/io.github.mflisar.composechangelog/core) ![API](https://img.shields.io/badge/api-24%2B-brightgreen.svg) ![Kotlin](https://img.shields.io/github/languages/top/MFlisar/ComposeChangelog.svg?color=blueviolet) ![Kotlin Multiplatform](https://img.shields.io/badge/Kotlin_Multiplatform-blue?label=Kotlin)
 # ComposeChangelog
-![Platforms](https://img.shields.io/badge/PLATFORMS-black?style=for-the-badge) ![Android](https://img.shields.io/badge/android-3DDC84?style=for-the-badge) ![iOS](https://img.shields.io/badge/ios-A2AAAD?style=for-the-badge) ![Windows](https://img.shields.io/badge/windows-5382A1?style=for-the-badge) ![macOS](https://img.shields.io/badge/macos-B0B0B0?style=for-the-badge) ![WebAssembly](https://img.shields.io/badge/wasm-624DE7?style=for-the-badge)
+![Platforms](https://img.shields.io/badge/PLATFORMS-black?style=for-the-badge)
 
 This library provides following main features:
 
@@ -15,37 +15,30 @@ This library provides following main features:
 * supports raw and xml resources, default resource name is `changelog.xml` in raw folder
 * supports summaries with a "show more" button
 
+> [!TIP]
+> Try the interactive demo:
+> 
+> [![Open Interactive Demo](https://img.shields.io/badge/ComposeChangelog_Demo-2962FF?style=for-the-badge&logo=googlechrome&logoColor=white)](https://mflisar.github.io/ComposeChangelog/demo/)
+
 # Table of Contents
 
-- [Screenshots](#camera-screenshots)
 - [Supported Platforms](#computer-supported-platforms)
 - [Versions](#arrow_right-versions)
 - [Setup](#wrench-setup)
 - [Usage](#rocket-usage)
-- [Modules](#file_folder-modules)
 - [Demo](#sparkles-demo)
-- [More](#information_source-more)
 - [API](#books-api)
 - [Other Libraries](#bulb-other-libraries)
 
-# :camera: Screenshots
-
-### core
-
-|  |  |  |
-|---|---|---|
-| ![changelog1](documentation/screenshots/core/changelog1.png) | ![changelog2](documentation/screenshots/core/changelog2.png) |
-
 # :computer: Supported Platforms
 
-| Module | android | iOS | windows | macOS | wasm | Notes |
-|---|---|---|---|---|---|---|
-| core | ✅ | ✅ | ✅ | ✅ | ✅ | provides all the basic classes and composables to show a changelog |
-| renderer-header | ✅ | ✅ | ✅ | ✅ | ✅ | implements rendering of a <header> tag |
-| statesaver-kotpreferences | ✅ | ✅ | ✅ | ✅ | ✅ | provides a simple state saver based on KotPreferences |
-| statesaver-preferences | ✅ | ✅ | ✅ | ✅ | ❌ | provides a simple state saver based on jetpack preferences |
-| gradle-plugin | - | - | - | - | - | This is a gradle plugin that offers functions to generate version numbers from a version string |
-| shared | ✅ | ✅ | ✅ | ✅ | ✅ | shared classes between the gradle plugin and the library - no need to include this manually! |
+| Module | Notes |
+|---|---|
+| core | provides all the basic classes and composables to show a changelog |
+| renderer-header | implements rendering of a <header> tag |
+| statesaver-kotpreferences | provides a simple state saver based on KotPreferences |
+| statesaver-preferences | provides a simple state saver based on jetpack preferences |
+| gradle-plugin | This is a gradle plugin that offers functions to generate version numbers from a version string |
 
 # :arrow_right: Versions
 
@@ -80,7 +73,6 @@ composechangelog-core = { module = "io.github.mflisar.composechangelog:core", ve
 composechangelog-renderer-header = { module = "io.github.mflisar.composechangelog:renderer-header", version.ref = "composechangelog" }
 composechangelog-statesaver-kotpreferences = { module = "io.github.mflisar.composechangelog:statesaver-kotpreferences", version.ref = "composechangelog" }
 composechangelog-statesaver-preferences = { module = "io.github.mflisar.composechangelog:statesaver-preferences", version.ref = "composechangelog" }
-composechangelog-shared = { module = "io.github.mflisar.composechangelog:shared", version.ref = "composechangelog" }
 ```
 
 And then use the definitions in your projects **build.gradle.kts** file like following:
@@ -94,7 +86,6 @@ implementation(libs.composechangelog.core)
 implementation(libs.composechangelog.renderer.header)
 implementation(libs.composechangelog.statesaver.kotpreferences)
 implementation(libs.composechangelog.statesaver.preferences)
-implementation(libs.composechangelog.shared)
 ```
 
 </details>
@@ -114,7 +105,6 @@ implementation("io.github.mflisar.composechangelog:core:${composechangelog}")
 implementation("io.github.mflisar.composechangelog:renderer-header:${composechangelog}")
 implementation("io.github.mflisar.composechangelog:statesaver-kotpreferences:${composechangelog}")
 implementation("io.github.mflisar.composechangelog:statesaver-preferences:${composechangelog}")
-implementation("io.github.mflisar.composechangelog:shared:${composechangelog}")
 plugins {
     id("io.github.mflisar.composechangelog.gradle-plugin") version "<LATEST-VERSION>"
 }
@@ -316,26 +306,18 @@ Changelog.registerRenderer(
 )
 ```
 
-# :file_folder: Modules
-
-- [Statesaver KotPreferences](documentation/Modules/Statesaver%20KotPreferences.md)
-- [Statesaver Preferences](documentation/Modules/Statesaver%20Preferences.md)
-- [core](documentation/Modules/core.md)
-
 # :sparkles: Demo
 
-A full [demo](/demo) is included inside the demo module, it shows nearly every usage with working examples.
-
-# :information_source: More
-
-- Advanced
-  - [Custom Renderer](documentation/Advanced/Custom%20Renderer.md)
-  - [Gradle Plugin](documentation/Advanced/Gradle%20Plugin.md)
+A [demo project](demo) is included.
 
 # :books: API
 
-Check out the [API documentation](https://MFlisar.github.io/ComposeChangelog/).
+Check out the [API documentation](https://MFlisar.github.io/ComposeChangelog/api/).
 
 # :bulb: Other Libraries
 
-You can find more libraries (all multiplatform) of mine that all do work together nicely [here](https://mflisar.github.io/Libraries/).
+You can find more of my multiplatform libraries that work well together [here](https://mflisar.github.io/Libraries/).
+
+# :twisted_rightwards_arrows: Compatibility
+
+When combining my libraries, you can find compatibility information [here](https://mflisar.github.io/Libraries/compatibilities/).
