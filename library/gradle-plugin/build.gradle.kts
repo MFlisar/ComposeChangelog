@@ -21,9 +21,9 @@ plugins {
 
 val module = LibraryModuleConfig.read(project)
 
-val moduleConfig = module.libraryConfig.getModuleForProject(rootProject.projectDir, project.projectDir)
+val moduleConfig = module.config.getModuleForProject(rootProject.projectDir, project.projectDir)
 val artifactId = moduleConfig.artifactId
-val groupID = module.libraryConfig.maven.groupId
+val groupID = module.config.publish.groupId
 
 // -------------------
 // Plugins
@@ -51,11 +51,10 @@ dependencies {
 // Publish
 // -------------------
 
-// maven publish configuration
-if (BuildFileUtil.checkGradleProperty(project, "publishToMaven") != false) {
-    val platform = GradlePlugin(
+BuildFileUtil.setupMavenPublish(
+    module,
+    GradlePlugin(
         javadocJar = JavadocJar.Dokka("dokkaGenerateHtml"),
         sourcesJar = SourcesJar.Sources()
     )
-    BuildFileUtil.setupMavenPublish(module, platform)
-}
+)

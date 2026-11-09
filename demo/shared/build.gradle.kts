@@ -1,6 +1,6 @@
 import com.michaelflisar.kmpdevtools.Targets
 import com.michaelflisar.kmpdevtools.BuildFileUtil
-import com.michaelflisar.kmpdevtools.core.Platform
+import com.michaelflisar.kmpdevtools.core.Target
 import com.michaelflisar.kmpdevtools.configs.*
 import com.michaelflisar.kmpdevtools.setupDependencies
 import com.michaelflisar.kmpdevtools.setupBuildKonfig
@@ -27,20 +27,20 @@ plugins {
 // Setup
 // ------------------------
 
-val module = LibraryModuleConfig.readManual(project)
+val module = LibraryModuleConfig.read(project)
+val appModule = AppModuleConfig.read(project)
 
 val buildTargets = Targets(
     // mobile
-    android = true,
-    //iOS = true,
+    // iOS target intentionally disabled for the demo
+    Target.ANDROID,
     // desktop
-    windows = true,
-    //macOS = true,
+    Target.JVM,
     // web
-    wasm = true
+    Target.WASM
 )
 
-val androidConfig = AndroidLibraryConfig.createFromPath(
+val androidConfig = AndroidLibraryConfig.create(
     libraryModuleConfig = module,
     compileSdk = app.versions.compileSdk,
     minSdk = app.versions.minSdk,
@@ -52,7 +52,7 @@ val androidConfig = AndroidLibraryConfig.createFromPath(
 // ------------------------
 
 buildkonfig {
-    setupBuildKonfig(module.appConfig)
+    setupBuildKonfig(project = project, config = appModule.config)
 }
 
 compose.resources {
@@ -94,9 +94,9 @@ kotlin {
 
         setupDependencies(module, buildTargets, sourceSets) {
 
-            notWasmMain supportedBy !Platform.WASM
+            notWasmMain supportedBy !Target.WASM
 
-            javaMain supportedBy listOf(Platform.ANDROID, Platform.WINDOWS)
+            javaMain supportedBy listOf(Target.ANDROID, Target.JVM)
 
         }
 
